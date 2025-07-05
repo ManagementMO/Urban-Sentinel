@@ -1,10 +1,11 @@
 import joblib
 import geopandas as gpd
 import pandas as pd
+import numpy as np
 import os
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from typing import Dict, Any, List
+from typing import Dict, Any, List, Union
 
 # ==============================================================================
 # --- APPLICATION SETUP ---
@@ -120,12 +121,12 @@ def predict_risk() -> List[Dict[str, Any]]:
         raise HTTPException(status_code=500, detail=f"Prediction failed: {str(e)}")
 
 @app.get("/api/stats")
-def get_statistics() -> Dict[str, Any]:
+def get_statistics() -> Dict[str, Union[int, float, List[str]]]:
     """Get basic statistics about the data."""
     try:
         df = pd.DataFrame(gdf.drop(columns='geometry'))
         
-        stats = {
+        stats: Dict[str, Union[int, float, List[str]]] = {
             "total_cells": len(df),
             "columns": list(df.columns),
         }
@@ -139,6 +140,186 @@ def get_statistics() -> Dict[str, Any]:
         return stats
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Statistics calculation failed: {str(e)}")
+
+@app.get("/api/feature-importance")
+def get_feature_importance() -> Dict[str, Any]:
+    """
+    Get feature importance from the trained model to understand what drives blight risk.
+    Returns the top features that contribute most to blight predictions.
+    """
+    try:
+        # Get the feature names (same columns used for training)
+        df = pd.DataFrame(gdf.drop(columns='geometry'))
+        columns_to_drop = [
+            'cell_id', 'is_blighted', 'target_blight_count',
+            'overall_most_common_blight', 'recent_most_common_blight'
+        ]
+        
+        # Filter out columns that don't exist
+        existing_columns = [col for col in columns_to_drop if col in df.columns]
+        feature_df = df.drop(columns=existing_columns)
+        feature_names = list(feature_df.columns)
+        
+        # Get feature importances from the model
+        if hasattr(model, 'feature_importances_'):
+            importances = model.feature_importances_
+        else:
+            raise HTTPException(status_code=500, detail="Model does not support feature importance")
+        
+        # Create feature importance pairs and sort by importance
+        feature_importance_pairs = list(zip(feature_names, importances))
+        feature_importance_pairs.sort(key=lambda x: x[1], reverse=True)
+        
+        # Format the response
+        top_features = []
+        all_features = []
+        
+        for i, (feature, importance) in enumerate(feature_importance_pairs):
+            feature_data = {
+                "feature": feature,
+                "importance": float(importance),
+                "rank": i + 1,
+                "description": get_feature_description(feature)
+            }
+            
+            all_features.append(feature_data)
+            if i < 10:  # Top 10 features
+                top_features.append(feature_data)
+        
+        return {
+            "top_features": top_features,
+            "all_features": all_features,
+            "total_features": len(feature_names),
+            "model_type": type(model).__name__
+        }
+        
+    except Exception as e:
+        print(f"Error in get_feature_importance: {e}")
+        raise HTTPException(status_code=500, detail=f"Feature importance calculation failed: {str(e)}")
+
+def get_feature_description(feature_name: str) -> str:
+    """Get human-readable description for feature names."""
+    descriptions = {
+        'total_complaints_mean': 'Average number of all 311 complaints per year',
+        'total_complaints_std': 'Variability in total complaints over time',
+        'blight_complaints_mean': 'Average number of blight-related complaints per year',
+        'blight_complaints_std': 'Variability in blight complaints over time',
+        'blight_complaints_recent_mean': 'Average blight complaints in recent years (2018+)',
+        'blight_complaints_trend': 'Trend in blight complaints over time (increasing/decreasing)',
+        'blight_complaints_2019': 'Number of blight complaints in 2019',
+        'blight_complaints_2020': 'Number of blight complaints in 2020'
+    }
+    return descriptions.get(feature_name, f"Feature: {feature_name}")
+
+@app.get("/api/cell-details/{cell_id}")
+def get_cell_details(cell_id: int) -> Dict[str, Any]:
+    """
+    Get detailed information about a specific cell including its risk factors.
+    """
+    try:
+        # Find the cell
+        cell_data = gdf[gdf['cell_id'] == cell_id]
+        if len(cell_data) == 0:
+            raise HTTPException(status_code=404, detail=f"Cell {cell_id} not found")
+        
+        cell = cell_data.iloc[0]
+        
+        # Get feature values for this cell
+        df = pd.DataFrame(gdf.drop(columns='geometry'))
+        columns_to_drop = [
+            'cell_id', 'is_blighted', 'target_blight_count',
+            'overall_most_common_blight', 'recent_most_common_blight'
+        ]
+        existing_columns = [col for col in columns_to_drop if col in df.columns]
+        feature_df = df.drop(columns=existing_columns)
+        
+        cell_features = feature_df[feature_df.index == cell_data.index[0]]
+        
+        # Get prediction for this cell
+        risk_score = float(model.predict_proba(cell_features)[0, 1])
+        
+        # Get feature contributions
+        feature_values = {}
+        for col in feature_df.columns:
+            feature_values[col] = {
+                "value": float(cell[col]) if col in cell else 0.0,
+                "description": get_feature_description(col)
+            }
+        
+        return {
+            "cell_id": int(cell_id),
+            "risk_score": risk_score,
+            "risk_level": get_risk_level(risk_score),
+            "coordinates": {
+                "geometry": str(cell.geometry) if 'geometry' in cell else None
+            },
+            "features": feature_values,
+            "historical_data": {
+                "is_blighted": bool(cell.get('is_blighted', False)),
+                "target_blight_count": int(cell.get('target_blight_count', 0)),
+                "overall_most_common_blight": str(cell.get('overall_most_common_blight', 'None')),
+                "recent_most_common_blight": str(cell.get('recent_most_common_blight', 'None'))
+            }
+        }
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        print(f"Error in get_cell_details: {e}")
+        raise HTTPException(status_code=500, detail=f"Cell details calculation failed: {str(e)}")
+
+def get_risk_level(risk_score: float) -> str:
+    """Convert risk score to human-readable risk level."""
+    if risk_score >= 0.8:
+        return "Very High"
+    elif risk_score >= 0.6:
+        return "High"
+    elif risk_score >= 0.4:
+        return "Medium"
+    elif risk_score >= 0.2:
+        return "Low"
+    else:
+        return "Very Low"
+
+@app.get("/api/top-risk-areas")
+def get_top_risk_areas(limit: int = 20) -> List[Dict[str, Any]]:
+    """
+    Get the top highest-risk areas with their details.
+    """
+    try:
+        # Calculate risk scores for all cells
+        df = pd.DataFrame(gdf.drop(columns='geometry'))
+        columns_to_drop = [
+            'cell_id', 'is_blighted', 'target_blight_count',
+            'overall_most_common_blight', 'recent_most_common_blight'
+        ]
+        existing_columns = [col for col in columns_to_drop if col in df.columns]
+        X_features = df.drop(columns=existing_columns)
+        
+        risk_scores = model.predict_proba(X_features)[:, 1]
+        
+        # Add risk scores to dataframe and sort
+        df_with_risk = df.copy()
+        df_with_risk['risk_score'] = risk_scores
+        df_with_risk = df_with_risk.sort_values('risk_score', ascending=False).head(limit)
+        
+        top_areas = []
+        for _, row in df_with_risk.iterrows():
+            risk_score_val = float(row['risk_score'])
+            top_areas.append({
+                "cell_id": int(row['cell_id']),
+                "risk_score": risk_score_val,
+                "risk_level": get_risk_level(risk_score_val),
+                "total_complaints_mean": float(row.get('total_complaints_mean') or 0),
+                "blight_complaints_mean": float(row.get('blight_complaints_mean') or 0),
+                "is_blighted": bool(row.get('is_blighted', False))
+            })
+        
+        return top_areas
+        
+    except Exception as e:
+        print(f"Error in get_top_risk_areas: {e}")
+        raise HTTPException(status_code=500, detail=f"Top risk areas calculation failed: {str(e)}")
 
 if __name__ == "__main__":
     import uvicorn
