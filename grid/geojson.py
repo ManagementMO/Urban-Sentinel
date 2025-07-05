@@ -15,8 +15,8 @@ OUTPUT_FILENAME = "toronto_grid_with_temporal_features.geojson"
 
 # --- Analysis Years ---
 HISTORY_START_YEAR = 2014
-HISTORY_END_YEAR = 2020
-TARGET_YEAR = 2021
+HISTORY_END_YEAR = 2019
+TARGET_YEAR = 2020
 
 # --- Blight Definition (OPTIMIZED FOR ML) ---
 # Carefully curated list of complaint types that are STRONG indicators of urban blight.
@@ -35,8 +35,8 @@ BLIGHT_INDICATOR_COMPLAINTS = [
     'Litter / Bin / Overflow or Not Picked Up',
 ]
 
-# The percentile to define a "blighted" area. 0.80 means the top 20%.
-BLIGHT_QUANTILE_THRESHOLD = 0.80
+# The percentile to define a "blighted" area. 0.85 means the top 15%.
+BLIGHT_QUANTILE_THRESHOLD = 0.85
 
 
 # ==============================================================================
@@ -65,7 +65,8 @@ def create_temporal_features(yearly_data, grid):
             features['blight_complaints_trend'] = np.polyfit(cell_data['year'], cell_data['blight_complaints'], 1)[0]
         else:
             features['blight_complaints_trend'] = 0
-        features['blight_complaints_2020'] = cell_data[cell_data['year'] == 2020]['blight_complaints'].iloc[0]
+        year_latest_data = cell_data[cell_data['year'] == HISTORY_END_YEAR]
+        features[f'blight_complaints_{HISTORY_END_YEAR}'] = year_latest_data['blight_complaints'].mean() if len(year_latest_data) > 0 else 0
         features_list.append(features)
     features_df = pd.DataFrame(features_list).fillna(0)
     print(f"  - Created temporal features for {len(features_df)} cells")
@@ -114,11 +115,11 @@ def run_data_processing():
     # Spatially join all historical blight data with the grid
     joined_blight_all_years = gpd.sjoin(historical_blight_data, grid, how="inner", predicate="within")
     
-    # Calculate overall most common blight complaint (2014-2020)
+    # Calculate overall most common blight complaint (historical period)
     # The .mode()[0] gets the most frequent item. We handle cases where a cell has no blight complaints.
     overall_common = joined_blight_all_years.groupby('cell_id')['Service Request Type'].apply(lambda x: x.mode()[0] if not x.empty else "None").reset_index(name='overall_most_common_blight')
     
-    # Calculate most common blight complaint for the most recent year (2020)
+    # Calculate most common blight complaint for the most recent year of historical data
     recent_blight_data = joined_blight_all_years[joined_blight_all_years['year'] == HISTORY_END_YEAR]
     recent_common = recent_blight_data.groupby('cell_id')['Service Request Type'].apply(lambda x: x.mode()[0] if not x.empty else "None").reset_index(name='recent_most_common_blight')
     

@@ -3,7 +3,7 @@ import pandas as pd
 import lightgbm as lgb
 import joblib
 from sklearn.model_selection import cross_val_score
-from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
+#from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 
 # ==============================================================================
 # --- CONFIGURATION ---
@@ -47,7 +47,9 @@ def train_and_evaluate_model():
     columns_to_drop = [
         'cell_id',
         TARGET_COLUMN,
-        'target_blight_count' # This column was used to create the target, so it MUST be removed.
+        'target_blight_count', # This column was used to create the target, so it MUST be removed.
+        'overall_most_common_blight', # Text column - would need encoding for ML
+        'recent_most_common_blight' # Text column - would need encoding for ML
     ]
     X = df.drop(columns=columns_to_drop)
 
