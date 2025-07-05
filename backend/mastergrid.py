@@ -95,6 +95,36 @@ else:
 
     print("  - Spatial join complete.")
 
+    # --- Step 4: Aggregate Counts and Merge ---
+    print("\nStep 4: Aggregating counts per cell...")
+
+    # 1. Group the joined data by the grid cell's unique ID and count the number of entries
+    complaints_per_cell = joined_gdf.groupby('cell_id').size().reset_index(name='complaint_count')
+    print(f"  - Found {len(complaints_per_cell)} cells with at least one complaint.")
+
+    # 2. Merge these counts back into our master grid DataFrame
+    # We use a 'left' merge to ensure we keep ALL grid cells, even those with zero complaints.
+    grid_with_counts = grid.merge(complaints_per_cell, on='cell_id', how='left')
+
+    # 3. Clean up the result: Fill cells with no complaints with 0 instead of NaN (Not a Number)
+    grid_with_counts['complaint_count'].fillna(0, inplace=True)
+    grid_with_counts['complaint_count'] = grid_with_counts['complaint_count'].astype(int)
+
+    print("  - Counts merged back into the master grid.")
+
+    # --- Step 5: Save the Final GeoJSON File ---
+    print(f"\nStep 5: Saving the final output to '{OUTPUT_FILENAME}'...")
+
+    # 1. Project the final grid back to WGS84 (lat/lon)
+    # This is the standard format for most web mapping tools like Mapbox.
+    grid_final_web = grid_with_counts.to_crs("EPSG:4326")
+
+    # 2. Save to GeoJSON
+    grid_final_web.to_file(OUTPUT_FILENAME, driver='GeoJSON')
+
+    print("\n--- Process Complete! ---")
+    print(f"You can now find your map file at: {OUTPUT_FILENAME}")
+
 # This `grid` GeoDataFrame is now your master file.
 # **What you have now:** A `GeoDataFrame` named `grid` where each row represents a 250x250m square within Toronto's borders.
 # **What you can do with it:**
