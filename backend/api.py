@@ -1,7 +1,6 @@
 import joblib
 import geopandas as gpd
 import pandas as pd
-import numpy as np
 import os
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
