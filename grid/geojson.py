@@ -157,10 +157,7 @@ BLIGHT_INDICATOR_COMPLAINTS = [
     'Watermain Valve - Turn Off', 'Watermain Valve - Turn On', 'Watermain-Possible Break', 
     'West Nile Virus - Standing Water / Roadway', 'Wrong Location/Time/Day', 'Zoning',
 ]
-
-# The percentile to define a "blighted" area. 0.90 means the top 10% of cells
-# with the most blight complaints will be flagged as blighted.
-BLIGHT_QUANTILE_THRESHOLD = 0.8
+BLIGHT_QUANTILE_THRESHOLD = 0.90
 
 # (The create_temporal_features function remains unchanged)
 def create_temporal_features(yearly_data, grid):
