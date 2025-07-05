@@ -1,0 +1,5 @@
+fastapi
+uvicorn
+pandas
+requests
+# add your actual dependencies here
