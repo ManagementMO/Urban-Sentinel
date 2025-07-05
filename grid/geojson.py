@@ -20,21 +20,25 @@ TARGET_YEAR = 2021
 
 # --- Blight Definition ---
 BLIGHT_INDICATOR_COMPLAINTS = [
-    'Road - Pot hole',
-    'Traffic Signal Maintenance',
-    'CADAVER WILDLIFE',
-    'Missing/Damaged Signs',
-    'Road - Cleaning/Debris',
-    'Litter / Sidewalk & Blvd / Pick Up Request',
-    'INJUR/DIST WILDLIFE',
-    'Road - Damaged',
-    'PXO Maintenance',
-    'Litter / Bin / Overflow or Not Picked Up',
+    'Road - Pot hole', 'Road - Damaged', 'Sidewalk - Damaged /Brick/Interlock',
+    'Graffiti - Private Property', 'Graffiti - Public Property', 'Graffiti on Hydro Asset',
+    'Litter / Bin / Overflow or Not Picked Up', 'Litter / Illegal Dumping Cleanup',
+    'Garbage Collection - Missed Pick-Up', 'Garbage / Park / Bin Overflow',
+    'CADAVER WILDLIFE', 'CADAVER DOMESTIC',
+    'Road Water Ponding', 'Dirty Street/Lane',
+    'Long Grass and Weeds', 'Property Standards',
+    'Wastewater - Sewer Backup/Flooding', 'Sewer Odour',
+    'Illegal Dumping', 'Abandoned Bikes', 'Abandoned Vehicle'
 ]
 
-BLIGHT_QUANTILE_THRESHOLD = 0.80
+# The percentile to define a "blighted" area. 0.90 means the top 10%.
+BLIGHT_QUANTILE_THRESHOLD = 0.90
 
-# (The create_temporal_features function remains unchanged)
+
+# ==============================================================================
+# --- SCRIPT EXECUTION ---
+# ==============================================================================
+
 def create_temporal_features(yearly_data, grid):
     # ... (This entire function is the same as in your original script)
     print("  - Creating temporal features...")
