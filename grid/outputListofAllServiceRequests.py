@@ -1,6 +1,8 @@
 import pandas as pd
+import os
 
 # Load your CSV
+print(os.getcwd())
 df = pd.read_csv("output_with_coords.csv")  # Replace with your actual filename
 
 # Replace this with the actual column name
