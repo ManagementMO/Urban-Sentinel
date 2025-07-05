@@ -20,15 +20,16 @@ TARGET_YEAR = 2021
 
 # --- Blight Definition ---
 BLIGHT_INDICATOR_COMPLAINTS = [
-    'Road - Pot hole', 'Road - Damaged', 'Sidewalk - Damaged /Brick/Interlock',
-    'Graffiti - Private Property', 'Graffiti - Public Property', 'Graffiti on Hydro Asset',
-    'Litter / Bin / Overflow or Not Picked Up', 'Litter / Illegal Dumping Cleanup',
-    'Garbage Collection - Missed Pick-Up', 'Garbage / Park / Bin Overflow',
-    'CADAVER WILDLIFE', 'CADAVER DOMESTIC',
-    'Road Water Ponding', 'Dirty Street/Lane',
-    'Long Grass and Weeds', 'Property Standards',
-    'Wastewater - Sewer Backup/Flooding', 'Sewer Odour',
-    'Illegal Dumping', 'Abandoned Bikes', 'Abandoned Vehicle'
+    'Road - Pot hole',
+    'Traffic Signal Maintenance',
+    'CADAVER WILDLIFE',
+    'Missing/Damaged Signs',
+    'Road - Cleaning/Debris',
+    'Litter / Sidewalk & Blvd / Pick Up Request',
+    'INJUR/DIST WILDLIFE',
+    'Road - Damaged',
+    'PXO Maintenance',
+    'Litter / Bin / Overflow or Not Picked Up',
 ]
 
 # The percentile to define a "blighted" area. 0.90 means the top 10%.

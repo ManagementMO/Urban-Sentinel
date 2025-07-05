@@ -1,14 +1,12 @@
 import pandas as pd
-import os
 
 # Load your CSV
-print(os.getcwd())
 df = pd.read_csv("output_with_coords.csv")  # Replace with your actual filename
 
 # Replace this with the actual column name
-service_column = "Service Request Type"  # You can print(df.columns) to verify
+service_column = "Service Request Type"  # Check with print(df.columns) if needed
 
-# Count occurrences of each service request
+# Get top 10 most frequent service requests
 top_requests = (
     df[service_column]
     .dropna()
