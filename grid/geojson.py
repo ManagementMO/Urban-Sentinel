@@ -4,23 +4,19 @@ from shapely.geometry import Polygon
 import numpy as np
 import os
 
-# ==============================================================================
-# --- CONFIGURATION ---
-# ==============================================================================
 
-# --- File Paths ---
-# This makes the script portable and easy to run.
+# --- Configuration ---
+# Get the directory where this script is located
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-RAW_311_CSV = os.path.join(SCRIPT_DIR, "output_with_coords.csv")
-TORONTO_BOUNDARY_SHP = os.path.join(SCRIPT_DIR, "citygcs_regional_mun_wgs84.shp")
-OUTPUT_FILENAME = "model_ready_temporal_features.geojson"
 
-# --- Analysis Years (CRITICAL CHANGE) ---
-# We use the history from 2014-2019 to generate features.
-FEATURE_START_YEAR = 2014
-FEATURE_END_YEAR = 2019
-# We will predict the outcome for 2020, as this is the last year of data we have.
-TARGET_YEAR = 2020
+RAW_311_CSV = os.path.join(SCRIPT_DIR, "output_with_coords.csv") # The file you have
+TORONTO_BOUNDARY_SHP = os.path.join(SCRIPT_DIR, "citygcs_regional_mun_wgs84.shp")
+OUTPUT_FILENAME = "toronto_grid_with_temporal_features.geojson"
+
+# --- Analysis Years ---
+HISTORY_START_YEAR = 2014
+HISTORY_END_YEAR = 2020
+TARGET_YEAR = 2021
 
 # --- Blight Definition (OPTIMIZED FOR ML) ---
 # Carefully curated list of complaint types that are STRONG indicators of urban blight.
@@ -85,136 +81,144 @@ BLIGHT_QUANTILE_THRESHOLD = 0.90
 # ==============================================================================
 
 def create_temporal_features(yearly_data, grid):
-    """Creates rich temporal features from yearly complaint data."""
+    # ... (This entire function is the same as in your original script)
     print("  - Creating temporal features...")
-    
-    all_years = list(range(FEATURE_START_YEAR, FEATURE_END_YEAR + 1))
+    all_years = list(range(HISTORY_START_YEAR, HISTORY_END_YEAR + 1))
     all_cells = grid['cell_id'].unique()
-    
-    # Create a complete template of all cells for all years
-    year_cell_combinations = pd.MultiIndex.from_product(
-        [all_cells, all_years], names=['cell_id', 'year']
-    ).to_frame(index=False)
-    
+    year_cell_combinations = pd.MultiIndex.from_product([all_cells, all_years], names=['cell_id', 'year']).to_frame(index=False)
     complete_data = year_cell_combinations.merge(yearly_data, on=['cell_id', 'year'], how='left').fillna(0)
     complete_data = complete_data.sort_values(['cell_id', 'year'])
-    
     features_list = []
-    
-    # Group by cell_id to perform vectorized operations where possible
-    grouped = complete_data.groupby('cell_id')
-
-    # Basic stats
-    means = grouped[['total_complaints', 'blight_complaints']].mean().add_suffix('_mean')
-    stds = grouped[['total_complaints', 'blight_complaints']].std().add_suffix('_std').fillna(0)
-    sums = grouped[['total_complaints', 'blight_complaints']].sum().add_suffix('_sum')
-    
-    base_features = pd.concat([means, stds, sums], axis=1)
-
-    for cell_id, cell_data in grouped:
+    for cell_id in all_cells:
+        cell_data = complete_data[complete_data['cell_id'] == cell_id].copy().sort_values('year')
         features = {'cell_id': cell_id}
-        
-        # Trend over the entire period (using polyfit for slope)
-        years = cell_data['year'].values
-        if len(years) > 1:
-            features['total_complaints_trend'] = np.polyfit(years, cell_data['total_complaints'], 1)[0]
-            features['blight_complaints_trend'] = np.polyfit(years, cell_data['blight_complaints'], 1)[0]
+        features['total_complaints_mean'] = cell_data['total_complaints'].mean()
+        features['total_complaints_std'] = cell_data['total_complaints'].std()
+        features['blight_complaints_mean'] = cell_data['blight_complaints'].mean()
+        features['blight_complaints_std'] = cell_data['blight_complaints'].std()
+        recent_data = cell_data[cell_data['year'] >= 2018]
+        features['blight_complaints_recent_mean'] = recent_data['blight_complaints'].mean()
+        if len(cell_data) > 1:
+            features['blight_complaints_trend'] = np.polyfit(cell_data['year'], cell_data['blight_complaints'], 1)[0]
         else:
-            features['total_complaints_trend'] = 0
             features['blight_complaints_trend'] = 0
-
-        # Recent trend (last 3 years of feature data)
-        recent_data = cell_data[cell_data['year'] >= FEATURE_END_YEAR - 2]
-        if len(recent_data) > 1:
-            features['total_complaints_recent_trend'] = np.polyfit(recent_data['year'], recent_data['total_complaints'], 1)[0]
-            features['blight_complaints_recent_trend'] = np.polyfit(recent_data['year'], recent_data['blight_complaints'], 1)[0]
-        else:
-            features['total_complaints_recent_trend'] = 0
-            features['blight_complaints_recent_trend'] = 0
-            
-        # Lagged features (values from the most recent years)
-        for year_lag in range(3): # Get last 3 years
-            year = FEATURE_END_YEAR - year_lag
-            lag_data = cell_data[cell_data['year'] == year]
-            features[f'total_complaints_{year}'] = lag_data['total_complaints'].iloc[0] if not lag_data.empty else 0
-            features[f'blight_complaints_{year}'] = lag_data['blight_complaints'].iloc[0] if not lag_data.empty else 0
-            
+        features['blight_complaints_2020'] = cell_data[cell_data['year'] == 2020]['blight_complaints'].iloc[0]
         features_list.append(features)
-        
-    temporal_features = pd.DataFrame(features_list)
-    final_features = base_features.merge(temporal_features, on='cell_id', how='left').fillna(0)
-
-    print(f"  - Created {len(final_features.columns) - 1} temporal features for {len(final_features)} cells.")
-    return final_features
-
+    features_df = pd.DataFrame(features_list).fillna(0)
+    print(f"  - Created temporal features for {len(features_df)} cells")
+    return features_df
 
 def run_data_processing():
     """Main function to run the entire temporal data processing pipeline."""
-
     print("--- Step 1: Creating the master 250x250m grid... ---")
+    if not os.path.exists(TORONTO_BOUNDARY_SHP):
+        print(f"ERROR: Boundary shapefile not found at '{TORONTO_BOUNDARY_SHP}'.")
+        return
     toronto_boundary = gpd.read_file(TORONTO_BOUNDARY_SHP)
     if toronto_boundary.crs is None:
         toronto_boundary = toronto_boundary.set_crs(epsg=4326)
     toronto_utm = toronto_boundary.to_crs(epsg=32617)
     xmin, ymin, xmax, ymax = toronto_utm.total_bounds
     cell_size = 250
-    grid_cells = [Polygon([(x, y), (x + cell_size, y), (x + cell_size, y + cell_size), (x, y + cell_size)])
-                  for x in np.arange(xmin, xmax, cell_size) for y in np.arange(ymin, ymax, cell_size)]
-    grid = gpd.GeoDataFrame(grid_cells, columns=['geometry'], crs="EPSG:32617").pipe(gpd.clip, toronto_utm)
+    grid_cells = [Polygon([(x, y), (x + cell_size, y), (x + cell_size, y + cell_size), (x, y + cell_size)]) for x in np.arange(xmin, xmax, cell_size) for y in np.arange(ymin, ymax, cell_size)]
+    grid = gpd.GeoDataFrame(grid_cells, columns=['geometry'], crs="EPSG:32617")
+    grid = gpd.clip(grid, toronto_utm)
     grid['cell_id'] = range(len(grid))
-    print(f"  - Grid created successfully with {len(grid)} cells.")
+    print(f"  - Grid created with {len(grid)} cells.")
 
     print("\n--- Step 2: Loading and preparing consolidated 311 data... ---")
-    df_311 = pd.read_csv(RAW_311_CSV, low_memory=False)
+    if not os.path.exists(RAW_311_CSV):
+        print(f"ERROR: 311 data CSV not found at '{RAW_311_CSV}'.")
+        return
+    df_311 = pd.read_csv(RAW_311_CSV)
     df_311.columns = df_311.columns.str.strip()
     df_311['Creation Date'] = pd.to_datetime(df_311['Creation Date'])
     df_311['year'] = df_311['Creation Date'].dt.year
-    valid_coords_mask = df_311['latitude'].notna() & df_311['longitude'].notna()
-    gdf_311 = gpd.GeoDataFrame(df_311[valid_coords_mask], geometry=gpd.points_from_xy(df_311[valid_coords_mask].longitude, df_311[valid_coords_mask].latitude), crs="EPSG:4326")
+    valid_coords_mask = (df_311['longitude'].notna() & df_311['latitude'].notna() & (df_311['longitude'].between(-180, 180)) & (df_311['latitude'].between(-90, 90)))
+    df_311_clean = df_311[valid_coords_mask].copy()
+    gdf_311 = gpd.GeoDataFrame(df_311_clean, geometry=gpd.points_from_xy(df_311_clean.longitude, df_311_clean.latitude), crs="EPSG:4326")
     gdf_311_utm = gdf_311.to_crs(grid.crs)
-    print("  - Data successfully loaded and projected.")
+    print("  - Data loaded and projected.")
 
-    print(f"\n--- Step 3: Aggregating historical data ({FEATURE_START_YEAR}-{FEATURE_END_YEAR})... ---")
-    historical_data = gdf_311_utm[gdf_311_utm['year'].isin(range(FEATURE_START_YEAR, FEATURE_END_YEAR + 1))].copy()
+    historical_data = gdf_311_utm[(gdf_311_utm['year'] >= HISTORY_START_YEAR) & (gdf_311_utm['year'] <= HISTORY_END_YEAR)].copy()
     
-    # Perform ONE spatial join for all historical data - much more efficient
-    joined_historical = gpd.sjoin(historical_data, grid, how="inner", predicate="within")
-
-    # Aggregate total complaints by cell and year
-    total_agg = joined_historical.groupby(['cell_id', 'year']).size().reset_index(name='total_complaints')
+    # --- NEW SECTION START: Calculate Most Common Complaint Features ---
+    print("\n--- Step 2.5: Calculating most common complaint features... ---")
     
-    # Aggregate blight complaints by cell and year
-    blight_agg = joined_historical[joined_historical['Service Request Type'].isin(BLIGHT_INDICATOR_COMPLAINTS)] \
-        .groupby(['cell_id', 'year']).size().reset_index(name='blight_complaints')
+    # Filter for only blight-related complaints from the historical data
+    historical_blight_data = historical_data[historical_data['Service Request Type'].isin(BLIGHT_INDICATOR_COMPLAINTS)].copy()
+    
+    # Spatially join all historical blight data with the grid
+    joined_blight_all_years = gpd.sjoin(historical_blight_data, grid, how="inner", predicate="within")
+    
+    # Calculate overall most common blight complaint (2014-2020)
+    # The .mode()[0] gets the most frequent item. We handle cases where a cell has no blight complaints.
+    overall_common = joined_blight_all_years.groupby('cell_id')['Service Request Type'].apply(lambda x: x.mode()[0] if not x.empty else "None").reset_index(name='overall_most_common_blight')
+    
+    # Calculate most common blight complaint for the most recent year (2020)
+    recent_blight_data = joined_blight_all_years[joined_blight_all_years['year'] == HISTORY_END_YEAR]
+    recent_common = recent_blight_data.groupby('cell_id')['Service Request Type'].apply(lambda x: x.mode()[0] if not x.empty else "None").reset_index(name='recent_most_common_blight')
+    
+    # Merge these new features together
+    common_complaint_features = pd.merge(overall_common, recent_common, on='cell_id', how='outer')
+    print(f"  - Calculated most common complaint features for {len(common_complaint_features)} cells.")
+    # --- NEW SECTION END ---
 
-    # Combine total and blight yearly data
-    yearly_data = total_agg.merge(blight_agg, on=['cell_id', 'year'], how='left').fillna(0)
-    print("  - Yearly aggregated data created.")
+    print(f"\n--- Step 3: Creating yearly aggregated data ({HISTORY_START_YEAR}-{HISTORY_END_YEAR})... ---")
+    yearly_data_list = []
+    for year in range(HISTORY_START_YEAR, HISTORY_END_YEAR + 1):
+        year_data = historical_data[historical_data['year'] == year].copy()
+        if len(year_data) == 0:
+            continue
+        joined_data = gpd.sjoin(year_data, grid, how="inner", predicate="within")
+        total_counts = joined_data.groupby('cell_id').size().reset_index(name='total_complaints')
+        blight_data = joined_data[joined_data['Service Request Type'].isin(BLIGHT_INDICATOR_COMPLAINTS)]
+        blight_counts = blight_data.groupby('cell_id').size().reset_index(name='blight_complaints')
+        year_counts = total_counts.merge(blight_counts, on='cell_id', how='left').fillna(0)
+        year_counts['year'] = year
+        yearly_data_list.append(year_counts)
+    yearly_data = pd.concat(yearly_data_list, ignore_index=True)
+    print(f"  - Created yearly aggregated data.")
 
     print("\n--- Step 4: Creating rich temporal features for ML... ---")
-    temporal_features_df = create_temporal_features(yearly_data, grid)
+    temporal_features = create_temporal_features(yearly_data, grid)
 
     print(f"\n--- Step 5: Creating target variable for {TARGET_YEAR} prediction... ---")
     target_data = gdf_311_utm[gdf_311_utm['year'] == TARGET_YEAR].copy()
-    target_complaints = target_data[target_data['Service Request Type'].isin(BLIGHT_INDICATOR_COMPLAINTS)]
-    joined_target = gpd.sjoin(target_complaints, grid, how="inner", predicate="within")
-    target_counts = joined_target.groupby('cell_id').size().reset_index(name='target_blight_count')
-    target_df = grid[['cell_id']].merge(target_counts, on='cell_id', how='left').fillna(0)
-    blight_threshold = target_df['target_blight_count'].quantile(BLIGHT_QUANTILE_THRESHOLD)
-    target_df['is_blighted'] = (target_df['target_blight_count'] > blight_threshold).astype(int)
-    print(f"  - Blight threshold: > {blight_threshold:.1f} complaints per cell.")
-    print(f"  - Cells flagged as blighted in {TARGET_YEAR}: {target_df['is_blighted'].sum()} ({target_df['is_blighted'].mean()*100:.1f}%)")
+    if len(target_data) == 0:
+        print(f"  - WARNING: No data for target year {TARGET_YEAR}. Cannot create target variable.")
+        target_df = pd.DataFrame({'cell_id': grid['cell_id'], 'target_blight_count': 0, 'is_blighted': 0})
+    else:
+        target_complaints = target_data[target_data['Service Request Type'].isin(BLIGHT_INDICATOR_COMPLAINTS)]
+        joined_target = gpd.sjoin(target_complaints, grid, how="inner", predicate="within")
+        target_counts = joined_target.groupby('cell_id').size().reset_index(name='target_blight_count')
+        target_df = pd.merge(pd.DataFrame({'cell_id': grid['cell_id']}), target_counts, on='cell_id', how='left').fillna(0)
+        blight_threshold = target_df['target_blight_count'].quantile(BLIGHT_QUANTILE_THRESHOLD)
+        target_df['is_blighted'] = (target_df['target_blight_count'] > blight_threshold).astype(int)
+        print(f"  - Blight threshold: > {blight_threshold:.1f} complaints. Cells flagged: {target_df['is_blighted'].sum()}")
 
-    print("\n--- Step 6: Finalizing and saving the dataset... ---")
-    final_data = temporal_features_df.merge(target_df, on='cell_id', how='left').fillna(0)
-    final_grid = grid[['cell_id', 'geometry']].merge(final_data, on='cell_id', how='left')
+    print("\n--- Step 6: Combining features with target and creating final dataset... ---")
+    # Merge temporal features with target
+    final_data = temporal_features.merge(target_df, on='cell_id', how='left')
+    
+    # --- MODIFIED SECTION: Merge the new common complaint features ---
+    final_data = final_data.merge(common_complaint_features, on='cell_id', how='left')
+    # Fill cells that had no blight complaints with "None"
+    final_data['overall_most_common_blight'] = final_data['overall_most_common_blight'].fillna("None")
+    final_data['recent_most_common_blight'] = final_data['recent_most_common_blight'].fillna("None")
+    # --- END MODIFIED SECTION ---
+    
+    final_grid = grid.merge(final_data, on='cell_id', how='left')
+    final_grid['is_blighted'] = final_grid['is_blighted'].fillna(0)
+    print(f"  - Final dataset: {len(final_grid)} cells with {len(final_data.columns)-3} features")
+
+    print("\n--- Step 7: Saving the model-ready dataset... ---")
     final_grid_web = final_grid.to_crs("EPSG:4326")
     final_grid_web.to_file(OUTPUT_FILENAME, driver='GeoJSON')
     
     print(f"\n==================== PROCESS COMPLETE ====================")
-    print(f"✅ Model-ready temporal dataset saved: {OUTPUT_FILENAME}")
-    print(f"📈 Training period: {FEATURE_START_YEAR}-{FEATURE_END_YEAR} | Target year: {TARGET_YEAR}")
-    print("✅ Ready for the next step: Model Training!")
+    print(f"🎯 Model-ready dataset saved: {OUTPUT_FILENAME}")
+    print("✅ Now includes 'overall_most_common_blight' and 'recent_most_common_blight' fields.")
 
 if __name__ == '__main__':
     run_data_processing()
