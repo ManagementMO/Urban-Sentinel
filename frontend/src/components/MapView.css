@@ -1,0 +1,131 @@
+.map-view {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #222;
+}
+
+.map-header {
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  position: relative;
+  z-index: 1000;
+}
+
+.back-btn {
+  background: transparent;
+  border: none;
+  color: #0057c0;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 8px 16px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  font-family: 'Inter', sans-serif;
+}
+
+.back-btn:hover {
+  background: rgba(0, 87, 192, 0.1);
+  transform: translateX(-2px);
+}
+
+.map-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #222;
+  margin: 0;
+  letter-spacing: -0.5px;
+  font-family: 'Inter', sans-serif;
+}
+
+.header-spacer {
+  width: 120px; /* Same width as back button to center title */
+}
+
+.map-container {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+.controls {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+}
+
+.source-toggle {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  padding: 8px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  display: flex;
+  gap: 4px;
+}
+
+.source-toggle button {
+  background: transparent;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  font-family: 'Inter', sans-serif;
+}
+
+.source-toggle button:hover {
+  background: rgba(0, 87, 192, 0.1);
+  color: #0057c0;
+}
+
+.source-toggle button.active {
+  background: #0057c0;
+  color: white;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .map-header {
+    padding: 0 15px;
+  }
+  
+  .map-title {
+    font-size: 20px;
+  }
+  
+  .back-btn {
+    font-size: 14px;
+    padding: 6px 12px;
+  }
+  
+  .controls {
+    bottom: 20px;
+    width: calc(100% - 40px);
+    max-width: 400px;
+  }
+
+  .source-toggle {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .source-toggle button {
+    flex: 1;
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+} 
