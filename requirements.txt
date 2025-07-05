@@ -1,5 +1,8 @@
-fastapi
-uvicorn
+opencv-python
+matplotlib
+numpy
 pandas
 requests
-# add your actual dependencies here
+geemap
+ee
+fastapi uvicorn
