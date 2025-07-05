@@ -443,7 +443,7 @@ BLIGHT_INDICATOR_COMPLAINTS = [
 
 # The percentile to define a "blighted" area. 0.90 means the top 10% of cells
 # with the most blight complaints will be flagged as blighted.
-BLIGHT_QUANTILE_THRESHOLD = 0.90
+BLIGHT_QUANTILE_THRESHOLD = 0.8
 
 
 # ==============================================================================
