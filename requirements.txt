@@ -6,3 +6,5 @@ requests
 geemap
 ee
 fastapi uvicorn
+react react-dom react-router-dom
+-D tailwindcss postcss autoprefixer typescript

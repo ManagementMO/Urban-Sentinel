@@ -5,8 +5,10 @@ import MapView from './components/MapView';
 import { DecayData } from './types';
 import { fetchDecayData } from './services/api';
 
+type ViewType = 'landing' | 'map';
+
 function App() {
-  const [showMap, setShowMap] = useState(false);
+  const [currentView, setCurrentView] = useState<ViewType>('landing');
   const [decayData, setDecayData] = useState<DecayData[]>([]);
   const [loading, setLoading] = useState(false);
 
@@ -23,24 +25,42 @@ function App() {
   };
 
   const handleTryItOut = () => {
-    setShowMap(true);
+    setCurrentView('map');
     loadDecayData();
   };
 
   const handleBackToHome = () => {
-    setShowMap(false);
+    setCurrentView('landing');
   };
 
   return (
     <div className="App">
-      {showMap ? (
+      {/* Navigation Bar */}
+      <nav className="app-nav">
+        <button 
+          className={`nav-button ${currentView === 'landing' ? 'active' : ''}`}
+          onClick={handleBackToHome}
+        >
+          Home
+        </button>
+        <button 
+          className={`nav-button ${currentView === 'map' ? 'active' : ''}`}
+          onClick={handleTryItOut}
+        >
+          Map
+        </button>
+      </nav>
+
+      {/* Main Content */}
+      {currentView === 'landing' && (
+        <LandingPage onTryItOut={handleTryItOut} />
+      )}
+      {currentView === 'map' && (
         <MapView 
           decayData={decayData} 
           loading={loading} 
           onBackToHome={handleBackToHome}
         />
-      ) : (
-        <LandingPage onTryItOut={handleTryItOut} />
       )}
     </div>
   );
