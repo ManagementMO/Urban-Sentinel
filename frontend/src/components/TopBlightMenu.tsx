@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { RiskGridCell } from '../services/api';
 import './TopBlightMenu.css';
 
@@ -13,6 +13,7 @@ interface BlightTypeCount {
 }
 
 const TopBlightMenu: React.FC<TopBlightMenuProps> = ({ riskData }) => {
+  const [isOpen, setIsOpen] = useState(false);
   // Calculate top blight types from the data
   const getTopBlightTypes = (): BlightTypeCount[] => {
     if (!riskData || riskData.length === 0) return [];
@@ -78,17 +79,7 @@ const TopBlightMenu: React.FC<TopBlightMenuProps> = ({ riskData }) => {
       .trim();
   };
 
-  // Get color for each blight type
-  const getBlightColor = (index: number): string => {
-    const colors = [
-      '#FF6B6B', // Red
-      '#4ECDC4', // Teal
-      '#45B7D1', // Blue
-      '#96CEB4', // Green
-      '#FECA57'  // Yellow
-    ];
-    return colors[index] || '#95A5A6';
-  };
+
 
   const topBlights = getTopBlightTypes();
   
@@ -105,38 +96,43 @@ const TopBlightMenu: React.FC<TopBlightMenuProps> = ({ riskData }) => {
   }
 
   return (
-    <div className="top-blight-menu">
-      <div className="blight-header">
-        <h3>🏚️ Top Blight Types</h3>
-        <span className="blight-subtitle">{areasWithBlightData.toLocaleString()} Areas Analyzed</span>
+    <div className={`top-blight-menu ${isOpen ? 'open' : 'closed'}`}>
+      <div className="blight-header" onClick={() => setIsOpen(!isOpen)}>
+        <div className="header-content">
+          <h3>🏚️ Top Blight Types</h3>
+          <span className="blight-subtitle">{areasWithBlightData.toLocaleString()} Areas Analyzed</span>
+        </div>
+        <div className="toggle-arrow">
+          {isOpen ? '▲' : '▼'}
+        </div>
       </div>
       
-      <div className="blight-list">
-        {topBlights.map((blight, index) => (
-          <div key={blight.type} className="blight-item">
-            <div className="blight-indicator">
-              <div 
-                className="blight-dot"
-                style={{ backgroundColor: getBlightColor(index) }}
-              ></div>
-              <span className="blight-rank">#{index + 1}</span>
-            </div>
-            
-            <div className="blight-info">
-              <div className="blight-name">{blight.type}</div>
-              <div className="blight-stats">
-                <span className="blight-count">{blight.count.toLocaleString()} areas</span>
-                <span className="blight-percentage">{blight.percentage}%</span>
+      {isOpen && (
+        <>
+          <div className="blight-list">
+            {topBlights.map((blight, index) => (
+              <div key={blight.type} className="blight-item">
+                <div className="blight-indicator">
+                  <span className="blight-rank">#{index + 1}</span>
+                </div>
+                
+                <div className="blight-info">
+                  <div className="blight-name">{blight.type}</div>
+                  <div className="blight-stats">
+                    <span className="blight-count">{blight.count.toLocaleString()} areas</span>
+                    <span className="blight-percentage">{blight.percentage}%</span>
+                  </div>
+                </div>
               </div>
-            </div>
+            ))}
           </div>
-        ))}
-      </div>
-      
-      <div className="blight-footer">
-        <small>Based on 311 complaint data (2014-2024)<br/>
-        Percentages of areas with reported issues</small>
-      </div>
+          
+          <div className="blight-footer">
+            <small>Based on 311 complaint data (2014-2024)<br/>
+            Percentages of areas with reported issues</small>
+          </div>
+        </>
+      )}
     </div>
   );
 };
