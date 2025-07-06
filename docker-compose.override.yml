@@ -12,12 +12,18 @@ services:
   frontend:
     environment:
       - CHOKIDAR_USEPOLLING=true
+      - CHOKIDAR_INTERVAL=1000
+      - WATCHPACK_POLLING=true
       - FAST_REFRESH=true
+      - WDS_SOCKET_HOST=localhost
+      - WDS_SOCKET_PORT=3000
+      - WDS_SOCKET_PATH=/ws
     volumes:
       - ./frontend:/app:delegated
       - /app/node_modules
     stdin_open: true
     tty: true
+    command: ["npm", "start"]
 
 volumes:
   backend_logs:
