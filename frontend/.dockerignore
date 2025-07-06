@@ -96,4 +96,7 @@ Dockerfile
 # Git
 .git
 .gitignore
-README.md 
+README.md
+
+# Additional changes
+*.tar.gz 

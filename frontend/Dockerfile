@@ -5,14 +5,17 @@ FROM node:18-alpine AS builder
 # Set working directory
 WORKDIR /app
 
-# Copy package files
+# Copy package files first for better caching
 COPY package*.json ./
 
-# Install dependencies
-RUN npm ci --only=production
+# Install all dependencies (including dev dependencies for build)
+RUN npm ci
 
-# Copy source code
+# Copy all source files (including public folder with index.html)
 COPY . .
+
+# Verify critical files exist before building
+RUN ls -la public/ && ls -la src/
 
 # Build the app
 RUN npm run build
