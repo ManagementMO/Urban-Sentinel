@@ -23,16 +23,53 @@ TARGET_YEAR = 2020
 # Based on urban planning research and data science best practices.
 # These directly correlate with neighborhood decline and property value deterioration.
 BLIGHT_INDICATOR_COMPLAINTS = [
-    'Road - Pot hole',
-    'Traffic Signal Maintenance',
-    'CADAVER WILDLIFE',
-    'Missing/Damaged Signs',
-    'Road - Cleaning/Debris',
-    'Litter / Sidewalk & Blvd / Pick Up Request',
-    'INJUR/DIST WILDLIFE',
-    'Road - Damaged',
-    'PXO Maintenance',
-    'Litter / Bin / Overflow or Not Picked Up',
+    # === PHYSICAL DETERIORATION (Core Blight Indicators) ===
+    'Road - Pot hole',                              # Infrastructure decay
+    'Road - Damaged',                               # Infrastructure failure
+    'Road - Sinking',                               # Severe infrastructure issues
+    'Sidewalk - Damaged / Concrete',                # Pedestrian infrastructure decay
+    'Sidewalk - Damaged /Brick/Interlock',          # Pedestrian infrastructure decay
+    
+    # === VISUAL BLIGHT & NEGLECT ===
+    'Graffiti',                                     # Visual blight indicator
+    'Graffiti - Private Property',                  # Property neglect
+    'Graffiti - Public Property',                   # Public space neglect
+    'Road - Graffiti Complaint',                    # Infrastructure vandalism
+    'Sidewalk - Graffiti Complaint',                # Pedestrian area vandalism
+    'Traffic Sign - Graffiti Complaint',            # Public infrastructure vandalism
+    
+    # === WASTE & SANITATION ISSUES ===
+    'Litter / Bin / Overflow or Not Picked Up',     # Sanitation breakdown
+    'Litter / Illegal Dumping Cleanup',             # Illegal waste disposal
+    'Illegal Dumping',                              # Environmental neglect
+    'Illegal Dumping / Discharge',                  # Environmental contamination
+    'Garbage Collection - Missed Pick-Up',          # Service breakdown
+    'Litter / Sidewalk & Blvd / Pick Up Request',   # Public space cleanliness
+    
+    # === PROPERTY NEGLECT ===
+    'Long Grass and Weeds',                         # Property abandonment indicator
+    'Property Standards',                           # Code violations
+    'Construction-Unsafe/Untidy Condition',         # Dangerous/neglected construction
+    'Complaint / Investigation - Grass and Weeds Enforcement', # Property maintenance violations
+    
+    # === INFRASTRUCTURE FAILURE ===
+    'Catch Basin - Blocked / Flooding',             # Drainage system failure
+    'Catch Basin - Damaged Maintenance Requested',  # Infrastructure deterioration
+    'Catch basin (Storm) - Damage',                 # Storm system failure
+    'Sewer main-Backup',                            # Sanitation system failure
+    'Sewer Service Line-Blocked',                   # Individual property sanitation issues
+    'Street Light Out',                             # Public safety infrastructure failure
+    
+    # === ABANDONED/DERELICT CONDITIONS ===
+    'Complaint/Investigation -Abandoned Bikes',      # Abandonment indicators
+    'Dead Animal On Expressway',                    # Maintenance neglect
+    'Dangerous Private Tree Investigation',          # Property safety hazards
+    
+    # === PUBLIC SAFETY DETERIORATION ===
+    'Sink Hole',                                    # Severe infrastructure danger
+    'Bridge - Damaged Structure',                   # Critical infrastructure failure
+    'Fence - Damaged',                              # Property security breakdown
+    'Guardrail - Damaged',                          # Safety infrastructure failure
 ]
 
 # The percentile to define a "blighted" area. 0.80 means the top 20%.

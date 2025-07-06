@@ -75,7 +75,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onTryItOut }) => {
         <header className="landing-header">
           <h1 className="brand-title">URBAN SENTINEL</h1>
           <button className="try-it-out-btn" onClick={onTryItOut}>
-            TRY IT OUT
+            TRY IT OUTdsadsanjdsa
           </button>
         </header>
         
