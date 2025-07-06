@@ -157,7 +157,7 @@ Urban-Sentinel/
 
 ## 🏆 **Hackathon Journey**
 
-This project was built during [Hackathon Name] with a focus on solving real urban challenges. Our team combined expertise in machine learning, urban planning, and full-stack development to create something that could genuinely help cities make better decisions.
+This project was built during Hack404 with a focus on solving real urban challenges. Our team combined expertise in machine learning, urban planning, and full-stack development to create something that could genuinely help cities make better decisions.
 
 **The most rewarding part?** Knowing that Urban Sentinel could prevent neighborhoods from declining and save communities from displacement.
 
