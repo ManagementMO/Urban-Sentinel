@@ -72,7 +72,7 @@ BLIGHT_INDICATOR_COMPLAINTS = [
     'Guardrail - Damaged',                          # Safety infrastructure failure
 ]
 
-# The percentile to define a "blighted" area. 0.80 means the top 20%.
+# The percentile to define a "blighted" area. 0.90 means the top 10%.
 BLIGHT_QUANTILE_THRESHOLD = 0.90
 
 
