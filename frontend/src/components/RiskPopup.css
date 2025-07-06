@@ -1,0 +1,214 @@
+/* Risk Popup Styles */
+.risk-popup {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  min-width: 250px;
+  max-width: 300px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+}
+
+.risk-popup-header {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  padding: 12px 16px;
+  border-bottom: 1px solid #e9ecef;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.risk-popup-header h4 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.risk-score {
+  background: #34495e;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  min-width: 40px;
+  text-align: center;
+}
+
+.risk-popup-body {
+  padding: 16px;
+}
+
+.risk-detail {
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: #5a6c7d;
+  line-height: 1.4;
+}
+
+.risk-detail:last-child {
+  margin-bottom: 0;
+}
+
+.risk-detail strong {
+  color: #2c3e50;
+  font-weight: 600;
+}
+
+.blight-status {
+  color: #e74c3c !important;
+  font-weight: 600;
+  background: #fdf2f2;
+  padding: 6px 8px;
+  border-radius: 4px;
+  border-left: 3px solid #e74c3c;
+  margin: 12px 0;
+}
+
+/* Risk Tooltip Styles */
+.risk-tooltip {
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  max-width: 200px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Risk Level Colors */
+.risk-level-very-high {
+  color: #8b0000;
+}
+
+.risk-level-high {
+  color: #dc143c;
+}
+
+.risk-level-medium {
+  color: #ff4500;
+}
+
+.risk-level-low {
+  color: #ffa500;
+}
+
+.risk-level-very-low {
+  color: #2e8b57;
+}
+
+/* Custom Risk Score Backgrounds */
+.risk-score-very-high {
+  background: #8b0000;
+}
+
+.risk-score-high {
+  background: #dc143c;
+}
+
+.risk-score-medium {
+  background: #ff4500;
+}
+
+.risk-score-low {
+  background: #ffa500;
+}
+
+.risk-score-very-low {
+  background: #2e8b57;
+}
+
+/* Animation for popup appearance */
+.risk-popup {
+  animation: fadeInUp 0.3s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .risk-popup {
+    min-width: 200px;
+    max-width: 250px;
+  }
+
+  .risk-popup-header {
+    padding: 10px 12px;
+  }
+
+  .risk-popup-body {
+    padding: 12px;
+  }
+
+  .risk-detail {
+    font-size: 13px;
+  }
+}
+
+/* Mapbox GL specific overrides */
+.mapboxgl-popup-content {
+  padding: 0 !important;
+  border-radius: 8px !important;
+}
+
+.mapboxgl-popup-close-button {
+  color: #2c3e50 !important;
+  font-size: 16px !important;
+  font-weight: bold !important;
+  padding: 4px 8px !important;
+}
+
+.mapboxgl-popup-close-button:hover {
+  background: #f8f9fa !important;
+  border-radius: 4px !important;
+}
+
+/* Legend styles for risk levels */
+.risk-legend {
+  position: absolute;
+  bottom: 30px;
+  left: 10px;
+  background: white;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 12px;
+  font-size: 12px;
+  z-index: 1000;
+}
+
+.risk-legend-title {
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #2c3e50;
+}
+
+.risk-legend-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.risk-legend-color {
+  width: 16px;
+  height: 16px;
+  border-radius: 2px;
+  margin-right: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.risk-legend-label {
+  color: #5a6c7d;
+  font-size: 11px;
+}

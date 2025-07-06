@@ -35,8 +35,8 @@ BLIGHT_INDICATOR_COMPLAINTS = [
     'Litter / Bin / Overflow or Not Picked Up',
 ]
 
-# The percentile to define a "blighted" area. 0.85 means the top 15%.
-BLIGHT_QUANTILE_THRESHOLD = 0.85
+# The percentile to define a "blighted" area. 0.80 means the top 20%.
+BLIGHT_QUANTILE_THRESHOLD = 0.80
 
 
 # ==============================================================================
