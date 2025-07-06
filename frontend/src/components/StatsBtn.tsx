@@ -55,37 +55,37 @@ const StatsBtn: React.FC<Props> = ({ riskStats, riskFilter }) => {
         {riskStats ? (
           <div className="stats-items">
             <div className="stat-item">
-              <strong>Total Cells:</strong> {riskStats.total.toLocaleString()}
+              Total Cells: {riskStats.total.toLocaleString()}
             </div>
             <div className="stat-item">
-              <strong>Mean Risk:</strong> {(riskStats.mean * 100).toFixed(1)}%
+              Mean Risk: {(riskStats.mean * 100).toFixed(1)}%
             </div>
             <div className="stat-item">
-              <strong>Median Risk:</strong> {(riskStats.median * 100).toFixed(1)}%
+              Median Risk: {(riskStats.median * 100).toFixed(1)}%
             </div>
             <div className="stat-item">
-              <strong>Max Risk:</strong> {(riskStats.max * 100).toFixed(1)}%
+              Max Risk: {(riskStats.max * 100).toFixed(1)}%
             </div>
             <div className="stat-item">
-              <strong>Min Risk:</strong> {(riskStats.min * 100).toFixed(1)}%
+              Min Risk: {(riskStats.min * 100).toFixed(1)}%
             </div>
             
             <div className="stats-divider"></div>
             <h4>Risk Distribution:</h4>
             <div className="stat-item">
-              <strong>Very High:</strong> {riskStats.riskLevels['Very High']} cells
+              Very High: {riskStats.riskLevels['Very High']} cells
             </div>
             <div className="stat-item">
-              <strong>High:</strong> {riskStats.riskLevels['High']} cells
+              High: {riskStats.riskLevels['High']} cells
             </div>
             <div className="stat-item">
-              <strong>Medium:</strong> {riskStats.riskLevels['Medium']} cells
+              Medium: {riskStats.riskLevels['Medium']} cells
             </div>
             <div className="stat-item">
-              <strong>Low:</strong> {riskStats.riskLevels['Low']} cells
+              Low: {riskStats.riskLevels['Low']} cells
             </div>
             <div className="stat-item">
-              <strong>Very Low:</strong> {riskStats.riskLevels['Very Low']} cells
+              Very Low: {riskStats.riskLevels['Very Low']} cells
             </div>
           </div>
         ) : (

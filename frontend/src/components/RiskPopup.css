@@ -114,11 +114,11 @@
 }
 
 .risk-score-low {
-  background: #ffa500;
+  background: #41b011;
 }
 
 .risk-score-very-low {
-  background: #2e8b57;
+  background: #067511;
 }
 
 /* Animation for popup appearance */
