@@ -1,3 +1,4 @@
+/* Performance-optimized MapView Styles */
 .map-view {
   width: 100vw;
   height: 100vh;
@@ -13,7 +14,7 @@
   padding: 16px 24px;
   background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
   color: white;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .back-btn {
@@ -24,7 +25,7 @@
   border-radius: 6px;
   cursor: pointer;
   font-size: 14px;
-  transition: all 0.3s ease;
+  transition: background-color 0.2s ease;
 }
 
 .back-btn:hover {
@@ -36,7 +37,7 @@
   font-size: 24px;
   font-weight: 600;
   margin: 0;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .header-actions {
@@ -52,7 +53,7 @@
   border-radius: 6px;
   cursor: pointer;
   font-size: 14px;
-  transition: all 0.3s ease;
+  transition: background-color 0.2s ease;
 }
 
 .stats-btn:hover, .refresh-btn:hover {
@@ -71,18 +72,15 @@
   overflow: hidden;
 }
 
-/* Risk Filter Controls */
+/* Optimized Risk Filter Controls */
 .controls {
   position: absolute;
   top: 20px;
   right: 20px;
-  background: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.95);
   border-radius: 8px;
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(12px);
-  border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(0, 0, 0, 0.1);
   padding: 16px;
   z-index: 1000;
   max-width: 300px;
@@ -108,7 +106,7 @@
   background: white;
   cursor: pointer;
   font-size: 12px;
-  transition: all 0.3s ease;
+  transition: background-color 0.2s ease;
 }
 
 .filter-buttons button:hover {
@@ -141,14 +139,15 @@
   border-color: #ffa500;
 }
 
-/* Statistics Panel */
+/* Optimized Statistics Panel */
 .stats-panel {
   position: absolute;
   top: 20px;
   left: 20px;
-  background: white;
+  background: rgba(255, 255, 255, 0.95);
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(0, 0, 0, 0.1);
   padding: 16px;
   z-index: 1000;
   max-width: 300px;
@@ -175,14 +174,15 @@
   color: #2c3e50;
 }
 
-/* Top Risk Areas Panel */
+/* Optimized Top Risk Areas Panel */
 .top-risk-panel {
   position: absolute;
   bottom: 20px;
   right: 20px;
-  background: white;
+  background: rgba(255, 255, 255, 0.95);
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(0, 0, 0, 0.1);
   padding: 16px;
   z-index: 1000;
   max-width: 280px;
@@ -286,7 +286,7 @@
   border-radius: 6px;
   cursor: pointer;
   font-size: 14px;
-  transition: background 0.3s ease;
+  transition: background-color 0.2s ease;
 }
 
 .retry-btn:hover {
@@ -317,7 +317,7 @@
   margin: 0;
 }
 
-/* Loading Overlay */
+/* Optimized Loading Overlay */
 .loading-overlay {
   position: absolute;
   top: 0;
@@ -351,6 +351,11 @@
   color: #2c3e50;
   font-size: 16px;
   margin: 0;
+}
+
+/* Performance Optimizations */
+.map-view * {
+  will-change: auto;
 }
 
 /* Responsive Design */
@@ -428,5 +433,16 @@
   
   .map-container {
     padding: 0 10px 10px 10px;
+  }
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  .loading-spinner {
+    animation-duration: 2s;
+  }
+  
+  .back-btn, .stats-btn, .refresh-btn, .filter-buttons button, .retry-btn {
+    transition: none;
   }
 } 

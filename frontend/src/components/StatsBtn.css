@@ -28,6 +28,7 @@
   .stats-btn-toggle {
     all: unset;
     cursor: pointer;
+    -webkit-user-select: none;
     user-select: none;
     padding: 0.35rem 0.9rem;
     border-radius: var(--radius-sm);
@@ -104,6 +105,20 @@
     color: var(--text-primary);
     font-size: 14px;
     font-weight: 500;
+  }
+  
+  .stats-divider {
+    height: 1px;
+    background: rgba(255, 255, 255, 0.2);
+    margin: var(--spacing-md) 0;
+  }
+  
+  .stats-panel h4 {
+    margin: var(--spacing-sm) 0;
+    color: var(--text-primary);
+    font-size: 14px;
+    font-weight: 600;
+    opacity: 0.9;
   }
   .stats-footer {
     margin-top: var(--spacing-md);

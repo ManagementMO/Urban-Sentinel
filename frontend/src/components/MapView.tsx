@@ -93,7 +93,7 @@ const MapView: React.FC<MapViewProps> = ({
         />
         
         <Legend />
-        <StatsBtn />
+        <StatsBtn riskStats={riskStats} riskFilter={riskFilter} />
         <FilterButtonPanel riskFilter={riskFilter} setRiskFilter={setRiskFilter} />
         
         

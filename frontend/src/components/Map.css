@@ -1,7 +1,9 @@
+/* Performance-optimized Map Component Styles */
 .map-wrapper {
   position: relative;
   width: 100%;
-  height: 100%;
+  height: 100vh;
+  overflow: hidden;
 }
 
 .map {
@@ -9,27 +11,31 @@
   height: 100%;
 }
 
+/* Optimized Loading States */
 .loading-overlay {
   position: absolute;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(255, 255, 255, 0.9);
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   z-index: 1000;
+  color: white;
+  text-align: center;
 }
 
 .loading-spinner {
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-top: 3px solid #ffffff;
+  border-radius: 50%;
   width: 40px;
   height: 40px;
-  border: 3px solid #f3f3f3;
-  border-top: 3px solid #0057c0;
-  border-radius: 50%;
   animation: spin 1s linear infinite;
+  margin-bottom: 20px;
 }
 
 @keyframes spin {
@@ -38,9 +44,240 @@
 }
 
 .loading-overlay p {
-  margin-top: 20px;
-  color: #666;
   font-size: 16px;
+  font-weight: 500;
+  margin: 0;
+}
+
+/* No Data State */
+.no-data-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 30px;
+  border-radius: 10px;
+  text-align: center;
+  z-index: 1000;
+}
+
+.no-data-message h3 {
+  margin: 0 0 10px 0;
+  font-size: 20px;
+}
+
+.no-data-message p {
+  margin: 0;
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+/* Optimized Risk Legend */
+.risk-legend {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 15px;
+  border-radius: 8px;
+  z-index: 1000;
+  min-width: 200px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.risk-legend-title {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  text-align: center;
+  color: #ffffff;
+}
+
+.risk-legend-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+  font-size: 12px;
+}
+
+.risk-legend-item:last-child {
+  margin-bottom: 0;
+}
+
+.risk-legend-color {
+  width: 20px;
+  height: 14px;
+  border-radius: 3px;
+  margin-right: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.risk-legend-label {
+  font-weight: 500;
+  color: #ffffff;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .risk-legend {
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    padding: 12px;
+    min-width: auto;
+  }
+  
+  .risk-legend-title {
+    font-size: 13px;
+  }
+  
+  .risk-legend-item {
+    font-size: 11px;
+  }
+  
+  .risk-legend-color {
+    width: 18px;
+    height: 12px;
+  }
+}
+
+/* Mapbox Control Overrides for Performance */
+.mapboxgl-ctrl-group {
+  background: rgba(0, 0, 0, 0.8) !important;
+  border-radius: 6px !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.mapboxgl-ctrl-group button {
+  background: transparent !important;
+  color: white !important;
+  border: none !important;
+  transition: background-color 0.2s ease !important;
+}
+
+.mapboxgl-ctrl-group button:hover {
+  background: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Popup Optimizations */
+.mapboxgl-popup {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.mapboxgl-popup-content {
+  background: rgba(0, 0, 0, 0.9) !important;
+  color: white !important;
+  border-radius: 8px !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  padding: 15px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+}
+
+.mapboxgl-popup-tip {
+  border-top-color: rgba(0, 0, 0, 0.9) !important;
+}
+
+.mapboxgl-popup-close-button {
+  color: white !important;
+  font-size: 18px !important;
+  padding: 5px !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+  border-radius: 50% !important;
+  width: 24px !important;
+  height: 24px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: background-color 0.2s ease !important;
+}
+
+.mapboxgl-popup-close-button:hover {
+  background: rgba(255, 255, 255, 0.2) !important;
+}
+
+/* Performance Optimizations */
+.map-wrapper * {
+  will-change: auto;
+}
+
+.map {
+  image-rendering: optimizeSpeed;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: optimize-contrast;
+  transform: translateZ(0);
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  .loading-spinner {
+    animation-duration: 2s;
+  }
+  
+  .mapboxgl-ctrl-group button {
+    transition: none !important;
+  }
+  
+  .mapboxgl-popup-close-button {
+    transition: none !important;
+  }
+}
+
+/* Risk popup content styling */
+.risk-popup {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.risk-popup h3 {
+  margin: 0 0 10px 0;
+  font-size: 16px;
+  color: #fff;
+}
+
+.risk-popup p {
+  margin: 5px 0;
+  font-size: 14px;
+  color: #ccc;
+}
+
+.risk-popup .risk-score {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.risk-popup .high-risk {
+  color: #ff4444;
+}
+
+.risk-popup .medium-risk {
+  color: #ffaa00;
+}
+
+.risk-popup .low-risk {
+  color: #44ff44;
+}
+
+.popup-content {
+  color: #333;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.popup-content h4 {
+  margin: 0 0 8px 0;
+  color: #222;
+}
+
+.popup-content p {
+  margin: 4px 0;
+  color: #555;
+}
+
+.popup-content strong {
+  color: #444;
 }
 
 /* Mapbox popup styles */
