@@ -47,11 +47,28 @@ COPY --from=builder /app/build /usr/share/nginx/html
 # Copy nginx configuration
 COPY nginx.conf /etc/nginx/nginx.conf
 
-# Expose port
+# Create non-root user for security
+RUN addgroup -g 1001 -S app && \
+    adduser -S app -u 1001
+
+# Set permissions
+RUN chown -R app:app /usr/share/nginx/html && \
+    chown -R app:app /var/cache/nginx && \
+    chown -R app:app /var/log/nginx && \
+    chown -R app:app /etc/nginx/conf.d
+    
+# Make nginx run as non-root user
+RUN touch /var/run/nginx.pid && \
+    chown -R app:app /var/run/nginx.pid
+
+# Switch to non-root user
+USER app
+
+# Expose port (Render will override with $PORT)
 EXPOSE 80
 
 # Start nginx
 CMD ["nginx", "-g", "daemon off;"]
 
-# Default to development stage
-FROM development AS default 
+# Default to production for Render
+FROM production AS default 

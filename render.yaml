@@ -1,0 +1,41 @@
+services:
+  # Backend API Service
+  - type: web
+    name: urban-sentinel-backend
+    runtime: docker
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: .
+    plan: starter
+    region: oregon
+    branch: main
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHONUNBUFFERED
+        value: "1"
+      - key: PYTHONPATH
+        value: "/app"
+      - key: PORT
+        value: "8000"
+      - key: HOST
+        value: "0.0.0.0"
+
+  # Frontend React Service  
+  - type: web
+    name: urban-sentinel-frontend
+    runtime: docker
+    dockerfilePath: ./frontend/Dockerfile
+    dockerContext: ./frontend
+    plan: starter
+    region: oregon
+    branch: main
+    healthCheckPath: /health
+    envVars:
+      - key: REACT_APP_API_URL
+        fromService:
+          type: web
+          name: urban-sentinel-backend
+          property: host
+      - key: REACT_APP_MAPBOX_TOKEN
+        sync: false  # This will require manual input
+      - key: NODE_ENV
+        value: "production" 
