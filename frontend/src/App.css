@@ -73,7 +73,7 @@ h1, h2, h3, h4, h5, h6, p, span, button {
 .nav-button.active {
   background: linear-gradient(135deg, 
     rgba(102, 126, 234, 0.6) 0%, 
-    rgba(118, 75, 162, 0.6) 100%);
+    rgba(71, 114, 255, 0.6) 100%);
   color: rgba(255, 255, 255, 0.95);
   font-weight: 600;
   box-shadow: 

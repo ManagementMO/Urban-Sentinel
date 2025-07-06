@@ -136,9 +136,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onTryItOut }) => {
                 <p className="lead-text">
                   <strong>Urban blight costs cities billions annually</strong> in reduced property values, increased crime, and community displacement.
                 </p>
-                <p className="solution-text">
-                  Urban Sentinel leverages <strong>advanced machine learning</strong> and <strong>real-time data analysis</strong> to predict at-risk neighborhoods up to 2 years in advance, enabling proactive interventions that save communities.
-                </p>
+                
                 <div className="stats-highlight">
                   <div className="stat">
                     <span className="stat-number">94.4%</span>

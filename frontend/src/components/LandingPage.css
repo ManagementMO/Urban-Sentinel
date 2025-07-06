@@ -129,7 +129,7 @@
 }
 
 .main-title {
-  font-size: clamp(2.3rem, 6.3vw, 4.2rem);
+  font-size: clamp(6.3rem, 6.3vw, 4.2rem);
   font-weight: 700;
   color: #ffffff;
   margin: 0;
@@ -140,7 +140,7 @@
   position: relative;
   z-index: 15;
   text-align: left;
-  transform: translateX(-60px);
+  transform: translateX(-210px);
   width: calc(100% + 80px);
 }
 
@@ -425,8 +425,8 @@
 /* Timeline Vertical Line */
 .timeline-line {
   position: absolute;
-  left: 270px;
-  top: 10vh;
+  left: 345px;
+  top: 12vh;
   width: 3px;
   height: 80vh;
   background: linear-gradient(
@@ -442,8 +442,8 @@
 /* Moving Timeline Indicator */
 .timeline-indicator {
   position: absolute;
-  left: 260px;
-  top: 10vh;
+  left: 335px;
+  top: 11.2vh;
   width: 24px;
   height: 24px;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
