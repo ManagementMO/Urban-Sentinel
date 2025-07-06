@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './App.css';
 import LandingPage from './components/LandingPage';
 import MapView from './components/MapView';
+import LoadingAnimation from './components/LoadingAnimation';
 import { fetchAllRiskData, RiskGridCell, FeatureImportanceResponse, ApiStats, TopRiskArea } from './services/api';
 import { convertRiskDataToGeoJSON } from './utils/geoHelpers';
 
@@ -20,6 +21,7 @@ function App() {
   const [riskData, setRiskData] = useState<AppRiskData | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [showLoadingAnimation, setShowLoadingAnimation] = useState(true);
 
   const loadRiskData = async () => {
     try {
@@ -48,6 +50,15 @@ function App() {
   const handleBackToHome = () => {
     setCurrentView('landing');
   };
+
+  const handleAnimationComplete = () => {
+    setShowLoadingAnimation(false);
+  };
+
+  // Show loading animation on initial load
+  if (showLoadingAnimation) {
+    return <LoadingAnimation onAnimationComplete={handleAnimationComplete} />;
+  }
 
   return (
     <div className="App">

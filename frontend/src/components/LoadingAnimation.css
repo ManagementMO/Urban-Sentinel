@@ -1,0 +1,171 @@
+.loading-animation {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999;
+  overflow: hidden;
+  background: #000;
+}
+
+/* City Background */
+.city-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.city-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.7) contrast(1.2);
+}
+
+.city-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(0, 42, 92, 0.3) 0%, rgba(0, 0, 0, 0.2) 100%);
+}
+
+/* Blue Strip */
+.blue-strip-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+}
+
+.blue-strip {
+  width: 400px;
+  height: 80px;
+  background: #002A5C;
+  border-radius: 8px;
+  box-shadow: 0 0 30px rgba(0, 42, 92, 0.5);
+  transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Strip Slide Animation */
+.loading-animation.strip-slide .blue-strip {
+  transform: translateX(-150vw);
+}
+
+/* Cube Fragments for Fade Effect */
+.cube-fragments {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.cube-fragment {
+  position: absolute;
+  background: rgba(0, 42, 92, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 1s ease-out;
+  opacity: 0;
+  transform: scale(0) rotate(0deg);
+}
+
+/* Fragment Positioning */
+.fragment-1 { top: 10%; left: 10%; width: 80px; height: 80px; }
+.fragment-2 { top: 10%; right: 10%; width: 60px; height: 60px; }
+.fragment-3 { top: 30%; left: 30%; width: 100px; height: 100px; }
+.fragment-4 { top: 30%; right: 30%; width: 70px; height: 70px; }
+.fragment-5 { bottom: 30%; left: 20%; width: 90px; height: 90px; }
+.fragment-6 { bottom: 30%; right: 20%; width: 110px; height: 110px; }
+.fragment-7 { bottom: 10%; left: 40%; width: 50px; height: 50px; }
+.fragment-8 { bottom: 10%; right: 40%; width: 75px; height: 75px; }
+.fragment-9 { top: 50%; left: 50%; width: 120px; height: 120px; transform: translate(-50%, -50%) scale(0); }
+
+/* Cube Fade Animation */
+.loading-animation.cube-fade .cube-fragment {
+  opacity: 1;
+  transform: scale(1) rotate(360deg);
+  animation: cubeFade 1s ease-out forwards;
+}
+
+.loading-animation.cube-fade .fragment-1 { animation-delay: 0.1s; }
+.loading-animation.cube-fade .fragment-2 { animation-delay: 0.2s; }
+.loading-animation.cube-fade .fragment-3 { animation-delay: 0.3s; }
+.loading-animation.cube-fade .fragment-4 { animation-delay: 0.4s; }
+.loading-animation.cube-fade .fragment-5 { animation-delay: 0.5s; }
+.loading-animation.cube-fade .fragment-6 { animation-delay: 0.6s; }
+.loading-animation.cube-fade .fragment-7 { animation-delay: 0.7s; }
+.loading-animation.cube-fade .fragment-8 { animation-delay: 0.8s; }
+.loading-animation.cube-fade .fragment-9 { animation-delay: 0.9s; }
+
+@keyframes cubeFade {
+  0% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.2) rotate(180deg);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0) rotate(360deg);
+  }
+}
+
+/* Fade out the entire animation at the end */
+.loading-animation.cube-fade {
+  animation: fadeOut 1s ease-out 1s forwards;
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .blue-strip {
+    width: 300px;
+    height: 60px;
+  }
+  
+  .cube-fragment {
+    width: 60px !important;
+    height: 60px !important;
+  }
+  
+  .fragment-3, .fragment-6, .fragment-9 {
+    width: 80px !important;
+    height: 80px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .blue-strip {
+    width: 250px;
+    height: 50px;
+  }
+  
+  .cube-fragment {
+    width: 40px !important;
+    height: 40px !important;
+  }
+  
+  .fragment-3, .fragment-6, .fragment-9 {
+    width: 60px !important;
+    height: 60px !important;
+  }
+} 

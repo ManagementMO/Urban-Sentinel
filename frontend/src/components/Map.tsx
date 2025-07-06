@@ -246,31 +246,7 @@ const Map: React.FC<MapProps> = ({ riskData, loading, allRiskData }) => {
       )}
       
       <div ref={mapContainer} className="map" />
-      
-      {/* Risk Legend */}
-      <div className="risk-legend">
-        <div className="risk-legend-title">Blight Risk Level</div>
-        <div className="risk-legend-item">
-          <div className="risk-legend-color" style={{ backgroundColor: '#8b0000' }}></div>
-          <div className="risk-legend-label">Very High (80-100%)</div>
-        </div>
-        <div className="risk-legend-item">
-          <div className="risk-legend-color" style={{ backgroundColor: '#dc143c' }}></div>
-          <div className="risk-legend-label">High (60-80%)</div>
-        </div>
-        <div className="risk-legend-item">
-          <div className="risk-legend-color" style={{ backgroundColor: '#ff4500' }}></div>
-          <div className="risk-legend-label">Medium (40-60%)</div>
-        </div>
-        <div className="risk-legend-item">
-          <div className="risk-legend-color" style={{ backgroundColor: '#ffa500' }}></div>
-          <div className="risk-legend-label">Low (20-40%)</div>
-        </div>
-        <div className="risk-legend-item">
-          <div className="risk-legend-color" style={{ backgroundColor: '#2e8b57' }}></div>
-          <div className="risk-legend-label">Very Low (0-20%)</div>
-        </div>
-      </div>
+
     </div>
   );
 };

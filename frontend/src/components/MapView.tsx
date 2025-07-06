@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import './MapView.css';
 import Map from './Map';
+import FilterButtonPanel from './FilterButtonPanel';
 import Legend from './Legend';
+import StatsBtn from './StatsBtn';
 import { RiskGridCell, FeatureImportanceResponse, ApiStats, TopRiskArea } from '../services/api';
 import { filterByRiskLevel, calculateRiskStats } from '../utils/geoHelpers';
 import '../components/RiskPopup.css';
@@ -80,23 +82,8 @@ const MapView: React.FC<MapViewProps> = ({
 
   return (
     <div className="map-view">
-      <header className="map-header">
-        <button className="back-btn" onClick={onBackToHome}>
-          ← Back to Home
-        </button>
-        <h1 className="map-title">Urban Blight Risk Map</h1>
-        <div className="header-actions">
-          <button 
-            className="stats-btn" 
-            onClick={() => setShowStats(!showStats)}
-          >
-            {showStats ? 'Hide Stats' : 'Show Stats'}
-          </button>
-          <button onClick={onRefresh} className="refresh-btn" disabled={loading}>
-            {loading ? 'Loading...' : 'Refresh'}
-          </button>
-        </div>
-      </header>
+      
+      
       
       <div className="map-container">
         <Map 
@@ -104,46 +91,13 @@ const MapView: React.FC<MapViewProps> = ({
           loading={loading} 
           allRiskData={riskData}
         />
-        <Legend />
         
-        {/* Risk Level Controls */}
-        <div className="controls">
-          <div className="risk-filter">
-            <label>Filter by Risk Level:</label>
-            <div className="filter-buttons">
-              <button 
-                className={riskFilter === 'all' ? 'active' : ''}
-                onClick={() => setRiskFilter('all')}
-              >
-                All Levels
-              </button>
-              <button 
-                className={`risk-btn very-high ${riskFilter === 'very-high' ? 'active' : ''}`}
-                onClick={() => setRiskFilter('very-high')}
-              >
-                Very High
-              </button>
-              <button 
-                className={`risk-btn high ${riskFilter === 'high' ? 'active' : ''}`}
-                onClick={() => setRiskFilter('high')}
-              >
-                High
-              </button>
-              <button 
-                className={`risk-btn medium ${riskFilter === 'medium' ? 'active' : ''}`}
-                onClick={() => setRiskFilter('medium')}
-              >
-                Medium
-              </button>
-              <button 
-                className={`risk-btn low ${riskFilter === 'low' ? 'active' : ''}`}
-                onClick={() => setRiskFilter('low')}
-              >
-                Low
-              </button>
-            </div>
-          </div>
-        </div>
+        <Legend />
+        <StatsBtn />
+        <FilterButtonPanel riskFilter={riskFilter} setRiskFilter={setRiskFilter} />
+        
+        
+        
 
         {/* Statistics Panel */}
         {showStats && riskStats && (
@@ -173,24 +127,7 @@ const MapView: React.FC<MapViewProps> = ({
         )}
 
         {/* Top Risk Areas Panel */}
-        {riskData && (
-          <div className="top-risk-panel">
-            <h4>Top Risk Areas</h4>
-            <div className="risk-list">
-              {riskData.topRiskAreas.slice(0, 5).map(area => (
-                <div key={area.cell_id} className="risk-item">
-                  <span className="cell-id">Cell {area.cell_id}</span>
-                  <span className={`risk-level ${area.risk_level.toLowerCase().replace(' ', '-')}`}>
-                    {area.risk_level}
-                  </span>
-                  <span className="risk-percentage">
-                    {(area.risk_score * 100).toFixed(1)}%
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
+        
       </div>
     </div>
   );

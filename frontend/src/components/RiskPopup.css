@@ -180,18 +180,22 @@
   position: absolute;
   bottom: 30px;
   left: 10px;
-  background: white;
   border-radius: 6px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   padding: 12px;
   font-size: 12px;
   z-index: 1000;
+  background: rgba(255, 255, 255, 0.15); /* semi-transparent */
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15); /* subtle shadow */
+  backdrop-filter: blur(12px); /* the magic! */
+  -webkit-backdrop-filter: blur(12px); /* for Safari */
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
 }
 
 .risk-legend-title {
   font-weight: 600;
   margin-bottom: 8px;
-  color: #2c3e50;
+  color: #fff;
 }
 
 .risk-legend-item {
@@ -209,6 +213,6 @@
 }
 
 .risk-legend-label {
-  color: #5a6c7d;
+  color: #fff;
   font-size: 11px;
 }

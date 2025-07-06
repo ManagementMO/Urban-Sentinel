@@ -1,37 +1,53 @@
-import React from 'react';
+// Legend.tsx
+import React, { useState } from 'react';
 import './Legend.css';
 
 const Legend: React.FC = () => {
+  const [open, setOpen] = useState(true);          // ← track state
+
   return (
-    <div className="legend">
-      <h3>Blight Risk Level</h3>
-      <div className="legend-items">
-        <div className="legend-item">
-          <div className="legend-color" style={{ background: '#8b0000' }}></div>
-          <span>Very High (80-100%)</span>
+    <div className="legend-wrapper">
+      {/* toggle button */}
+      <button
+        className="legend-toggle"
+        onClick={() => setOpen((v) => !v)}
+        aria-expanded={open}
+        aria-controls="legend-panel"
+      >
+        {open ? 'Hide legend ▲' : 'Show legend ▼'}
+      </button>
+
+      {/* collapsible panel */}
+      <div id="legend-panel" className={`legend ${open ? 'open' : 'closed'}`}>
+        <h3>Blight Risk Level</h3>
+
+        <div className="legend-items">
+          {[
+            { color: '#8b0000', label: 'Very High (80–100%)' },
+            { color: '#dc143c', label: 'High (60–80%)' },
+            { color: '#ff4500', label: 'Medium (40–60%)' },
+            { color: '#ffa500', label: 'Low (20–40%)' },
+            { color: '#2e8b57', label: 'Very Low (0–20%)' },
+          ].map(({ color, label }) => (
+            <div key={label} className="legend-item">
+              <span
+                className="legend-color"
+                style={{ backgroundColor: color }}
+              />
+              <span>{label}</span>
+            </div>
+          ))}
         </div>
-        <div className="legend-item">
-          <div className="legend-color" style={{ background: '#dc143c' }}></div>
-          <span>High (60-80%)</span>
+
+        <div className="legend-footer">
+          <p>
+            Risk scores indicate the probability of urban-blight development
+            based on ML predictions.
+          </p>
         </div>
-        <div className="legend-item">
-          <div className="legend-color" style={{ background: '#ff4500' }}></div>
-          <span>Medium (40-60%)</span>
-        </div>
-        <div className="legend-item">
-          <div className="legend-color" style={{ background: '#ffa500' }}></div>
-          <span>Low (20-40%)</span>
-        </div>
-        <div className="legend-item">
-          <div className="legend-color" style={{ background: '#2e8b57' }}></div>
-          <span>Very Low (0-20%)</span>
-        </div>
-      </div>
-      <div className="legend-footer">
-        <p>Risk scores indicate the probability of urban blight development based on ML predictions.</p>
       </div>
     </div>
   );
 };
 
-export default Legend; 
+export default Legend;

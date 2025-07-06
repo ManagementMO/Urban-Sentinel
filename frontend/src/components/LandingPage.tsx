@@ -21,8 +21,8 @@ const timelineSections: TimelineSection[] = [
   },
   {
     id: 'people-having-fun',
-    title: 'People Having Fun',
-    content: 'Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen',
+    title: 'Stronger Community',
+    content: 'A strong community is built on mutual respect and understanding. By fostering a sense of belonging and providing opportunities for engagement, we can create a city where everyone feels valued and supported.',
     image: 'https://images.unsplash.com/photo-1501386761578-eac5c94b800a?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
   },
   {
@@ -96,9 +96,6 @@ const LandingPage: React.FC<LandingPageProps> = ({ onTryItOut }) => {
       <div className="hero-section" ref={heroRef}>
         <header className="landing-header">
           <h1 className="brand-title">URBAN SENTINEL</h1>
-          <button className="try-it-out-btn" onClick={onTryItOut}>
-            TRY IT OUTdsadsanjdsa
-          </button>
         </header>
         
         <main className="landing-main">
