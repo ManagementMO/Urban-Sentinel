@@ -23,11 +23,11 @@ const Legend: React.FC = () => {
 
         <div className="legend-items">
           {[
-            { color: '#8b0000', label: 'Very High (80–100%)' },
-            { color: '#dc143c', label: 'High (60–80%)' },
-            { color: '#ff4500', label: 'Medium (40–60%)' },
-            { color: '#ffa500', label: 'Low (20–40%)' },
-            { color: '#2e8b57', label: 'Very Low (0–20%)' },
+            { color: '#B71C1C', label: 'Very High (80–100%)' },
+            { color: '#F44336', label: 'High (60–80%)' },
+            { color: '#FF5722', label: 'Medium (40–60%)' },
+            { color: '#FF9800', label: 'Low (20–40%)' },
+            { color: '#4CAF50', label: 'Very Low (0–20%)' },
           ].map(({ color, label }) => (
             <div key={label} className="legend-item">
               <span
