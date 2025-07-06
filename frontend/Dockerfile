@@ -18,8 +18,6 @@ COPY . .
 RUN ls -la public/ && ls -la src/
 
 # Build the app
-ARG REACT_APP_API_URL
-ENV REACT_APP_API_URL=$REACT_APP_API_URL
 RUN npm run build
 
 # Stage 2: Development stage

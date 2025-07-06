@@ -29,13 +29,12 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-      args:
-        REACT_APP_API_URL: http://backend:8000
     container_name: urban-sentinel-frontend
     ports:
-      - "3000:80"
+      - "3000:3000"
     environment:
       - NODE_ENV=development
+      - REACT_APP_API_URL=http://localhost:8000
       - REACT_APP_MAPBOX_TOKEN=pk.eyJ1IjoibWFwYm94bW8xMjMiLCJhIjoiY21jcXN5dXdqMDFrODJqcTBhcnppb3QzMSJ9.do-_5cjmbfnW2o-FyMofvA
     volumes:
       - ./frontend:/app
