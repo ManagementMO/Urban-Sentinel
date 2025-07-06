@@ -18,6 +18,7 @@
   flex-direction: column;
   position: relative;
   scroll-snap-align: start;
+  overflow: hidden;
 }
 
 .landing-header {
@@ -63,19 +64,23 @@
   flex: 1;
   display: flex;
   align-items: center;
-  padding: 0 60px;
+  padding: 0 40px;
   position: relative;
+  max-height: calc(100vh - 120px);
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 
 .content-section {
   width: 100%;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 80px;
+  gap: 32px;
   align-items: center;
-  max-width: 1400px;
+  max-width: 1260px;
   margin: 0 auto;
   position: relative;
+  padding: 0 20px;
 }
 
 .background-text {
@@ -98,11 +103,11 @@
 
 .toronto-image {
   position: relative;
-  border-radius: 20px;
+  border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 20px 40px rgba(255, 255, 255, 0.3);
+  box-shadow: 0 15px 30px rgba(255, 255, 255, 0.2);
   width: 100%;
-  max-width: 500px;
+  max-width: 420px;
 }
 
 .skyline-img {
@@ -113,29 +118,41 @@
 }
 
 .text-section {
-  position: absolute;
-  left: 300px;
-  top: 50%;
-  transform: translateY(-110%);
+  position: relative;
   z-index: 10;
   width: 100%;
   pointer-events: none;
+  padding-left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .main-title {
-  font-size: clamp(6rem, 12vw, 12rem);
+  font-size: clamp(2.3rem, 6.3vw, 4.2rem);
   font-weight: 700;
   color: #ffffff;
   margin: 0;
-  line-height: 0.8;
-  letter-spacing: -4px;
+  line-height: 0.9;
+  letter-spacing: -2px;
   font-family: 'Inter', sans-serif;
   text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
   position: relative;
-  z-index: 10;
-  white-space: nowrap;
+  z-index: 15;
   text-align: left;
-  margin-left: -30px;
+  transform: translateX(-60px);
+  width: calc(100% + 80px);
+}
+
+.main-title .subtitle {
+  display: block;
+  font-size: clamp(1.9rem, 5.2vw, 3.5rem);
+  font-weight: 600;
+  color: #ffffff;
+  margin-top: 8px;
+  font-style: italic;
+  transform: translateX(40px);
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
 .subtitle-overlay {
@@ -166,78 +183,89 @@
 
 .subtitle-text {
   z-index: 1;
-  font-size: clamp(6rem, 12vw, 12rem);
+  font-size: clamp(3rem, 8vw, 8rem);
   font-weight: 700;
   color: transparent;
-  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.843);
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.3);
   text-stroke: 1px rgba(255, 255, 255, 0.1);
   line-height: 1;
   font-family: 'Inter', sans-serif;
+  -webkit-user-select: none;
   user-select: none;
   white-space: nowrap;
 }
 
 .subtitle-text3 {
   z-index: 1;
-  font-size: clamp(6rem, 12vw, 12rem);
+  font-size: clamp(3rem, 8vw, 8rem);
   font-weight: 700;
   color: transparent;
-  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.843);
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.3);
   text-stroke: 1px rgba(255, 255, 255, 0.1);
   line-height: 1;
   font-family: 'Inter', sans-serif;
+  -webkit-user-select: none;
   user-select: none;
   white-space: nowrap;
 }
 
 .subtitle-text1 {
   z-index: 1;
-  font-size: clamp(6rem, 12vw, 12rem);
+  font-size: clamp(3rem, 8vw, 8rem);
   font-weight: 700;
   color: transparent;
-  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.843);
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.3);
   text-stroke: 1px rgba(255, 255, 255, 0.1);
   line-height: 1;
   font-family: 'Inter', sans-serif;
+  -webkit-user-select: none;
   user-select: none;
   white-space: nowrap;
 }
 .subtitle-text2 {
   z-index: 1;
-  font-size: clamp(6rem, 12vw, 12rem);
+  font-size: clamp(3rem, 8vw, 8rem);
   font-weight: 700;
   color: transparent;
-  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.843);
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.3);
   text-stroke: 1px rgba(255, 255, 255, 0.1);
   line-height: 1;
   font-family: 'Inter', sans-serif;
+  -webkit-user-select: none;
   user-select: none;
   white-space: nowrap;
 }
 
-
 .description {
-  margin-top: 100px;         /* lowered from -30px */
-  margin-left: 400px;
-  margin-bottom: -100px;
-  max-width: 500px;
+  margin-top: 16px;
+  margin-left: 0;
+  margin-bottom: 0;
+  max-width: 89%;
   pointer-events: auto;
 
   /* Box styling */
-  background-color: rgba(255, 255, 255, 0.05);
-  padding: 16px 18px;       /* reduced padding to make it less tall */
-  border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(10px); /* less extreme blur */
+  background-color: rgba(255, 255, 255, 0.08);
+  padding: 17px;
+  border-radius: 13px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  -webkit-backdrop-filter: blur(15px);
+  backdrop-filter: blur(15px);
 }
 
-
 .description p {
-  font-size: 18px;
-  line-height: 1.6;
+  font-size: 16.8px;
+  line-height: 1.5;
   color: #e3f2fd;
   margin: 0;
   font-family: 'Inter', sans-serif;
+}
+
+.description .lead-text {
+  margin-bottom: 8px;
+}
+
+.description .solution-text {
+  margin-bottom: 10px;
 }
 
 .description strong {
@@ -249,8 +277,9 @@
 @media (max-width: 1024px) {
   .content-section {
     grid-template-columns: 1fr;
-    gap: 60px;
+    gap: 21px;
     text-align: center;
+    padding: 0 15px;
   }
   
   .background-text {
@@ -263,67 +292,107 @@
     top: auto;
     transform: none;
     text-align: center;
-    margin-top: 40px;
+    margin-top: 21px;
   }
   
   .main-title {
     margin-left: 0;
     text-align: center;
+    font-size: clamp(2.1rem, 8.4vw, 3.7rem);
+    transform: none;
+    width: 100%;
+  }
+  
+  .main-title .subtitle {
+    transform: none;
+    margin-top: 8px;
+    text-align: center;
   }
   
   .description {
     margin-left: 0;
+    margin-top: 16px;
     text-align: center;
+    padding: 17px;
+    max-width: 95%;
   }
   
   .landing-header {
-    padding: 30px 40px;
+    padding: 21px 42px;
   }
   
   .landing-main {
-    padding: 0 40px;
+    padding: 0 42px;
+    padding-top: 10px;
+    padding-bottom: 10px;
   }
 }
 
 @media (max-width: 768px) {
   .landing-header {
-    padding: 20px 30px;
+    padding: 16px 21px;
   }
   
   .brand-title {
-    font-size: 22px;
-  }
-  
-  .try-it-out-btn {
-    padding: 10px 20px;
-    font-size: 14px;
+    font-size: 21px;
   }
   
   .landing-main {
-    padding: 0 30px;
+    padding: 0 21px;
+    padding-top: 10px;
+    padding-bottom: 10px;
   }
   
   .content-section {
-    gap: 40px;
+    gap: 16px;
+    padding: 0 10px;
   }
   
   .main-title {
-    font-size: clamp(4rem, 15vw, 8rem);
+    font-size: clamp(1.9rem, 10.5vw, 3.2rem);
     margin-left: 0;
     text-align: center;
+    transform: none;
+    width: 100%;
   }
   
-  .subtitle-text {
-    font-size: clamp(4rem, 15vw, 8rem);
+  .main-title .subtitle {
+    font-size: clamp(1.5rem, 8.4vw, 2.5rem);
+    transform: none;
+    margin-top: 8px;
+    text-align: center;
   }
   
   .description {
     margin-left: 0;
+    margin-top: 11px;
     text-align: center;
+    padding: 13px;
+    max-width: 98%;
   }
   
   .description p {
-    font-size: 20px;
+    font-size: 14.7px;
+    line-height: 1.4;
+  }
+  
+  .stats-highlight {
+    gap: 8px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+  }
+  
+  .stat-number {
+    font-size: 16.8px;
+  }
+  
+  .stat-label {
+    font-size: 10.5px;
+  }
+  
+  .cta-button {
+    padding: 8.4px 16.8px;
+    font-size: 13.7px;
   }
 }
 /* Fixed Timeline Sidebar */
@@ -447,7 +516,7 @@
   transform: scale(1.2);
 }
 
-/* Full-Page Timeline Sections */
+/* Full-Page Timeline Sections - Apple Style */
 .timeline-page {
   width: 100vw;
   height: 100vh;
@@ -455,7 +524,7 @@
   align-items: center;
   justify-content: center;
   scroll-snap-align: start;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  background: linear-gradient(135deg, #fefefe 0%, #f8f6f3 50%, #f5f3f0 100%);
   padding: 0 60px;
   opacity: 0.3;
   transform: translateY(40px) scale(0.95);
@@ -475,6 +544,13 @@
   width: 100%;
   margin-left: 300px; /* Account for sidebar */
   transition: margin-left 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 24px;
+  padding: 40px;
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
 }
 
 .timeline-page-content.with-sidebar {
@@ -521,7 +597,7 @@
 .section-text h2 {
   font-size: 2.5rem;
   font-weight: 700;
-  color: #2c3e50;
+  color: #1d1d1f;
   margin: 0 0 24px 0;
   font-family: 'Inter', sans-serif;
   line-height: 1.2;
@@ -530,7 +606,7 @@
 .section-text p {
   font-size: 1.1rem;
   line-height: 1.6;
-  color: #64748b;
+  color: #515154;
   margin: 0;
   font-family: 'Inter', sans-serif;
 }
@@ -544,6 +620,7 @@
   .timeline-page-content {
     margin-left: 250px;
     gap: 40px;
+    padding: 30px;
   }
 }
 
@@ -555,6 +632,7 @@
     min-height: 120px;
     padding: 20px;
     transform: none;
+    -webkit-backdrop-filter: blur(2px);
     backdrop-filter: blur(2px);
   }
   
@@ -601,6 +679,8 @@
     flex-direction: column;
     text-align: center;
     gap: 30px;
+    padding: 20px;
+    margin: 0 10px;
   }
   
   .section-image {
@@ -640,5 +720,201 @@
   
   .timeline-indicator {
     animation: none;
+  }
+}
+
+/* ===== NEW HACKATHON STYLES ===== */
+
+/* Tech Badge in Header */
+.tech-badge {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  margin-left: 20px;
+  opacity: 0.9;
+}
+
+/* Enhanced Description Styles */
+.lead-text {
+  font-size: 18px !important;
+  font-weight: 600 !important;
+  color: #ffffff !important;
+  margin-bottom: 16px !important;
+  line-height: 1.5 !important;
+}
+
+.solution-text {
+  font-size: 16px !important;
+  line-height: 1.6 !important;
+  color: #e8f4fd !important;
+  margin-bottom: 20px !important;
+}
+
+/* Stats Highlight Section */
+.stats-highlight {
+  display: flex;
+  gap: 13px;
+  margin-top: 13px;
+  margin-bottom: 13px;
+  flex-wrap: wrap;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  min-width: 84px;
+}
+
+.stat-number {
+  font-size: 19px;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 2px;
+  font-family: 'Inter', sans-serif;
+}
+
+.stat-label {
+  font-size: 11.5px;
+  color: #b3e5fc;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 500;
+  font-family: 'Inter', sans-serif;
+}
+
+/* Enhanced CTA Button - Glass Morphic Blue */
+.cta-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #ffffff;
+  padding: 10.5px 21px;
+  font-size: 14.7px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'Inter', sans-serif;
+  position: relative;
+  overflow: hidden;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+
+.cta-button:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 6px 25px rgba(255, 255, 255, 0.15);
+}
+
+.cta-button:active {
+  transform: translateY(-1px);
+}
+
+.cta-button span {
+  position: relative;
+  z-index: 2;
+}
+
+.button-glow {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.cta-button:hover .button-glow {
+  left: 100%;
+}
+
+/* Timeline Section Enhancements */
+.section-image {
+  position: relative;
+}
+
+.image-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(0, 122, 255, 0.08) 0%, rgba(0, 0, 0, 0.04) 100%);
+  border-radius: 20px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.timeline-page.active .image-overlay {
+  opacity: 1;
+}
+
+/* Tech Specs */
+.tech-specs {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.tech-item {
+  font-size: 14px;
+  color: #1d1d1f;
+  font-weight: 500;
+  padding: 8px 14px;
+  background: rgba(0, 0, 0, 0.04);
+  border-radius: 8px;
+  border-left: 3px solid #007aff;
+}
+
+/* Apple-style Timeline Pages - Consistent Design */
+
+/* Responsive Updates for New Elements */
+@media (max-width: 1024px) {
+  .stats-highlight {
+    flex-direction: column;
+    gap: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .tech-badge {
+    margin-left: 0;
+    margin-top: 10px;
+  }
+  
+  .stats-highlight {
+    padding: 14px;
+    gap: 12px;
+    margin: 16px 0;
+  }
+  
+  .stat-number {
+    font-size: 22px;
+  }
+  
+  .cta-button {
+    padding: 12px 24px;
+    font-size: 15px;
+    margin-top: 12px;
+  }
+  
+  .tech-specs {
+    margin-top: 16px;
   }
 }

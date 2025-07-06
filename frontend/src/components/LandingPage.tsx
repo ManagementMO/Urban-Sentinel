@@ -14,22 +14,22 @@ interface TimelineSection {
 
 const timelineSections: TimelineSection[] = [
   {
-    id: 'kids-grow-up',
-    title: 'Safer Streets ',
-    content: 'As children grow up in the city and begin to explore, creating a safer and more welcoming environment benefits not only our kids, but also the elderly. It encourages everyone to learn, discover, and experience their surroundings without fear.',
-    image: 'https://images.unsplash.com/photo-1596464716127-f2a82984de30?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+    id: 'advanced-ml',
+    title: 'Advanced Machine Learning',
+    content: 'Our enhanced LightGBM model achieves 94.4% ROC-AUC accuracy, trained on 10+ years of Toronto 311 service data. Using sophisticated feature engineering and early stopping, we predict urban blight risk with unprecedented precision.',
+    image: 'https://images.unsplash.com/photo-1453500920688-4442e4d16f50?w=1200&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8VXJiYW4lMjBEZWNheSUyMFRvcm9udG98ZW58MHx8MHx8fDA%3D'
   },
   {
-    id: 'people-having-fun',
-    title: 'Stronger Community',
-    content: 'A strong community is built on mutual respect and understanding. By fostering a sense of belonging and providing opportunities for engagement, we can create a city where everyone feels valued and supported.',
-    image: 'https://images.unsplash.com/photo-1501386761578-eac5c94b800a?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+    id: 'real-time-visualization',
+    title: 'Real-Time Risk Visualization',
+    content: 'Interactive Mapbox integration with performance-optimized rendering delivers smooth 30fps visualization on any device. Dynamic risk filtering, hover effects, and detailed popups provide actionable insights for urban planners.',
+    image: 'https://images.unsplash.com/photo-1584291527935-456e8e2dd734?q=80&w=2050&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
   },
   {
-    id: 'why-we-care',
-    title: 'WHY WE CARE',
-    content: 'Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen',
-    image: 'https://images.unsplash.com/photo-1645415070366-2dd8a830e97b?q=80&w=1030&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+    id: 'intelligent-prediction',
+    title: 'Intelligent Early Warning',
+    content: 'By analyzing complaint patterns, temporal trends, and geographic correlations, Urban Sentinel identifies at-risk neighborhoods before visible decay occurs. This proactive approach enables targeted interventions that save cities millions in remediation costs.',
+    image: 'https://images.unsplash.com/photo-1605810230434-7631ac76ec81?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
   }
 ];
 
@@ -103,16 +103,16 @@ const LandingPage: React.FC<LandingPageProps> = ({ onTryItOut }) => {
             {/* Subtitle overlays that will be behind the image */}
             <div className="background-text">
               <div className="subtitle-overlay subtitle-overlay-1">
-                <span className="subtitle-text">Toronto City</span>
+                <span className="subtitle-text">Predict • Prevent • Protect</span>
               </div>
               <div className="subtitle-overlay subtitle-overlay-2">
-                <span className="subtitle-text1">Toronto City</span>
+                <span className="subtitle-text1">94.4% Accuracy</span>
               </div>
               <div className="subtitle-overlay subtitle-overlay-3">
-                <span className="subtitle-text2">Toronto City</span>
+                <span className="subtitle-text2">Real-Time Intelligence</span>
               </div>
               <div className="subtitle-overlay subtitle-overlay-4">
-                <span className="subtitle-text3">Toronto City</span>
+                <span className="subtitle-text3">Smart Cities</span>
               </div>
             </div>
             
@@ -120,7 +120,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onTryItOut }) => {
               <div className="toronto-image">
                 <img 
                   src="https://images.unsplash.com/photo-1517935706615-2717063c2225?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" 
-                  alt="Toronto Skyline with CN Tower"
+                  alt="Toronto Skyline - Urban Intelligence"
                   className="skyline-img"
                 />
               </div>
@@ -128,16 +128,36 @@ const LandingPage: React.FC<LandingPageProps> = ({ onTryItOut }) => {
             
             <div className="text-section">
               <h1 className="main-title">
-                Toronto City
+                Preventing Urban Decay
+                <span className="subtitle">Before It Happens</span>
               </h1>
               
               <div className="description">
-                <p>
-                  <strong>MAJORITY</strong> of cities are either to late to recover, and 
-                  with earlier notice, we could of tackled, <strong>so this is 
-                  where we come in to tackle this, and save cities before 
-                  to late</strong>
+                <p className="lead-text">
+                  <strong>Urban blight costs cities billions annually</strong> in reduced property values, increased crime, and community displacement.
                 </p>
+                <p className="solution-text">
+                  Urban Sentinel leverages <strong>advanced machine learning</strong> and <strong>real-time data analysis</strong> to predict at-risk neighborhoods up to 2 years in advance, enabling proactive interventions that save communities.
+                </p>
+                <div className="stats-highlight">
+                  <div className="stat">
+                    <span className="stat-number">94.4%</span>
+                    <span className="stat-label">Model Accuracy</span>
+                  </div>
+                  <div className="stat">
+                    <span className="stat-number">10,659</span>
+                    <span className="stat-label">Risk Predictions</span>
+                  </div>
+                  <div className="stat">
+                    <span className="stat-number">2014-2024</span>
+                    <span className="stat-label">Years of Data</span>
+                  </div>
+                </div>
+                
+                <button className="cta-button" onClick={onTryItOut}>
+                  <span>Explore Live Demo</span>
+                  <div className="button-glow"></div>
+                </button>
               </div>
             </div>
           </div>
@@ -181,14 +201,39 @@ const LandingPage: React.FC<LandingPageProps> = ({ onTryItOut }) => {
           <div className={`timeline-page-content ${showTimeline ? 'with-sidebar' : 'without-sidebar'}`}>
             <div className="section-image">
               <img src={section.image} alt={section.title} />
+              <div className="image-overlay"></div>
             </div>
             <div className="section-text">
               <h2>{section.title}</h2>
               <p>{section.content}</p>
+              
+              {index === 0 && (
+                <div className="tech-specs">
+                  <div className="tech-item">⚡ LightGBM Enhanced Model</div>
+                  <div className="tech-item">📊 Cross-Validated Performance</div>
+                  <div className="tech-item">🔧 Feature Engineering Pipeline</div>
+                </div>
+              )}
+              
+              {index === 1 && (
+                <div className="tech-specs">
+                  <div className="tech-item">🗺️ Mapbox GL JS Integration</div>
+                  <div className="tech-item">⚡ 30fps Optimized Rendering</div>
+                  <div className="tech-item">🎯 Dynamic Risk Filtering</div>
+                </div>
+              )}
+              
+              {index === 2 && (
+                <div className="tech-specs">
+                  <div className="tech-item">🔮 Predictive Analytics</div>
+                  <div className="tech-item">📈 Temporal Pattern Analysis</div>
+                  <div className="tech-item">🏙️ Geospatial Intelligence</div>
+                </div>
+              )}
             </div>
           </div>
         </div>
-      ))}
+              ))}
     </div>
   );
 };

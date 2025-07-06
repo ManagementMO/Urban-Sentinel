@@ -240,52 +240,52 @@ def get_feature_importance() -> Dict[str, Any]:
             # Fallback to legacy feature importance calculation
             print("Using legacy feature importance calculation...")
             
-            # Get the feature names (same columns used for training)
-            df = pd.DataFrame(gdf.drop(columns='geometry'))
-            columns_to_drop = [
-                'cell_id', 'is_blighted', 'target_blight_count',
-                'overall_most_common_blight', 'recent_most_common_blight'
-            ]
+        # Get the feature names (same columns used for training)
+        df = pd.DataFrame(gdf.drop(columns='geometry'))
+        columns_to_drop = [
+            'cell_id', 'is_blighted', 'target_blight_count',
+            'overall_most_common_blight', 'recent_most_common_blight'
+        ]
+        
+        # Filter out columns that don't exist
+        existing_columns = [col for col in columns_to_drop if col in df.columns]
+        feature_df = df.drop(columns=existing_columns)
+        feature_names = list(feature_df.columns)
+        
+        # Get feature importances from the model
+        if hasattr(model, 'feature_importances_'):
+            importances = model.feature_importances_
+        else:
+            raise HTTPException(status_code=500, detail="Model does not support feature importance")
+        
+        # Create feature importance pairs and sort by importance
+        feature_importance_pairs = list(zip(feature_names, importances))
+        feature_importance_pairs.sort(key=lambda x: x[1], reverse=True)
+        
+        # Format the response
+        top_features = []
+        all_features = []
+        
+        for i, (feature, importance) in enumerate(feature_importance_pairs):
+            feature_data = {
+                "feature": feature,
+                "importance": float(importance),
+                "rank": i + 1,
+                "description": get_feature_description(feature)
+            }
             
-            # Filter out columns that don't exist
-            existing_columns = [col for col in columns_to_drop if col in df.columns]
-            feature_df = df.drop(columns=existing_columns)
-            feature_names = list(feature_df.columns)
-            
-            # Get feature importances from the model
-            if hasattr(model, 'feature_importances_'):
-                importances = model.feature_importances_
-            else:
-                raise HTTPException(status_code=500, detail="Model does not support feature importance")
-            
-            # Create feature importance pairs and sort by importance
-            feature_importance_pairs = list(zip(feature_names, importances))
-            feature_importance_pairs.sort(key=lambda x: x[1], reverse=True)
-            
-            # Format the response
-            top_features = []
-            all_features = []
-            
-            for i, (feature, importance) in enumerate(feature_importance_pairs):
-                feature_data = {
-                    "feature": feature,
-                    "importance": float(importance),
-                    "rank": i + 1,
-                    "description": get_feature_description(feature)
-                }
-                
-                all_features.append(feature_data)
-                if i < 10:  # Top 10 features
-                    top_features.append(feature_data)
-            
-            return {
-                "top_features": top_features,
-                "all_features": all_features,
-                "total_features": len(feature_names),
+            all_features.append(feature_data)
+            if i < 10:  # Top 10 features
+                top_features.append(feature_data)
+        
+        return {
+            "top_features": top_features,
+            "all_features": all_features,
+            "total_features": len(feature_names),
                 "model_type": type(model).__name__,
                 "importance_type": "split",
                 "enhanced": False
-            }
+        }
         
     except Exception as e:
         print(f"Error in get_feature_importance: {e}")

@@ -33,35 +33,68 @@ h1, h2, h3, h4, h5, h6, p, span, button {
   transform: translateX(-50%);
   display: flex;
   gap: 12px;
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 50px;
   padding: 8px;
   z-index: 1000;
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.1),
+    0 4px 16px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
 }
 
 .nav-button {
   background: transparent;
   border: none;
-  color: #2c3e50;
+  color: rgba(255, 255, 255, 0.85);
   font-size: 14px;
   font-weight: 500;
   font-family: 'Inter', sans-serif;
-  padding: 8px 16px;
+  padding: 10px 20px;
   border-radius: 25px;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .nav-button:hover {
   background: rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.95);
   transform: translateY(-1px);
+  box-shadow: 
+    0 4px 16px rgba(0, 0, 0, 0.15),
+    0 0 0 1px rgba(255, 255, 255, 0.2);
 }
 
 .nav-button.active {
-  background: rgba(102, 126, 234, 0.2);
-  color: #667eea;
+  background: linear-gradient(135deg, 
+    rgba(102, 126, 234, 0.6) 0%, 
+    rgba(118, 75, 162, 0.6) 100%);
+  color: rgba(255, 255, 255, 0.95);
   font-weight: 600;
+  box-shadow: 
+    0 4px 20px rgba(102, 126, 234, 0.4),
+    0 0 20px rgba(102, 126, 234, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+.nav-button.active::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, 
+    rgba(102, 126, 234, 0.1) 0%, 
+    rgba(118, 75, 162, 0.1) 100%);
+  border-radius: 25px;
+  filter: blur(8px);
+  z-index: -1;
+  opacity: 0.7;
 }
