@@ -148,21 +148,21 @@ const Map: React.FC<MapProps> = ({ riskData, loading, allRiskData }) => {
             'interpolate',
             ['linear'],
             ['get', 'risk_score'],
-            0, '#228B22',       // Forest green
-            0.3, '#FFD700',     // Gold
-            0.5, '#FF8C00',     // Dark orange
-            0.7, '#FF4500',     // Orange red
-            0.8, '#DC143C',     // Crimson
-            1, '#8B0000'        // Dark red
+            0, '#4CAF50',       // Softer green
+            0.3, '#FFC107',     // Softer gold
+            0.5, '#FF9800',     // Softer orange
+            0.7, '#FF5722',     // Softer orange red
+            0.8, '#F44336',     // Softer red
+            1, '#B71C1C'        // Softer dark red
           ],
           'fill-opacity': [
             'interpolate',
             ['linear'],
             ['get', 'risk_score'],
-            0, 0.4,
-            0.5, 0.6,
-            0.8, 0.8,
-            1, 0.9
+            0, 0.2,
+            0.5, 0.3,
+            0.8, 0.4,
+            1, 0.5
           ]
         }
       });
@@ -177,9 +177,9 @@ const Map: React.FC<MapProps> = ({ riskData, loading, allRiskData }) => {
             'interpolate',
             ['linear'],
             ['get', 'risk_score'],
-            0, 'rgba(34, 139, 34, 0.5)',
-            0.5, 'rgba(255, 140, 0, 0.7)',
-            1, 'rgba(139, 0, 0, 1.0)'
+            0, 'rgba(76, 175, 80, 0.3)',
+            0.5, 'rgba(255, 152, 0, 0.4)',
+            1, 'rgba(183, 28, 28, 0.6)'
           ],
           'line-width': [
             'interpolate',
@@ -189,7 +189,7 @@ const Map: React.FC<MapProps> = ({ riskData, loading, allRiskData }) => {
             0.8, 1.5,
             1, 2.0
           ],
-          'line-opacity': 0.8
+          'line-opacity': 0.5
         }
       });
 
@@ -306,15 +306,15 @@ const Map: React.FC<MapProps> = ({ riskData, loading, allRiskData }) => {
     map.current.setPaintProperty('risk-fill-optimized', 'fill-opacity', [
       'case',
       ['==', ['get', 'cell_id'], hoveredCell || -1],
-      0.9,
+      0.7,
       [
         'interpolate',
         ['linear'],
         ['get', 'risk_score'],
-        0, 0.4,
-        0.5, 0.6,
-        0.8, 0.8,
-        1, 0.9
+        0, 0.2,
+        0.5, 0.3,
+        0.8, 0.4,
+        1, 0.5
       ]
     ]);
 
@@ -327,9 +327,9 @@ const Map: React.FC<MapProps> = ({ riskData, loading, allRiskData }) => {
         'interpolate',
         ['linear'],
         ['get', 'risk_score'],
-        0, 'rgba(34, 139, 34, 0.5)',
-        0.5, 'rgba(255, 140, 0, 0.7)',
-        1, 'rgba(139, 0, 0, 1.0)'
+        0, 'rgba(76, 175, 80, 0.3)',
+        0.5, 'rgba(255, 152, 0, 0.4)',
+        1, 'rgba(183, 28, 28, 0.6)'
       ]
     ]);
 
