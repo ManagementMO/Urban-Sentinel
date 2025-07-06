@@ -49,14 +49,14 @@ Want to see Toronto's urban future? Check out our live application:
 - **Feature engineering** from 311 service complaints, temporal patterns, and geographic correlations
 - **2014-2024 data** for comprehensive training
 
-### **Frontend Excellence**
+### **Frontend**
 ```typescript
 React + TypeScript + Mapbox GL JS
 Performance-optimized rendering (30fps on any device)
 Glass-morphic design with dynamic risk filtering
 ```
 
-### **Backend Power**
+### **Backend**
 ```python
 FastAPI + Python + GeoPandas
 Real-time ML inference pipeline
