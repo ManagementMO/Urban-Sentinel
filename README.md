@@ -197,6 +197,6 @@ Built with ❤️ by passionate developers who believe technology can make citie
 <div align="center">
 
 **[⭐ Star this repo](https://github.com/ManagementMO/Urban-Sentinel)** if you believe in building smarter cities!
-[![GitHub stars](https://img.shields.io/github/stars/your-username/Urban-Sentinel?style=social)]([[https://github.com/your-username/Urban-Sentinel])
+[![GitHub stars](https://img.shields.io/github/stars/ManagementMO/Urban-Sentinel?style=social)](https://github.com/ManagementMO/Urban-Sentinel)
 
 </div>
