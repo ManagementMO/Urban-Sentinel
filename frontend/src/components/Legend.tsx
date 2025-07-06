@@ -4,24 +4,31 @@ import './Legend.css';
 const Legend: React.FC = () => {
   return (
     <div className="legend">
-      <h3>Decay Levels</h3>
+      <h3>Blight Risk Level</h3>
       <div className="legend-items">
         <div className="legend-item">
-          <div className="legend-color" style={{ background: 'rgba(0, 87, 192, 0.6)' }}></div>
-          <span>Minimal (0.0 - 0.2)</span>
+          <div className="legend-color" style={{ background: '#8b0000' }}></div>
+          <span>Very High (80-100%)</span>
         </div>
         <div className="legend-item">
-          <div className="legend-color" style={{ background: 'rgba(255, 235, 59, 0.7)' }}></div>
-          <span>Mild (0.2 - 0.5)</span>
+          <div className="legend-color" style={{ background: '#dc143c' }}></div>
+          <span>High (60-80%)</span>
         </div>
         <div className="legend-item">
-          <div className="legend-color" style={{ background: 'rgba(255, 152, 0, 0.8)' }}></div>
-          <span>Noticeable (0.5 - 0.8)</span>
+          <div className="legend-color" style={{ background: '#ff4500' }}></div>
+          <span>Medium (40-60%)</span>
         </div>
         <div className="legend-item">
-          <div className="legend-color" style={{ background: 'rgba(255, 56, 56, 0.9)' }}></div>
-          <span>Severe (0.8 - 1.0)</span>
+          <div className="legend-color" style={{ background: '#ffa500' }}></div>
+          <span>Low (20-40%)</span>
         </div>
+        <div className="legend-item">
+          <div className="legend-color" style={{ background: '#2e8b57' }}></div>
+          <span>Very Low (0-20%)</span>
+        </div>
+      </div>
+      <div className="legend-footer">
+        <p>Risk scores indicate the probability of urban blight development based on ML predictions.</p>
       </div>
     </div>
   );

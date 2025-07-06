@@ -111,7 +111,10 @@ def predict_risk() -> List[Dict[str, Any]]:
         gdf_copy['risk_score'] = risk_scores
         print(f"  - Calculated risk scores for {len(gdf_copy)} cells.")
 
-        # Step 4: Return the entire GeoJSON.
+        # Step 4: Convert geometry to string format and return as JSON.
+        # Convert geometry to WKT string for JSON serialization
+        gdf_copy['geometry'] = gdf_copy['geometry'].apply(lambda x: x.wkt if x is not None else None)
+        
         # FastAPI will automatically convert this to a JSON response.
         return gdf_copy.to_dict(orient='records')
         

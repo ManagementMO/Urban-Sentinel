@@ -3,6 +3,7 @@
   top: 20px;
   left: 20px;
   background: rgba(255, 255, 255, 0.95);
+  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   padding: 20px;
   border-radius: 12px;
@@ -40,4 +41,19 @@
 .legend-item span {
   font-size: 14px;
   color: #666;
+  font-weight: 500;
+}
+
+.legend-footer {
+  margin-top: 15px;
+  padding-top: 12px;
+  border-top: 1px solid #e9ecef;
+}
+
+.legend-footer p {
+  margin: 0;
+  font-size: 12px;
+  color: #5a6c7d;
+  line-height: 1.4;
+  font-style: italic;
 } 

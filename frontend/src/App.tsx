@@ -2,23 +2,37 @@ import React, { useEffect, useState } from 'react';
 import './App.css';
 import LandingPage from './components/LandingPage';
 import MapView from './components/MapView';
-import { DecayData } from './types';
-import { fetchDecayData } from './services/api';
+import { fetchAllRiskData, RiskGridCell, FeatureImportanceResponse, ApiStats, TopRiskArea } from './services/api';
+import { convertRiskDataToGeoJSON } from './utils/geoHelpers';
 
 type ViewType = 'landing' | 'map';
 
+interface AppRiskData {
+  riskData: RiskGridCell[];
+  geoJsonData: GeoJSON.FeatureCollection;
+  featureImportance: FeatureImportanceResponse;
+  stats: ApiStats;
+  topRiskAreas: TopRiskArea[];
+}
+
 function App() {
   const [currentView, setCurrentView] = useState<ViewType>('landing');
-  const [decayData, setDecayData] = useState<DecayData[]>([]);
+  const [riskData, setRiskData] = useState<AppRiskData | null>(null);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const loadDecayData = async () => {
+  const loadRiskData = async () => {
     try {
       setLoading(true);
-      const data = await fetchDecayData();
-      setDecayData(data);
+      setError(null);
+      
+      const data = await fetchAllRiskData();
+      if (data) {
+        setRiskData(data);
+      }
     } catch (error) {
-      console.error('Error loading decay data:', error);
+      console.error('Error loading risk data:', error);
+      setError(error instanceof Error ? error.message : 'Failed to load risk data');
     } finally {
       setLoading(false);
     }
@@ -26,7 +40,9 @@ function App() {
 
   const handleTryItOut = () => {
     setCurrentView('map');
-    loadDecayData();
+    if (!riskData) {
+      loadRiskData();
+    }
   };
 
   const handleBackToHome = () => {
@@ -47,7 +63,7 @@ function App() {
           className={`nav-button ${currentView === 'map' ? 'active' : ''}`}
           onClick={handleTryItOut}
         >
-          Map
+          Risk Map
         </button>
       </nav>
 
@@ -57,9 +73,11 @@ function App() {
       )}
       {currentView === 'map' && (
         <MapView 
-          decayData={decayData} 
+          riskData={riskData} 
           loading={loading} 
+          error={error}
           onBackToHome={handleBackToHome}
+          onRefresh={loadRiskData}
         />
       )}
     </div>

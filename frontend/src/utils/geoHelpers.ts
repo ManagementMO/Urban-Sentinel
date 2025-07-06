@@ -1,18 +1,20 @@
 import { RiskGridCell } from '../services/api';
+import * as wellknown from 'wellknown';
 
 // ============================================================================
 // --- GEOMETRY PARSING AND CONVERSION ---
 // ============================================================================
 
 // Convert WKT geometry to GeoJSON
-// Install: npm install wellknown @types/wellknown
 export const parseWKTToGeoJSON = (wktString: string): GeoJSON.Geometry => {
   try {
-    // If you have wellknown installed, uncomment these lines:
-    // import * as wellknown from 'wellknown';
-    // return wellknown.parse(wktString) as GeoJSON.Geometry;
+    // Use wellknown library to parse WKT strings
+    const geometry = wellknown.parse(wktString);
+    if (geometry) {
+      return geometry as GeoJSON.Geometry;
+    }
     
-    // Temporary fallback - try to parse if it's already JSON
+    // Fallback - try to parse if it's already JSON
     if (wktString.startsWith('{')) {
       return JSON.parse(wktString);
     }
@@ -22,9 +24,11 @@ export const parseWKTToGeoJSON = (wktString: string): GeoJSON.Geometry => {
       return parseWKTPolygon(wktString);
     }
     
-    throw new Error('WKT parsing requires wellknown library or implement specific parsers');
+    throw new Error('Could not parse WKT geometry string');
   } catch (error) {
     console.error('Failed to parse WKT geometry:', error);
+    // Log the problematic string for debugging
+    console.error('Problematic WKT string:', wktString.substring(0, 100) + '...');
     throw error;
   }
 };
