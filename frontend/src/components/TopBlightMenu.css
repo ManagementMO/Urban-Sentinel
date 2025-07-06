@@ -1,23 +1,22 @@
 .top-blight-menu {
   position: fixed;
-  left: 20px;
-  top: 50%;
-  transform: translateY(-50%);
+  right: 80px;
+  top: 20px;
   z-index: 1000;
   
-  background: rgba(255, 255, 255, 0.08);
-  -webkit-backdrop-filter: blur(15px);
-  backdrop-filter: blur(15px);
+  background: rgba(255, 255, 255, 0.12);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
   border-radius: 16px;
-  box-shadow: 0 15px 35px rgba(26, 35, 126, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.35);
   
-  width: 300px;
+  width: 320px;
   overflow: hidden;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
-  animation: slideInLeft 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: slideInRight 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .top-blight-menu.closed {
@@ -28,21 +27,23 @@
   max-height: 450px;
 }
 
-@keyframes slideInLeft {
+@keyframes slideInRight {
   from {
     opacity: 0;
-    transform: translateY(-50%) translateX(-20px);
+    transform: translateX(20px);
   }
   to {
     opacity: 1;
-    transform: translateY(-50%) translateX(0);
+    transform: translateX(0);
   }
 }
 
 .blight-header {
-  padding: 22px 22px 18px 22px;
-  background: linear-gradient(135deg, #1a237e 0%, #0d47a1 50%, #1565c0 100%);
-  color: #ffffff;
+  padding: 18px 20px 16px 20px;
+  background: rgba(255, 255, 255, 0.15);
+  -webkit-backdrop-filter: blur(25px);
+  backdrop-filter: blur(25px);
+  color: rgba(0, 0, 0, 0.8);
   border-radius: 16px;
   position: relative;
   overflow: hidden;
@@ -51,16 +52,19 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.25);
 }
 
 .blight-header:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 8px 25px rgba(26, 35, 126, 0.3);
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.4);
 }
 
 .top-blight-menu.open .blight-header {
   border-radius: 16px 16px 0 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .header-content {
@@ -70,6 +74,7 @@
 .toggle-arrow {
   font-size: 14px;
   font-weight: bold;
+  color: rgba(0, 0, 0, 0.6);
   opacity: 0.8;
   transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -82,6 +87,7 @@
   margin: 0 0 4px 0;
   font-size: 18px;
   font-weight: 600;
+  color: rgba(0, 0, 0, 0.85);
   display: flex;
   align-items: center;
   gap: 8px;
@@ -89,6 +95,7 @@
 
 .blight-subtitle {
   font-size: 12px;
+  color: rgba(0, 0, 0, 0.6);
   opacity: 0.9;
   font-weight: 400;
 }
@@ -200,8 +207,8 @@
 /* Responsive design */
 @media (max-width: 768px) {
   .top-blight-menu {
-    left: 10px;
-    width: 260px;
+    right: 10px;
+    width: 280px;
     max-height: 350px;
   }
   
@@ -224,8 +231,8 @@
 
 @media (max-width: 480px) {
   .top-blight-menu {
-    left: 8px;
-    width: 240px;
+    right: 8px;
+    width: 260px;
     max-height: 300px;
   }
 }

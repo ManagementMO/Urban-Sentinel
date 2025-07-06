@@ -83,7 +83,8 @@ const TopBlightMenu: React.FC<TopBlightMenuProps> = ({ riskData }) => {
 
   const topBlights = getTopBlightTypes();
   
-  // Get count of areas with blight data for context
+  // Get total areas and areas with blight data for context
+  const totalAreas = riskData?.length || 0;
   const areasWithBlightData = riskData?.filter(cell => 
     cell.overall_most_common_blight && 
     cell.overall_most_common_blight !== 'None' && 
@@ -100,7 +101,7 @@ const TopBlightMenu: React.FC<TopBlightMenuProps> = ({ riskData }) => {
       <div className="blight-header" onClick={() => setIsOpen(!isOpen)}>
         <div className="header-content">
           <h3>🏚️ Top Blight Types</h3>
-          <span className="blight-subtitle">{areasWithBlightData.toLocaleString()} Areas Analyzed</span>
+          <span className="blight-subtitle">{totalAreas.toLocaleString()} Toronto Grid Cells</span>
         </div>
         <div className="toggle-arrow">
           {isOpen ? '▲' : '▼'}
@@ -129,7 +130,7 @@ const TopBlightMenu: React.FC<TopBlightMenuProps> = ({ riskData }) => {
           
           <div className="blight-footer">
             <small>Based on 311 complaint data (2014-2024)<br/>
-            Percentages of areas with reported issues</small>
+            {areasWithBlightData.toLocaleString()} areas with reported issues from {totalAreas.toLocaleString()} total</small>
           </div>
         </>
       )}
