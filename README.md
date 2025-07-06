@@ -4,9 +4,7 @@
 > **Preventing urban decay before it happens** — because cities deserve better than reactive fixes.
 
 <div align="center">
-
-![Urban Sentinel](https://img.shields.io/badge/Urban-Sentinel-blue?style=for-the-badge&logo=city&logoColor=white)
-![Hackathon](https://img.shields.io/badge/Hackathon-Project-orange?style=for-the-badge&logo=trophy&logoColor=white)
+  
 ![Accuracy](https://img.shields.io/badge/Model_Accuracy-94.4%25-green?style=for-the-badge&logo=target&logoColor=white)
 
 </div>
