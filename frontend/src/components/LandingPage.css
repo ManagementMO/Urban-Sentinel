@@ -181,6 +181,18 @@
   left: 15%;
 }
 
+/* Background Text Breathing Animation */
+@keyframes breathe {
+  0%, 100% {
+    transform: scale(0.98);
+    opacity: 0.25;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.45;
+  }
+}
+
 .subtitle-text {
   z-index: 1;
   font-size: clamp(3rem, 8vw, 8rem);
@@ -193,6 +205,7 @@
   -webkit-user-select: none;
   user-select: none;
   white-space: nowrap;
+  animation: breathe 6s ease-in-out infinite;
 }
 
 .subtitle-text3 {
@@ -207,6 +220,8 @@
   -webkit-user-select: none;
   user-select: none;
   white-space: nowrap;
+  animation: breathe 6.5s ease-in-out infinite;
+  animation-delay: 1s;
 }
 
 .subtitle-text1 {
@@ -221,7 +236,10 @@
   -webkit-user-select: none;
   user-select: none;
   white-space: nowrap;
+  animation: breathe 5.8s ease-in-out infinite;
+  animation-delay: 2s;
 }
+
 .subtitle-text2 {
   z-index: 1;
   font-size: clamp(3rem, 8vw, 8rem);
@@ -234,6 +252,8 @@
   -webkit-user-select: none;
   user-select: none;
   white-space: nowrap;
+  animation: breathe 6.2s ease-in-out infinite;
+  animation-delay: 3s;
 }
 
 .description {
@@ -719,6 +739,13 @@
   }
   
   .timeline-indicator {
+    animation: none;
+  }
+  
+  .subtitle-text,
+  .subtitle-text1,
+  .subtitle-text2,
+  .subtitle-text3 {
     animation: none;
   }
 }
