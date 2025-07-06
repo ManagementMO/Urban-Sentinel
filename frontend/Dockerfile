@@ -50,28 +50,18 @@ COPY --from=builder /app/build /usr/share/nginx/html
 # Copy nginx configuration
 COPY nginx.conf /etc/nginx/nginx.conf
 
-# Create non-root user for security
-RUN addgroup -g 1001 -S app && \
-    adduser -S app -u 1001
+# Create a simple startup script to handle dynamic port
+RUN echo '#!/bin/sh' > /start.sh && \
+    echo 'PORT=${PORT:-80}' >> /start.sh && \
+    echo 'sed -i "s/listen 80/listen $PORT/g" /etc/nginx/nginx.conf' >> /start.sh && \
+    echo 'nginx -g "daemon off;"' >> /start.sh && \
+    chmod +x /start.sh
 
-# Set permissions
-RUN chown -R app:app /usr/share/nginx/html && \
-    chown -R app:app /var/cache/nginx && \
-    chown -R app:app /var/log/nginx && \
-    chown -R app:app /etc/nginx/conf.d
-    
-# Make nginx run as non-root user
-RUN touch /var/run/nginx.pid && \
-    chown -R app:app /var/run/nginx.pid
-
-# Switch to non-root user
-USER app
-
-# Expose port (Render will override with $PORT)
+# Expose port (Render will set $PORT environment variable)
 EXPOSE 80
 
-# Start nginx
-CMD ["nginx", "-g", "daemon off;"]
+# Start nginx with dynamic port support
+CMD ["/start.sh"]
 
 # Default to production for Render
 FROM production AS default 
