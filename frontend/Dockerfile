@@ -5,9 +5,9 @@ FROM node:18-alpine AS builder
 # Set working directory
 WORKDIR /app
 
-# Set the production API URL as an environment variable
-# This will be baked into the static files by the 'npm run build' script
-ENV REACT_APP_API_URL=https://urban-sentinel-backend.onrender.com
+# Add build argument for API URL with a default value
+ARG REACT_APP_API_URL=http://localhost:8000
+ENV REACT_APP_API_URL=$REACT_APP_API_URL
 
 # Copy package files first for better caching
 COPY package*.json ./

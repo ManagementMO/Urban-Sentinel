@@ -1,44 +1,37 @@
+version: '3.8'
+
 services:
   # Backend Service (FastAPI)
   backend:
     build:
-      context: .
-      dockerfile: backend/Dockerfile
+      context: ./backend
+      target: development
     container_name: urban-sentinel-backend
     ports:
       - "8000:8000"
-    environment:
-      - PYTHONUNBUFFERED=1
-      - PYTHONPATH=/app
     volumes:
       - ./backend:/app
-      - ./datasets:/app/datasets
-      - backend_data:/app/data
-    networks:
-      - urban-sentinel-network
-    restart: unless-stopped
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 40s
+    environment:
+      - PYTHONUNBUFFERED=1
+      - ENVIRONMENT=development
 
   # Frontend Service (React)
   frontend:
     build:
       context: ./frontend
-      dockerfile: Dockerfile
+      target: development
+      args:
+        - REACT_APP_API_URL=http://localhost:8000
     container_name: urban-sentinel-frontend
     ports:
       - "3000:3000"
-    environment:
-      - NODE_ENV=development
-      - REACT_APP_API_URL=http://localhost:8000
-      - REACT_APP_MAPBOX_TOKEN=pk.eyJ1IjoibWFwYm94bW8xMjMiLCJhIjoiY21jcXN5dXdqMDFrODJqcTBhcnppb3QzMSJ9.do-_5cjmbfnW2o-FyMofvA
     volumes:
       - ./frontend:/app
       - /app/node_modules
+    environment:
+      - REACT_APP_API_URL=http://localhost:8000
+      - CHOKIDAR_USEPOLLING=true
+      - WATCHPACK_POLLING=true
     networks:
       - urban-sentinel-network
     depends_on:
