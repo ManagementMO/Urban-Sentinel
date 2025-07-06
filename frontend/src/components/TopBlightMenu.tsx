@@ -18,7 +18,7 @@ const TopBlightMenu: React.FC<TopBlightMenuProps> = ({ riskData }) => {
     if (!riskData || riskData.length === 0) return [];
 
     const blightCounts: { [key: string]: number } = {};
-    let totalBlight = 0;
+    let totalWithBlight = 0;
 
     // Count occurrences of each blight type
     riskData.forEach(cell => {
@@ -27,7 +27,7 @@ const TopBlightMenu: React.FC<TopBlightMenuProps> = ({ riskData }) => {
       
       if (blightType && blightType !== 'None' && blightType !== 'null' && blightType.trim() !== '') {
         blightCounts[blightType] = (blightCounts[blightType] || 0) + 1;
-        totalBlight++;
+        totalWithBlight++;
       }
     });
 
@@ -36,7 +36,7 @@ const TopBlightMenu: React.FC<TopBlightMenuProps> = ({ riskData }) => {
       .map(([type, count]) => ({
         type: formatBlightType(type),
         count,
-        percentage: Math.round((count / totalBlight) * 100)
+        percentage: Math.round((count / totalWithBlight) * 100)
       }))
       .sort((a, b) => b.count - a.count)
       .slice(0, 5); // Top 5
@@ -48,13 +48,34 @@ const TopBlightMenu: React.FC<TopBlightMenuProps> = ({ riskData }) => {
   const formatBlightType = (type: string): string => {
     if (!type) return 'Unknown';
     
-    // Clean and format the blight type name
+    // Map long names to shorter, more readable versions
+    const nameMap: { [key: string]: string } = {
+      'Road - Pot hole': 'Road Potholes',
+      'Litter / Sidewalk & Blvd / Pick Up Request': 'Sidewalk Litter',
+      'Catch Basin - Blocked / Flooding': 'Blocked Drainage',
+      'Litter / Bin / Overflow or Not Picked Up': 'Bin Overflow',
+      'Illegal Dumping': 'Illegal Dumping',
+      'Road - Damaged': 'Road Damage',
+      'Road - Sinking': 'Road Sinking',
+      'Litter / Park / Pick Up Request': 'Park Litter',
+      'Road - Cracked': 'Road Cracks',
+      'Sidewalk - Damaged': 'Sidewalk Damage'
+    };
+    
+    // Use mapped name if available, otherwise clean and format
+    if (nameMap[type]) {
+      return nameMap[type];
+    }
+    
     return type
       .replace(/_/g, ' ')
+      .replace(/\//g, ' / ')
       .toLowerCase()
       .split(' ')
       .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(' ');
+      .join(' ')
+      .replace(/\s+/g, ' ')
+      .trim();
   };
 
   // Get color for each blight type
@@ -70,6 +91,14 @@ const TopBlightMenu: React.FC<TopBlightMenuProps> = ({ riskData }) => {
   };
 
   const topBlights = getTopBlightTypes();
+  
+  // Get count of areas with blight data for context
+  const areasWithBlightData = riskData?.filter(cell => 
+    cell.overall_most_common_blight && 
+    cell.overall_most_common_blight !== 'None' && 
+    cell.overall_most_common_blight !== 'null' && 
+    cell.overall_most_common_blight.trim() !== ''
+  ).length || 0;
 
   if (!riskData || topBlights.length === 0) {
     return null;
@@ -79,7 +108,7 @@ const TopBlightMenu: React.FC<TopBlightMenuProps> = ({ riskData }) => {
     <div className="top-blight-menu">
       <div className="blight-header">
         <h3>🏚️ Top Blight Types</h3>
-        <span className="blight-subtitle">Most Prevalent in Toronto</span>
+        <span className="blight-subtitle">{areasWithBlightData.toLocaleString()} Areas Analyzed</span>
       </div>
       
       <div className="blight-list">
@@ -105,7 +134,8 @@ const TopBlightMenu: React.FC<TopBlightMenuProps> = ({ riskData }) => {
       </div>
       
       <div className="blight-footer">
-        <small>Based on historical 311 complaint data</small>
+        <small>Based on 311 complaint data (2014-2024)<br/>
+        Percentages of areas with reported issues</small>
       </div>
     </div>
   );
