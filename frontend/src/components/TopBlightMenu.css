@@ -1,0 +1,225 @@
+.top-blight-menu {
+  position: fixed;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1000;
+  
+  background: rgba(255, 255, 255, 0.95);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  
+  width: 280px;
+  max-height: 400px;
+  overflow: hidden;
+  
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  animation: slideInLeft 0.3s ease-out;
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateY(-50%) translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0);
+  }
+}
+
+.blight-header {
+  padding: 20px 20px 16px 20px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 16px 16px 0 0;
+}
+
+.blight-header h3 {
+  margin: 0 0 4px 0;
+  font-size: 18px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.blight-subtitle {
+  font-size: 12px;
+  opacity: 0.9;
+  font-weight: 400;
+}
+
+.blight-list {
+  padding: 16px 0;
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+.blight-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 20px;
+  transition: all 0.2s ease;
+  border-left: 3px solid transparent;
+}
+
+.blight-item:hover {
+  background: rgba(0, 0, 0, 0.04);
+  border-left-color: #667eea;
+  transform: translateX(2px);
+}
+
+.blight-indicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-right: 12px;
+  min-width: 40px;
+}
+
+.blight-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.blight-rank {
+  font-size: 10px;
+  font-weight: 600;
+  color: #666;
+  min-width: 20px;
+}
+
+.blight-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.blight-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: #2c3e50;
+  margin-bottom: 2px;
+  line-height: 1.2;
+  word-wrap: break-word;
+}
+
+.blight-stats {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+}
+
+.blight-count {
+  color: #7f8c8d;
+  font-weight: 400;
+}
+
+.blight-percentage {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  padding: 2px 6px;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 10px;
+}
+
+.blight-footer {
+  padding: 12px 20px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  background: rgba(0, 0, 0, 0.02);
+  text-align: center;
+}
+
+.blight-footer small {
+  color: #95a5a6;
+  font-size: 11px;
+  font-style: italic;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .top-blight-menu {
+    left: 10px;
+    width: 260px;
+    max-height: 350px;
+  }
+  
+  .blight-header {
+    padding: 16px 16px 12px 16px;
+  }
+  
+  .blight-header h3 {
+    font-size: 16px;
+  }
+  
+  .blight-item {
+    padding: 10px 16px;
+  }
+  
+  .blight-name {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  .top-blight-menu {
+    left: 8px;
+    width: 240px;
+    max-height: 300px;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .top-blight-menu {
+    background: rgba(30, 30, 30, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .blight-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+  }
+  
+  .blight-name {
+    color: #ecf0f1;
+  }
+  
+  .blight-count {
+    color: #bdc3c7;
+  }
+  
+  .blight-footer {
+    background: rgba(255, 255, 255, 0.05);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .blight-footer small {
+    color: #7f8c8d;
+  }
+}
+
+/* Scrollbar styling for webkit browsers */
+.blight-list::-webkit-scrollbar {
+  width: 4px;
+}
+
+.blight-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.blight-list::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 2px;
+}
+
+.blight-list::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.3);
+} 

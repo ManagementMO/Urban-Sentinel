@@ -4,6 +4,7 @@ import Map from './Map';
 import FilterButtonPanel from './FilterButtonPanel';
 import Legend from './Legend';
 import StatsBtn from './StatsBtn';
+import TopBlightMenu from './TopBlightMenu';
 import { RiskGridCell, FeatureImportanceResponse, ApiStats, TopRiskArea } from '../services/api';
 import { filterByRiskLevel, calculateRiskStats } from '../utils/geoHelpers';
 import '../components/RiskPopup.css';
@@ -95,6 +96,7 @@ const MapView: React.FC<MapViewProps> = ({
         <Legend />
         <StatsBtn riskStats={riskStats} riskFilter={riskFilter} />
         <FilterButtonPanel riskFilter={riskFilter} setRiskFilter={setRiskFilter} />
+        <TopBlightMenu riskData={riskData?.riskData || null} />
         
         
         
