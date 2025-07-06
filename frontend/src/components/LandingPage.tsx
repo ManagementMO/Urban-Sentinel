@@ -15,27 +15,29 @@ interface TimelineSection {
 const timelineSections: TimelineSection[] = [
   {
     id: 'kids-grow-up',
-    title: 'Kids grow Up',
-    content: 'Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen',
+    title: 'Safer Streets ',
+    content: 'As children grow up in the city and begin to explore, creating a safer and more welcoming environment benefits not only our kids, but also the elderly. It encourages everyone to learn, discover, and experience their surroundings without fear.',
     image: 'https://images.unsplash.com/photo-1596464716127-f2a82984de30?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
   },
   {
     id: 'people-having-fun',
     title: 'People Having Fun',
     content: 'Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen',
-    image: 'https://images.unsplash.com/photo-1574391884720-bbc0115e8f6c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+    image: 'https://images.unsplash.com/photo-1501386761578-eac5c94b800a?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
   },
   {
     id: 'why-we-care',
     title: 'WHY WE CARE',
     content: 'Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen',
-    image: 'https://images.unsplash.com/photo-1574391884720-bbc0115e8f6c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+    image: 'https://images.unsplash.com/photo-1645415070366-2dd8a830e97b?q=80&w=1030&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
   }
 ];
 
 const LandingPage: React.FC<LandingPageProps> = ({ onTryItOut }) => {
   const [activeSection, setActiveSection] = useState(0);
+  const [showTimeline, setShowTimeline] = useState(false);
   const sectionsRef = useRef<(HTMLDivElement | null)[]>([]);
+  const heroRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const observerOptions = {
@@ -57,21 +59,41 @@ const LandingPage: React.FC<LandingPageProps> = ({ onTryItOut }) => {
       });
     }, observerOptions);
 
+    // Observer for hero section to control timeline visibility
+    const heroObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.target === heroRef.current) {
+          setShowTimeline(!entry.isIntersecting);
+        }
+      });
+    }, {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.1
+    });
+
     sectionsRef.current.forEach((section) => {
       if (section) observer.observe(section);
     });
+
+    if (heroRef.current) {
+      heroObserver.observe(heroRef.current);
+    }
 
     return () => {
       sectionsRef.current.forEach((section) => {
         if (section) observer.unobserve(section);
       });
+      if (heroRef.current) {
+        heroObserver.unobserve(heroRef.current);
+      }
     };
   }, []);
 
   return (
     <div className="landing-page">
       {/* Hero Section */}
-      <div className="hero-section">
+      <div className="hero-section" ref={heroRef}>
         <header className="landing-header">
           <h1 className="brand-title">URBAN SENTINEL</h1>
           <button className="try-it-out-btn" onClick={onTryItOut}>
@@ -125,13 +147,13 @@ const LandingPage: React.FC<LandingPageProps> = ({ onTryItOut }) => {
         </main>
       </div>
 
-      {/* Fixed Timeline Sidebar */}
-      <div className="timeline-sidebar">
+      {/* Fixed Timeline Sidebar - Only show when not on hero section */}
+      <div className={`timeline-sidebar ${showTimeline ? 'visible' : 'hidden'}`}>
         <div className="timeline-line"></div>
         <div 
           className="timeline-indicator"
           style={{
-            transform: `translateY(${activeSection * 33.33 + 10}vh)`
+            transform: `translateY(${activeSection * 33.33 + 6.8}vh)`
           }}
         ></div>
         
@@ -140,7 +162,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onTryItOut }) => {
             <div 
               key={section.id}
               className={`timeline-label ${activeSection === index ? 'active' : ''}`}
-              style={{ top: `${index * 33.33 + 10}vh` }}
+              style={{ top: `${index * 33.33 + 11}vh` }}
             >
               <div className="timeline-dot"></div>
               <h3>{section.title}</h3>
@@ -159,7 +181,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onTryItOut }) => {
           className={`timeline-page ${activeSection === index ? 'active' : ''}`}
           data-section={index}
         >
-          <div className="timeline-page-content">
+          <div className={`timeline-page-content ${showTimeline ? 'with-sidebar' : 'without-sidebar'}`}>
             <div className="section-image">
               <img src={section.image} alt={section.title} />
             </div>

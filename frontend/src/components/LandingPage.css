@@ -6,6 +6,10 @@
   scroll-behavior: smooth;
 }
 
+.landing-page::-webkit-scrollbar { /* Chrome, Safari, Opera */
+  display: none;
+}
+
 .hero-section {
   width: 100vw;
   height: 100vh;
@@ -329,20 +333,30 @@
   top: 0;
   width: 300px;
   height: 100vh;
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-  border-right: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0);
   z-index: 100;
   padding: 60px 40px;
   transform: scale(0.95);
   transform-origin: left center;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.timeline-sidebar.hidden {
+  transform: scale(0.95) translateX(-100%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.timeline-sidebar.visible {
+  transform: scale(0.95) translateX(0);
+  opacity: 1;
+  pointer-events: auto;
 }
 
 /* Timeline Vertical Line */
 .timeline-line {
   position: absolute;
-  left: 60px;
+  left: 270px;
   top: 10vh;
   width: 3px;
   height: 80vh;
@@ -359,7 +373,7 @@
 /* Moving Timeline Indicator */
 .timeline-indicator {
   position: absolute;
-  left: 50px;
+  left: 260px;
   top: 10vh;
   width: 24px;
   height: 24px;
@@ -395,12 +409,13 @@
 
 .timeline-label {
   position: absolute;
-  left: 90px;
+  left: 10px;
   display: flex;
   align-items: center;
   opacity: 0.6;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   transform: translateX(-10px);
+  flex-direction: row-reverse;
 }
 
 .timeline-label.active {
@@ -415,6 +430,7 @@
   color: #2c3e50;
   font-family: 'Inter', sans-serif;
   white-space: nowrap;
+  text-align: right;
 }
 
 .timeline-dot {
@@ -422,7 +438,7 @@
   height: 12px;
   background: rgba(44, 62, 80, 0.3);
   border-radius: 50%;
-  margin-right: 16px;
+  margin-left: 16px;
   transition: all 0.3s ease;
 }
 
@@ -458,6 +474,16 @@
   max-width: 1000px;
   width: 100%;
   margin-left: 300px; /* Account for sidebar */
+  transition: margin-left 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.timeline-page-content.with-sidebar {
+  margin-left: 300px; /* Account for sidebar */
+}
+
+.timeline-page-content.without-sidebar {
+  margin-left: 0; /* No sidebar, center content */
+  margin: 0 auto; /* Center the content */
 }
 
 /* Section Images */
