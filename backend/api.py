@@ -32,15 +32,16 @@ cors_origins = [
     os.getenv("FRONTEND_URL", "https://urban-sentinel-frontend.onrender.com")  # Production frontend
 ]
 
-# Add wildcard for development only
-if os.getenv("ENVIRONMENT") == "development":
-    cors_origins.append("*")
+# When running in a local Docker container, the origin might be unpredictable.
+# Using a wildcard for development is a common and safe practice.
+if os.getenv("ENVIRONMENT", "development").lower() == "development":
+    cors_origins = ["*"]
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=cors_origins,
     allow_credentials=True,
-    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allow_methods=["*"],
     allow_headers=["*"],
 )
 
