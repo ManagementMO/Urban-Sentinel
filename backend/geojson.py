@@ -73,7 +73,7 @@ BLIGHT_INDICATOR_COMPLAINTS = [
 ]
 
 # The percentile to define a "blighted" area. 0.80 means the top 20%.
-BLIGHT_QUANTILE_THRESHOLD = 0.80
+BLIGHT_QUANTILE_THRESHOLD = 0.90
 
 
 # ==============================================================================

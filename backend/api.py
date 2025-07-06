@@ -47,7 +47,33 @@ def load_assets():
             geojson_path = "../grid/toronto_grid_with_temporal_features.geojson"
             
         print(f"Loading model from: {model_path}")
-        model = joblib.load(model_path)
+        loaded_model = joblib.load(model_path)
+        
+        # Handle both enhanced model package and legacy model formats
+        if isinstance(loaded_model, dict) and 'model' in loaded_model:
+            # Enhanced model package format
+            model = loaded_model['model']
+            model_metadata = loaded_model.get('metadata', {})
+            feature_importances = loaded_model.get('feature_importances', None)
+            
+            print("✓ Enhanced model package loaded successfully!")
+            print(f"  - Model type: {model_metadata.get('model_type', 'Unknown')}")
+            print(f"  - Model version: {model_metadata.get('model_version', 'Unknown')}")
+            print(f"  - Training date: {model_metadata.get('training_date', 'Unknown')}")
+            print(f"  - Features: {model_metadata.get('n_features', 'Unknown')}")
+            print(f"  - Samples: {model_metadata.get('n_samples', 'Unknown')}")
+            
+            # Store metadata globally for API access
+            global model_metadata_global, feature_importances_global
+            model_metadata_global = model_metadata
+            feature_importances_global = feature_importances
+            
+        else:
+            # Legacy model format (just the model object)
+            model = loaded_model
+            model_metadata_global = {}
+            feature_importances_global = None
+            print("✓ Legacy model format loaded successfully!")
         
         print(f"Loading data from: {geojson_path}")
         gdf = gpd.read_file(geojson_path)
@@ -57,6 +83,10 @@ def load_assets():
     except Exception as e:
         print(f"Error loading assets: {e}")
         raise e
+
+# Global variables for model metadata
+model_metadata_global = {}
+feature_importances_global = None
 
 print("Loading model and data assets...")
 model, gdf = load_assets()
@@ -72,13 +102,29 @@ def read_root() -> Dict[str, str]:
 
 @app.get("/health")
 def health_check() -> Dict[str, Any]:
-    """Health check endpoint."""
-    return {
+    """Enhanced health check endpoint with model metadata."""
+    health_info = {
         "status": "healthy",
         "model_loaded": model is not None,
         "data_loaded": gdf is not None,
         "total_cells": len(gdf) if gdf is not None else 0
     }
+    
+    # Add enhanced model metadata if available
+    if model_metadata_global:
+        health_info.update({
+            "model_type": model_metadata_global.get("model_type", "Unknown"),
+            "model_version": model_metadata_global.get("model_version", "Unknown"),
+            "training_date": model_metadata_global.get("training_date", "Unknown"),
+            "n_features": model_metadata_global.get("n_features", "Unknown"),
+            "n_samples": model_metadata_global.get("n_samples", "Unknown"),
+            "performance_metrics": model_metadata_global.get("performance_metrics", {}),
+            "enhanced_model": True
+        })
+    else:
+        health_info["enhanced_model"] = False
+    
+    return health_info
 
 @app.get("/api/predict-risk")
 def predict_risk() -> List[Dict[str, Any]]:
@@ -146,54 +192,100 @@ def get_statistics() -> Dict[str, Union[int, float, List[str]]]:
 @app.get("/api/feature-importance")
 def get_feature_importance() -> Dict[str, Any]:
     """
-    Get feature importance from the trained model to understand what drives blight risk.
-    Returns the top features that contribute most to blight predictions.
+    Get enhanced feature importance from the trained model to understand what drives blight risk.
+    Returns detailed feature importance analysis with gain-based rankings.
     """
     try:
-        # Get the feature names (same columns used for training)
-        df = pd.DataFrame(gdf.drop(columns='geometry'))
-        columns_to_drop = [
-            'cell_id', 'is_blighted', 'target_blight_count',
-            'overall_most_common_blight', 'recent_most_common_blight'
-        ]
-        
-        # Filter out columns that don't exist
-        existing_columns = [col for col in columns_to_drop if col in df.columns]
-        feature_df = df.drop(columns=existing_columns)
-        feature_names = list(feature_df.columns)
-        
-        # Get feature importances from the model
-        if hasattr(model, 'feature_importances_'):
-            importances = model.feature_importances_
-        else:
-            raise HTTPException(status_code=500, detail="Model does not support feature importance")
-        
-        # Create feature importance pairs and sort by importance
-        feature_importance_pairs = list(zip(feature_names, importances))
-        feature_importance_pairs.sort(key=lambda x: x[1], reverse=True)
-        
-        # Format the response
-        top_features = []
-        all_features = []
-        
-        for i, (feature, importance) in enumerate(feature_importance_pairs):
-            feature_data = {
-                "feature": feature,
-                "importance": float(importance),
-                "rank": i + 1,
-                "description": get_feature_description(feature)
-            }
+        # Use enhanced feature importances if available
+        if feature_importances_global is not None:
+            # Enhanced feature importance from model package
+            print("Using enhanced feature importance data...")
             
-            all_features.append(feature_data)
-            if i < 10:  # Top 10 features
-                top_features.append(feature_data)
+            top_features = []
+            all_features = []
+            
+            for idx, row in feature_importances_global.iterrows():
+                feature_data = {
+                    "feature": row['feature'],
+                    "importance": float(row['importance']),
+                    "rank": int(row['rank']),
+                    "description": get_feature_description(row['feature'])
+                }
+                
+                all_features.append(feature_data)
+                if row['rank'] <= 15:  # Top 15 features
+                    top_features.append(feature_data)
+            
+            # Calculate total importance and contribution percentages
+            total_importance = sum(row['importance'] for row in all_features)
+            for feature_data in all_features:
+                feature_data['contribution_percent'] = (feature_data['importance'] / total_importance) * 100
+            
+            return {
+                "top_features": top_features[:15],
+                "all_features": all_features,
+                "total_features": len(all_features),
+                "model_type": model_metadata_global.get('model_type', type(model).__name__),
+                "importance_type": "gain",
+                "enhanced": True,
+                "total_importance": total_importance,
+                "feature_coverage": {
+                    "top_5": sum(f['contribution_percent'] for f in all_features[:5]),
+                    "top_10": sum(f['contribution_percent'] for f in all_features[:10]),
+                    "top_15": sum(f['contribution_percent'] for f in all_features[:15])
+                }
+            }
         
-        return {
-            "top_features": top_features,
-            "all_features": all_features,
-            "total_features": len(feature_names),
-            "model_type": type(model).__name__
-        }
+        else:
+            # Fallback to legacy feature importance calculation
+            print("Using legacy feature importance calculation...")
+            
+            # Get the feature names (same columns used for training)
+            df = pd.DataFrame(gdf.drop(columns='geometry'))
+            columns_to_drop = [
+                'cell_id', 'is_blighted', 'target_blight_count',
+                'overall_most_common_blight', 'recent_most_common_blight'
+            ]
+            
+            # Filter out columns that don't exist
+            existing_columns = [col for col in columns_to_drop if col in df.columns]
+            feature_df = df.drop(columns=existing_columns)
+            feature_names = list(feature_df.columns)
+            
+            # Get feature importances from the model
+            if hasattr(model, 'feature_importances_'):
+                importances = model.feature_importances_
+            else:
+                raise HTTPException(status_code=500, detail="Model does not support feature importance")
+            
+            # Create feature importance pairs and sort by importance
+            feature_importance_pairs = list(zip(feature_names, importances))
+            feature_importance_pairs.sort(key=lambda x: x[1], reverse=True)
+            
+            # Format the response
+            top_features = []
+            all_features = []
+            
+            for i, (feature, importance) in enumerate(feature_importance_pairs):
+                feature_data = {
+                    "feature": feature,
+                    "importance": float(importance),
+                    "rank": i + 1,
+                    "description": get_feature_description(feature)
+                }
+                
+                all_features.append(feature_data)
+                if i < 10:  # Top 10 features
+                    top_features.append(feature_data)
+            
+            return {
+                "top_features": top_features,
+                "all_features": all_features,
+                "total_features": len(feature_names),
+                "model_type": type(model).__name__,
+                "importance_type": "split",
+                "enhanced": False
+            }
         
     except Exception as e:
         print(f"Error in get_feature_importance: {e}")
