@@ -7,7 +7,7 @@ WORKDIR /app
 
 # Set the production API URL as an environment variable
 # This will be baked into the static files by the 'npm run build' script
-ENV REACT_APP_API_URL=https://urban-sentinel-backend.onrender.com/
+ENV REACT_APP_API_URL=https://urban-sentinel-backend.onrender.com
 
 # Copy package files first for better caching
 COPY package*.json ./
