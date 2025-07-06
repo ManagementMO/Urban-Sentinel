@@ -3,10 +3,6 @@
 
 > **Preventing urban decay before it happens** — because cities deserve better than reactive fixes.
 
-<div align="center">
-  
-![Accuracy](https://img.shields.io/badge/Model_Accuracy-94.4%25-green?style=for-the-badge&logo=target&logoColor=white)
-
 </div>
 
 ---
