@@ -24,11 +24,23 @@ app = FastAPI(
 # --- CORS Middleware ---
 # This allows your React frontend (running on a different address)
 # to communicate with this backend.
+# Configure CORS for production deployment
+cors_origins = [
+    "http://localhost:3000",  # Local development
+    "http://127.0.0.1:3000",  # Local development
+    "https://*.onrender.com",  # Render deployment
+    os.getenv("FRONTEND_URL", "https://urban-sentinel-frontend.onrender.com")  # Production frontend
+]
+
+# Add wildcard for development only
+if os.getenv("ENVIRONMENT") == "development":
+    cors_origins.append("*")
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://127.0.0.1:3000", "https://urban-sentinel-frontend.onrender.com", "*"],  # React dev server
+    allow_origins=cors_origins,
     allow_credentials=True,
-    allow_methods=["GET", "POST", "PUT", "DELETE"],
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["*"],
 )
 
