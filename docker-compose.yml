@@ -1,0 +1,113 @@
+services:
+  # Backend Service (FastAPI)
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    container_name: urban-sentinel-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - PYTHONUNBUFFERED=1
+      - PYTHONPATH=/app
+    volumes:
+      - ./backend:/app
+      - ./datasets:/app/datasets
+      - backend_data:/app/data
+    networks:
+      - urban-sentinel-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Frontend Service (React)
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: urban-sentinel-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - REACT_APP_API_URL=http://localhost:8000
+      - REACT_APP_MAPBOX_TOKEN=pk.eyJ1IjoibWFwYm94bW8xMjMiLCJhIjoiY21jcXN5dXdqMDFrODJqcTBhcnppb3QzMSJ9.do-_5cjmbfnW2o-FyMofvA
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    networks:
+      - urban-sentinel-network
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+  # Nginx Reverse Proxy (Optional - for production)
+  nginx:
+    image: nginx:alpine
+    container_name: urban-sentinel-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/ssl:/etc/nginx/ssl
+    networks:
+      - urban-sentinel-network
+    depends_on:
+      - backend
+      - frontend
+    restart: unless-stopped
+    profiles:
+      - production
+
+  # PostgreSQL Database (Optional - for storing user data, analytics)
+  postgres:
+    image: postgres:15-alpine
+    container_name: urban-sentinel-postgres
+    environment:
+      - POSTGRES_DB=urban_sentinel
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - urban-sentinel-network
+    restart: unless-stopped
+    profiles:
+      - database
+
+  # Redis (Optional - for caching)
+  redis:
+    image: redis:7-alpine
+    container_name: urban-sentinel-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - urban-sentinel-network
+    restart: unless-stopped
+    profiles:
+      - cache
+
+volumes:
+  backend_data:
+    driver: local
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+
+networks:
+  urban-sentinel-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16 

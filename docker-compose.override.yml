@@ -1,0 +1,24 @@
+services:
+  backend:
+    environment:
+      - DEBUG=true
+      - LOG_LEVEL=DEBUG
+    volumes:
+      - ./backend:/app:delegated
+      - ./datasets:/app/datasets:delegated
+      - backend_logs:/app/logs
+    command: ["uvicorn", "api:app", "--host", "0.0.0.0", "--port", "8000", "--reload", "--log-level", "debug"]
+    
+  frontend:
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+      - FAST_REFRESH=true
+    volumes:
+      - ./frontend:/app:delegated
+      - /app/node_modules
+    stdin_open: true
+    tty: true
+
+volumes:
+  backend_logs:
+    driver: local 
