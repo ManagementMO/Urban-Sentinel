@@ -3,6 +3,7 @@
 
 > **Preventing urban decay before it happens** — because cities deserve better than reactive fixes.
 
+<div align="center">
 </div>
 
 ---
