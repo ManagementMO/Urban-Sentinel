@@ -1,41 +1,41 @@
 services:
-  # Backend API Service
+  # Backend Service
   - type: web
     name: urban-sentinel-backend
     runtime: docker
-    dockerfilePath: ./backend/Dockerfile
-    dockerContext: .
+    rootDir: backend
+    region: ohio
     plan: starter
-    region: oregon
     branch: main
     healthCheckPath: /health
     envVars:
+      - key: ENVIRONMENT
+        value: production
       - key: PYTHONUNBUFFERED
-        value: "1"
-      - key: PYTHONPATH
-        value: "/app"
-      - key: PORT
-        value: "8000"
-      - key: HOST
-        value: "0.0.0.0"
+        value: 1
+    autoDeploy: true
 
-  # Frontend React Service  
+  # Frontend Service
   - type: web
     name: urban-sentinel-frontend
-    runtime: docker
-    dockerfilePath: ./frontend/Dockerfile
-    dockerContext: ./frontend
-    plan: starter
-    region: oregon
+    runtime: static
+    rootDir: frontend
     branch: main
-    healthCheckPath: /health
+    buildCommand: docker build --build-arg REACT_APP_API_URL=https://urban-sentinel-backend.onrender.com -t urban-sentinel-frontend . && docker run --rm urban-sentinel-frontend npm run build
+    staticPublishPath: build
     envVars:
       - key: REACT_APP_API_URL
-        fromService:
-          type: web
-          name: urban-sentinel-backend
-          property: host
-      - key: REACT_APP_MAPBOX_TOKEN
-        sync: false  # This will require manual input
-      - key: NODE_ENV
-        value: "production" 
+        value: https://urban-sentinel-backend.onrender.com
+      - key: NODE_VERSION
+        value: 18
+    headers:
+      - path: /*
+        name: Cache-Control
+        value: no-cache
+      - path: /*
+        name: Access-Control-Allow-Origin
+        value: "*"
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html 
