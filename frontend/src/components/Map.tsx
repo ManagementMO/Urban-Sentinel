@@ -138,6 +138,68 @@ const Map: React.FC<MapProps> = ({ riskData, loading, allRiskData }) => {
         data: riskData
       });
 
+      // Add intense inner glow layer for high-risk areas
+      map.current.addLayer({
+        id: 'risk-inner-glow',
+        type: 'fill',
+        source: 'risk-grid',
+        paint: {
+          'fill-color': [
+            'interpolate',
+            ['linear'],
+            ['get', 'risk_score'],
+            0, '#66BB6A',       // Bright green for low risk
+            0.3, '#FFEB3B',     // Bright yellow
+            0.5, '#FFB74D',     // Bright orange
+            0.7, '#FF7043',     // Bright orange-red
+            0.8, '#EF5350',     // Bright red
+            1, '#E53935'        // Bright crimson
+          ],
+          'fill-opacity': [
+            'interpolate',
+            ['linear'],
+            ['get', 'risk_score'],
+            0, 0.02,    // Minimal glow for low risk
+            0.3, 0.05,  // Subtle glow
+            0.5, 0.1,   // Light glow
+            0.7, 0.2,   // Noticeable glow
+            0.8, 0.35,  // Strong inner glow
+            1, 0.5      // Maximum inner glow
+          ]
+        }
+      });
+
+      // Add outer glow layer (softer, more spread out)
+      map.current.addLayer({
+        id: 'risk-outer-glow',
+        type: 'fill',
+        source: 'risk-grid',
+        paint: {
+          'fill-color': [
+            'interpolate',
+            ['linear'],
+            ['get', 'risk_score'],
+            0, '#4CAF50',       // Green glow
+            0.3, '#FFC107',     // Gold glow
+            0.5, '#FF9800',     // Orange glow
+            0.7, '#FF5722',     // Orange-red glow
+            0.8, '#F44336',     // Red glow
+            1, '#B71C1C'        // Dark red glow
+          ],
+          'fill-opacity': [
+            'interpolate',
+            ['linear'],
+            ['get', 'risk_score'],
+            0, 0.06,    // Very subtle glow for low risk
+            0.3, 0.12,  // Slight glow for medium-low risk
+            0.5, 0.2,   // Moderate glow for medium risk
+            0.7, 0.3,   // More noticeable glow for high risk
+            0.8, 0.45,  // Strong glow for very high risk
+            1, 0.6      // Maximum glow for extreme risk
+          ]
+        }
+      });
+
       // Add fill layer
       map.current.addLayer({
         id: 'risk-fill-optimized',
@@ -301,6 +363,57 @@ const Map: React.FC<MapProps> = ({ riskData, loading, allRiskData }) => {
 
     // Update highlight layer filter
     map.current.setFilter('risk-highlight', ['==', 'cell_id', hoveredCell || -1]);
+
+    // Update glow layers for hover effect (enhance glow on hover)
+    map.current.setPaintProperty('risk-inner-glow', 'fill-opacity', [
+      'case',
+      ['==', ['get', 'cell_id'], hoveredCell || -1],
+      [
+        'interpolate',
+        ['linear'],
+        ['get', 'risk_score'],
+        0, 0.08,
+        0.5, 0.2,
+        0.8, 0.5,
+        1, 0.7
+      ],
+      [
+        'interpolate',
+        ['linear'],
+        ['get', 'risk_score'],
+        0, 0.02,
+        0.3, 0.05,
+        0.5, 0.1,
+        0.7, 0.2,
+        0.8, 0.35,
+        1, 0.5
+      ]
+    ]);
+
+    map.current.setPaintProperty('risk-outer-glow', 'fill-opacity', [
+      'case',
+      ['==', ['get', 'cell_id'], hoveredCell || -1],
+      [
+        'interpolate',
+        ['linear'],
+        ['get', 'risk_score'],
+        0, 0.15,
+        0.5, 0.35,
+        0.8, 0.6,
+        1, 0.8
+      ],
+      [
+        'interpolate',
+        ['linear'],
+        ['get', 'risk_score'],
+        0, 0.06,
+        0.3, 0.12,
+        0.5, 0.2,
+        0.7, 0.3,
+        0.8, 0.45,
+        1, 0.6
+      ]
+    ]);
 
     // Update fill layer opacity for hover effect
     map.current.setPaintProperty('risk-fill-optimized', 'fill-opacity', [
