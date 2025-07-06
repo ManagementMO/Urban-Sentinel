@@ -27,6 +27,7 @@
     "start": "CHOKIDAR_USEPOLLING=true CHOKIDAR_INTERVAL=1000 WATCHPACK_POLLING=true react-scripts start",
     "start:windows": "cross-env CHOKIDAR_USEPOLLING=true CHOKIDAR_INTERVAL=1000 WATCHPACK_POLLING=true react-scripts start",
     "build": "react-scripts build",
+    "build:production": "REACT_APP_API_URL=https://urban-sentinel-backend.onrender.com react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
