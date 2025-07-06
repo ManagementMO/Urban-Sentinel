@@ -4,14 +4,14 @@
   top: 20px;
   z-index: 1000;
   
-  background: rgba(255, 255, 255, 0.12);
-  -webkit-backdrop-filter: blur(20px);
-  backdrop-filter: blur(20px);
-  border-radius: 16px;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: linear-gradient(145deg, rgba(132, 195, 255, 0.35), rgba(98, 179, 255, 0.25));
+  -webkit-backdrop-filter: blur(22px);
+  backdrop-filter: blur(22px);
+  border-radius: 14px;
+  box-shadow: 0 6px 24px rgba(100, 150, 200, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.4);
   
-  width: 320px;
+  width: 280px;
   overflow: hidden;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   
@@ -20,11 +20,12 @@
 }
 
 .top-blight-menu.closed {
-  max-height: 80px;
+  background: linear-gradient(145deg, rgba(132, 195, 255, 0.35), rgba(98, 179, 255, 0.25));
+  box-shadow: 0 4px 15px rgba(100, 150, 200, 0.15);
 }
 
 .top-blight-menu.open {
-  max-height: 450px;
+  box-shadow: 0 10px 35px rgba(100, 150, 200, 0.25);
 }
 
 @keyframes slideInRight {
@@ -39,12 +40,12 @@
 }
 
 .blight-header {
-  padding: 18px 20px 16px 20px;
-  background: rgba(255, 255, 255, 0.15);
-  -webkit-backdrop-filter: blur(25px);
-  backdrop-filter: blur(25px);
-  color: rgba(255, 255, 255, 0.95);
-  border-radius: 16px;
+  padding: 14px 18px;
+  background: rgba(26, 2, 2, 0.05);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  color: #fff;
+  border-radius: 14px;
   position: relative;
   overflow: hidden;
   cursor: pointer;
@@ -52,23 +53,24 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border: 1px solid rgba(255, 255, 255, 0.25);
+  border: none;
 }
 
 .blight-header:hover {
   transform: translateY(-2px);
-  background: rgba(255, 255, 255, 0.2);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
-  border: 1px solid rgba(255, 255, 255, 0.4);
+  background: rgba(1, 1, 1, 0.867);
+  box-shadow: none;
+  border: none;
 }
 
 .top-blight-menu.open .blight-header {
-  border-radius: 16px 16px 0 0;
+  border-radius: 14px 14px 0 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .header-content {
   flex: 1;
+  flex-direction: column;
 }
 
 .toggle-arrow {
@@ -84,25 +86,25 @@
 }
 
 .blight-header h3 {
-  margin: 0 0 4px 0;
-  font-size: 18px;
+  margin: 0 0 2px 0;
+  font-size: 17px;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.95);
+  color: #fff;
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
 .blight-subtitle {
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.75);
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.85);
   opacity: 0.9;
   font-weight: 400;
 }
 
 .blight-list {
   padding: 18px 0;
-  max-height: 320px;
+  max-height: 400px;
   overflow-y: auto;
   animation: fadeInDown 0.3s ease-out;
 }
@@ -121,25 +123,21 @@
 .blight-item {
   display: flex;
   align-items: center;
-  padding: 14px 22px;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  border-left: 3px solid transparent;
-  position: relative;
+  padding: 10px 18px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  transition: background-color 0.2s ease;
+}
+
+.blight-item:last-child {
+  border-bottom: none;
 }
 
 .blight-item:hover {
-  background: rgba(255, 255, 255, 0.12);
-  border-left-color: #1565c0;
-  transform: translateX(3px);
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
+  background-color: rgba(255, 255, 255, 0.08);
 }
 
 .blight-indicator {
-  display: flex;
-  align-items: center;
   margin-right: 12px;
-  min-width: 30px;
 }
 
 .blight-rank {
@@ -150,32 +148,31 @@
 }
 
 .blight-info {
-  flex: 1;
-  min-width: 0;
+  flex-grow: 1;
 }
 
 .blight-name {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 500;
   color: rgba(255, 255, 255, 0.95);
-  margin-bottom: 4px;
+  margin-bottom: 2px;
 }
 
 .blight-stats {
   display: flex;
+  justify-content: space-between;
   align-items: center;
   gap: 8px;
-  font-size: 11px;
 }
 
 .blight-count {
-  font-size: 11px;
+  font-size: 10px;
   color: rgba(255, 255, 255, 0.75);
   font-weight: 400;
 }
 
 .blight-percentage {
-  font-size: 12px;
+  font-size: 11px;
   color: rgba(255, 255, 255, 0.85);
   font-weight: 600;
   background: rgba(255, 255, 255, 0.12);
@@ -185,13 +182,13 @@
 }
 
 .blight-footer {
-  padding: 16px 20px;
+  padding: 12px 18px;
   border-top: 1px solid rgba(255, 255, 255, 0.15);
   background: rgba(255, 255, 255, 0.05);
-  border-radius: 0 0 16px 16px;
+  border-radius: 0 0 14px 14px;
   text-align: center;
   color: rgba(255, 255, 255, 0.7);
-  font-size: 11px;
+  font-size: 10px;
   line-height: 1.4;
 }
 
@@ -199,12 +196,12 @@
 @media (max-width: 768px) {
   .top-blight-menu {
     right: 10px;
-    width: 280px;
+    width: 260px;
     max-height: 350px;
   }
   
   .blight-header {
-    padding: 16px 16px 12px 16px;
+    padding: 12px 16px;
   }
   
   .blight-header h3 {
@@ -212,18 +209,18 @@
   }
   
   .blight-item {
-    padding: 10px 16px;
+    padding: 9px 16px;
   }
   
   .blight-name {
-    font-size: 13px;
+    font-size: 12px;
   }
 }
 
 @media (max-width: 480px) {
   .top-blight-menu {
     right: 8px;
-    width: 260px;
+    width: 240px;
     max-height: 300px;
   }
 }
@@ -237,7 +234,7 @@
   }
   
   .blight-header {
-    background: linear-gradient(135deg, #0d1421 0%, #1a237e 50%, #1565c0 100%);
+    background: linear-gradient(135deg, #000000 0%, #101038 50%, #0d2f57 100%);
   }
   
   .blight-item:hover {

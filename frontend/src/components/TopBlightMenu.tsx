@@ -100,7 +100,7 @@ const TopBlightMenu: React.FC<TopBlightMenuProps> = ({ riskData }) => {
     <div className={`top-blight-menu ${isOpen ? 'open' : 'closed'}`}>
       <div className="blight-header" onClick={() => setIsOpen(!isOpen)}>
         <div className="header-content">
-          <h3>🏚️ Top Blight Types</h3>
+          <h3> Top Blight Types</h3>
           <span className="blight-subtitle">{totalAreas.toLocaleString()} Toronto Grid Cells</span>
         </div>
         <div className="toggle-arrow">
