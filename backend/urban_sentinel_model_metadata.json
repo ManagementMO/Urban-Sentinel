@@ -1,0 +1,86 @@
+{
+    "model_type": "LightGBM Classifier",
+    "model_version": "1.0",
+    "training_date": "2025-07-08 08:05:19",
+    "n_features": 7,
+    "n_samples": 10659,
+    "class_distribution": {
+        "0": 9746,
+        "1": 913
+    },
+    "feature_names": [
+        "total_complaints_mean",
+        "total_complaints_std",
+        "blight_complaints_mean",
+        "blight_complaints_std",
+        "blight_complaints_recent_mean",
+        "blight_complaints_trend",
+        "blight_complaints_2019"
+    ],
+    "target_column": "is_blighted",
+    "performance_metrics": {
+        "cv_accuracy_mean": 0.9141562109589259,
+        "cv_accuracy_std": 0.005961127907519469,
+        "cv_precision_mean": 0.5001889652892938,
+        "cv_precision_std": 0.026056359396005806,
+        "cv_recall_mean": 0.7064192637963129,
+        "cv_recall_std": 0.01949911736183939,
+        "cv_f1_mean": 0.5853651827539765,
+        "cv_f1_std": 0.02128540424372256,
+        "cv_roc_auc_mean": 0.9435868773992337,
+        "cv_roc_auc_std": 0.004121523227529785,
+        "validation_accuracy": 0.9601313320825516,
+        "validation_precision": 0.6842105263157895,
+        "validation_recall": 0.994535519125683,
+        "validation_f1": 0.8106904231625836
+    },
+    "model_parameters": {
+        "n_estimators": 333,
+        "learning_rate": 0.05,
+        "max_depth": 8,
+        "num_leaves": 100,
+        "subsample": 0.8,
+        "colsample_bytree": 0.8,
+        "reg_alpha": 0.1,
+        "reg_lambda": 0.1,
+        "class_weight": "balanced"
+    },
+    "feature_importance": [
+        {
+            "feature": "total_complaints_mean",
+            "importance": 51016.500421979465,
+            "rank": 1
+        },
+        {
+            "feature": "blight_complaints_mean",
+            "importance": 29184.180175419897,
+            "rank": 2
+        },
+        {
+            "feature": "total_complaints_std",
+            "importance": 11771.846305951476,
+            "rank": 3
+        },
+        {
+            "feature": "blight_complaints_trend",
+            "importance": 10063.233563872054,
+            "rank": 4
+        },
+        {
+            "feature": "blight_complaints_std",
+            "importance": 7484.577506109141,
+            "rank": 5
+        },
+        {
+            "feature": "blight_complaints_recent_mean",
+            "importance": 6654.8962989691645,
+            "rank": 6
+        },
+        {
+            "feature": "blight_complaints_2019",
+            "importance": 3251.5879900082946,
+            "rank": 7
+        }
+    ],
+    "best_iteration": 333
+}
