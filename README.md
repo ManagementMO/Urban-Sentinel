@@ -63,7 +63,7 @@ Cross-platform compatibility
 | **Model Accuracy** | 94.4% ROC-AUC | Industry-leading precision |
 | **Risk Predictions** | 10,659 | Complete Toronto coverage |
 | **Data Span** | 2014-2019 | Decade of insights |
-| **Prediction Horizon** | 1+ years | Early intervention window |
+| **Prediction Horizon** | 2+ years | Early intervention window |
 | **Response Time** | <500ms | Real-time intelligence |
 
 </div>
@@ -126,7 +126,7 @@ Urban-Sentinel/
 1. **Data Ingestion** — Process Toronto's 311 service requests (2014-2019)
 2. **Feature Engineering** — Extract temporal patterns, complaint clusters, geographic correlations
 3. **Model Training** — Enhanced LightGBM with stratified sampling and early stopping
-4. **Risk Prediction** — Generate 2-year urban decay forecasts for each grid cell
+4. **Risk Prediction** — Generate urban decay forecasts for each grid cell
 5. **Visualization** — Interactive Mapbox display with real-time filtering and statistics
 
 ---
