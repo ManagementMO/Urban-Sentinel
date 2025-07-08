@@ -1,7 +1,7 @@
 import geopandas as gpd
 import pandas as pd
 import lightgbm as lgb
-import joblib
+import json
 import numpy as np
 from sklearn.model_selection import cross_val_score, StratifiedKFold, train_test_split
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, classification_report, confusion_matrix
@@ -17,7 +17,7 @@ warnings.filterwarnings('ignore')
 INPUT_GEOJSON = "toronto_grid_with_temporal_features.geojson"
 
 # The name of the file where the trained model will be saved.
-OUTPUT_MODEL_FILE = "urban_sentinel_model.pkl"
+OUTPUT_MODEL_FILE = "urban_sentinel_model.txt"
 
 # The name of the target column we are trying to predict.
 TARGET_COLUMN = "is_blighted"
@@ -310,7 +310,7 @@ def train_and_evaluate_model():
         print(f"    • Top 5 features explain {top_5_coverage:.1f}% of model decisions")
 
     # --- Step 7: Enhanced Model Saving with Metadata ---
-    print(f"\n--- Step 7: Saving enhanced model with metadata to '{OUTPUT_MODEL_FILE}'... ---")
+    print(f"\n--- Step 7: Saving enhanced model to '{OUTPUT_MODEL_FILE}' and metadata... ---")
 
     # Create comprehensive model metadata
     model_metadata = {
@@ -353,22 +353,18 @@ def train_and_evaluate_model():
         'best_iteration': best_iteration if 'best_iteration' in locals() else model.n_estimators
     }
     
-    # Save model and metadata
-    model_package = {
-        'model': model,
-        'metadata': model_metadata,
-        'feature_importances': feature_importances
-    }
+    # Save the trained model using LightGBM's native method
+    model.booster_.save_model(OUTPUT_MODEL_FILE)
+
+    # Define metadata file path
+    OUTPUT_METADATA_FILE = OUTPUT_MODEL_FILE.replace('.txt', '_metadata.json')
+
+    # Save model metadata to a separate JSON file
+    with open(OUTPUT_METADATA_FILE, 'w') as f:
+        json.dump(model_metadata, f, indent=4)
     
-    joblib.dump(model_package, OUTPUT_MODEL_FILE)
-    
-    # Also save just the model for backward compatibility
-    joblib.dump(model, OUTPUT_MODEL_FILE.replace('.pkl', '_model_only.pkl'))
-    
-    print("  - Enhanced model package saved successfully!")
-    print(f"  - Model metadata includes {len(model_metadata)} fields")
-    print(f"  - Feature importance for {len(feature_importances)} features included")
-    print(f"  - Backward compatibility model saved as '{OUTPUT_MODEL_FILE.replace('.pkl', '_model_only.pkl')}'")
+    print("  - Model saved successfully!")
+    print(f"  - Metadata saved to '{OUTPUT_METADATA_FILE}'")
     
     print("\n" + "=" * 80)
     print("🎉 ENHANCED MODEL TRAINING COMPLETE! 🎉")

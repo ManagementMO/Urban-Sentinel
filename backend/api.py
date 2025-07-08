@@ -1,4 +1,5 @@
-import joblib
+import lightgbm as lgb
+import json
 import geopandas as gpd
 import pandas as pd
 import os
@@ -50,43 +51,39 @@ app.add_middleware(
 def load_assets():
     """Load model and data assets with proper error handling."""
     try:
-        # Try to load from current directory first, then from parent directory
-        model_path = "urban_sentinel_model.pkl"
+        # Define paths for model, metadata, and GeoJSON files
+        model_path = "urban_sentinel_model.txt"
+        metadata_path = "urban_sentinel_model_metadata.json"
         geojson_path = "toronto_grid_with_temporal_features.geojson"
-        
+
+        # Check for files in parent directory if not in current (for Docker context)
         if not os.path.exists(model_path):
-            model_path = "../grid/urban_sentinel_model.pkl"
+            model_path = os.path.join("..", "grid", model_path)
+        if not os.path.exists(metadata_path):
+            metadata_path = os.path.join("..", "grid", metadata_path)
         if not os.path.exists(geojson_path):
-            geojson_path = "../grid/toronto_grid_with_temporal_features.geojson"
-            
+            geojson_path = os.path.join("..", "grid", geojson_path)
+
         print(f"Loading model from: {model_path}")
-        loaded_model = joblib.load(model_path)
-        
-        # Handle both enhanced model package and legacy model formats
-        if isinstance(loaded_model, dict) and 'model' in loaded_model:
-            # Enhanced model package format
-            model = loaded_model['model']
-            model_metadata = loaded_model.get('metadata', {})
-            feature_importances = loaded_model.get('feature_importances', None)
-            
-            print("✓ Enhanced model package loaded successfully!")
-            print(f"  - Model type: {model_metadata.get('model_type', 'Unknown')}")
-            print(f"  - Model version: {model_metadata.get('model_version', 'Unknown')}")
-            print(f"  - Training date: {model_metadata.get('training_date', 'Unknown')}")
-            print(f"  - Features: {model_metadata.get('n_features', 'Unknown')}")
-            print(f"  - Samples: {model_metadata.get('n_samples', 'Unknown')}")
-            
-            # Store metadata globally for API access
-            global model_metadata_global, feature_importances_global
-            model_metadata_global = model_metadata
-            feature_importances_global = feature_importances
-            
+        model = lgb.Booster(model_file=model_path)
+        print("✓ Model loaded successfully (LightGBM native).")
+
+        print(f"Loading metadata from: {metadata_path}")
+        with open(metadata_path, 'r') as f:
+            model_metadata = json.load(f)
+
+        # Store metadata globally and convert feature importances to DataFrame
+        global model_metadata_global, feature_importances_global
+        model_metadata_global = model_metadata
+        if 'feature_importance' in model_metadata:
+            feature_importances_global = pd.DataFrame(model_metadata['feature_importance'])
         else:
-            # Legacy model format (just the model object)
-            model = loaded_model
-            model_metadata_global = {}
             feature_importances_global = None
-            print("✓ Legacy model format loaded successfully!")
+        
+        print("✓ Metadata loaded successfully!")
+        print(f"  - Model type: {model_metadata.get('model_type', 'Unknown')}")
+        print(f"  - Model version: {model_metadata.get('model_version', 'Unknown')}")
+        print(f"  - Training date: {model_metadata.get('training_date', 'Unknown')}")
         
         print(f"Loading data from: {geojson_path}")
         gdf = gpd.read_file(geojson_path)
@@ -161,9 +158,8 @@ def predict_risk() -> List[Dict[str, Any]]:
         X_features = df.drop(columns=existing_columns)
 
         # Step 2: Use the model to predict probabilities (the "risk score")
-        # model.predict_proba gives two columns: [prob_of_0, prob_of_1]
-        # We want the probability of being blighted (class 1).
-        risk_scores = model.predict_proba(X_features)[:, 1]
+        # A LightGBM Booster's predict method returns probabilities for binary classification.
+        risk_scores = model.predict(X_features)
         
         # Step 3: Add this new risk score to our original GeoDataFrame
         gdf_copy = gdf.copy()
@@ -266,8 +262,8 @@ def get_feature_importance() -> Dict[str, Any]:
         feature_names = list(feature_df.columns)
         
         # Get feature importances from the model
-        if hasattr(model, 'feature_importances_'):
-            importances = model.feature_importances_
+        if hasattr(model, 'feature_importance'):
+            importances = model.feature_importance(importance_type='split')
         else:
             raise HTTPException(status_code=500, detail="Model does not support feature importance")
         
@@ -343,7 +339,7 @@ def get_cell_details(cell_id: int) -> Dict[str, Any]:
         cell_features = feature_df[feature_df.index == cell_data.index[0]]
         
         # Get prediction for this cell
-        risk_score = float(model.predict_proba(cell_features)[0, 1])
+        risk_score = float(model.predict(cell_features)[0])
         
         # Get feature contributions
         feature_values = {}
@@ -403,7 +399,7 @@ def get_top_risk_areas(limit: int = 20) -> List[Dict[str, Any]]:
         existing_columns = [col for col in columns_to_drop if col in df.columns]
         X_features = df.drop(columns=existing_columns)
         
-        risk_scores = model.predict_proba(X_features)[:, 1]
+        risk_scores = model.predict(X_features)
         
         # Add risk scores to dataframe and sort
         df_with_risk = df.copy()
