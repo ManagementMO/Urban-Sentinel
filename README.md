@@ -23,16 +23,6 @@ Urban blight costs cities **billions annually** in reduced property values, incr
 
 ---
 
-## 🚀 **Live Demo**
-
-Want to see Toronto's urban future? Check out our live application:
-
-**[🌐 Launch Urban Sentinel →](http://your-demo-url-here)**
-
-> *Navigate through Toronto's risk landscape, filter by threat levels, and discover which neighborhoods need attention most.*
-
----
-
 ## 🔬 **The Tech Behind the Magic**
 
 ### **Machine Learning Engine**
