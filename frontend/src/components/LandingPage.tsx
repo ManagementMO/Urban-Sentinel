@@ -3,6 +3,8 @@ import './LandingPage.css';
 
 interface LandingPageProps {
   onTryItOut: () => void;
+  loading?: boolean;
+  error?: string | null;
 }
 
 interface TimelineSection {
