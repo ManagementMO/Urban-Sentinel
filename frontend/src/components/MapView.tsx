@@ -22,7 +22,7 @@ interface MapViewProps {
   loading: boolean;
   error: string | null;
   onBackToHome: () => void;
-  onRefresh: () => Promise<void>;
+  onRetry: () => Promise<void>;
 }
 
 const MapView: React.FC<MapViewProps> = ({ 
@@ -30,7 +30,7 @@ const MapView: React.FC<MapViewProps> = ({
   loading, 
   error, 
   onBackToHome, 
-  onRefresh 
+  onRetry 
 }) => {
   const [riskFilter, setRiskFilter] = useState<'all' | 'very-high' | 'high' | 'medium' | 'low'>('all');
   const [showStats, setShowStats] = useState(false);
@@ -72,7 +72,7 @@ const MapView: React.FC<MapViewProps> = ({
           <div className="error-message">
             <h3>Error Loading Risk Data</h3>
             <p>{error}</p>
-            <button onClick={onRefresh} className="retry-btn">
+            <button onClick={onRetry} className="retry-btn">
               Try Again
             </button>
           </div>
