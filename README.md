@@ -9,7 +9,7 @@
 
 Urban blight costs cities **billions annually** in reduced property values, increased crime, and community displacement. Traditional approaches are reactive—we only act after decay has already set in, when it's most expensive to fix.
 
-**Urban Sentinel flips this model.** Our AI system predicts at-risk neighborhoods up to **2 years in advance**, enabling proactive interventions that save communities and millions in taxpayer dollars.
+**Urban Sentinel flips this model.** Our AI system predicts at-risk neighborhoods up to **in advance**, enabling proactive interventions that save communities and millions in taxpayer dollars.
 
 ---
 
