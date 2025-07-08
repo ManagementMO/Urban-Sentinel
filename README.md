@@ -13,7 +13,7 @@ Urban blight costs cities **billions annually** in reduced property values, incr
 
 ---
 
-## ✨ **What Makes Us Different**
+## ✨ **What Makes This Different**
 
 🔮 **Predictive, Not Reactive** — See the future of your city before it unfolds  
 🎯 **94.4% Accuracy** — Trained on 5+ years of real Toronto data  
@@ -63,7 +63,7 @@ Cross-platform compatibility
 | **Model Accuracy** | 94.4% ROC-AUC | Industry-leading precision |
 | **Risk Predictions** | 10,659 | Complete Toronto coverage |
 | **Data Span** | 2014-2019 | Decade of insights |
-| **Prediction Horizon** | 2+ years | Early intervention window |
+| **Prediction Horizon** | 1+ years | Early intervention window |
 | **Response Time** | <500ms | Real-time intelligence |
 
 </div>
