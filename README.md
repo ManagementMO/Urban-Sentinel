@@ -16,7 +16,7 @@ Urban blight costs cities **billions annually** in reduced property values, incr
 ## ✨ **What Makes Us Different**
 
 🔮 **Predictive, Not Reactive** — See the future of your city before it unfolds  
-🎯 **94.4% Accuracy** — Trained on 10+ years of real Toronto data  
+🎯 **94.4% Accuracy** — Trained on 5+ years of real Toronto data  
 ⚡ **Real-Time Intelligence** — Interactive risk visualization at 30fps  
 🗺️ **Actionable Insights** — Click any neighborhood for detailed risk analysis  
 💰 **Cost-Saving** — Prevent problems before they become expensive to fix  
@@ -29,7 +29,7 @@ Urban blight costs cities **billions annually** in reduced property values, incr
 - **Enhanced LightGBM** with cross-validation and early stopping
 - **10,659 risk predictions** across Toronto's urban grid
 - **Feature engineering** from 311 service complaints, temporal patterns, and geographic correlations
-- **2014-2024 data** for comprehensive training
+- **2014-2019 data** for comprehensive training
 
 ### **Frontend**
 ```typescript
@@ -62,7 +62,7 @@ Cross-platform compatibility
 |--------|-------|--------|
 | **Model Accuracy** | 94.4% ROC-AUC | Industry-leading precision |
 | **Risk Predictions** | 10,659 | Complete Toronto coverage |
-| **Data Span** | 2014-2024 | Decade of insights |
+| **Data Span** | 2014-2019 | Decade of insights |
 | **Prediction Horizon** | 2+ years | Early intervention window |
 | **Response Time** | <500ms | Real-time intelligence |
 
@@ -123,7 +123,7 @@ Urban-Sentinel/
 
 ## 🗺️ **How It Works**
 
-1. **Data Ingestion** — Process Toronto's 311 service requests (2014-2024)
+1. **Data Ingestion** — Process Toronto's 311 service requests (2014-2019)
 2. **Feature Engineering** — Extract temporal patterns, complaint clusters, geographic correlations
 3. **Model Training** — Enhanced LightGBM with stratified sampling and early stopping
 4. **Risk Prediction** — Generate 2-year urban decay forecasts for each grid cell
