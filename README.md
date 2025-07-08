@@ -4,6 +4,7 @@
 > **Preventing urban decay before it happens** — because cities deserve better than reactive fixes.
 
 <div align="center">
+  <img src="cover.png" alt="Urban Sentinel Cover" style="max-width: 100%; height: auto;">
 </div>
 
 ## 🎯 **The Vision**
