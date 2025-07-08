@@ -144,14 +144,6 @@ Urban-Sentinel/
 
 ---
 
-## 🏆 **Hackathon Journey**
-
-This project was built during Hack404 with a focus on solving real urban challenges. Our team combined expertise in machine learning, urban planning, and full-stack development to create something that could genuinely help cities make better decisions.
-
-**The most rewarding part?** Knowing that Urban Sentinel could prevent neighborhoods from declining and save communities from displacement.
-
----
-
 ## 🌟 **What's Next**
 
 - 🌍 **Multi-city expansion** — Chicago, Detroit, New York
@@ -159,27 +151,6 @@ This project was built during Hack404 with a focus on solving real urban challen
 - 🛰️ **Satellite imagery integration** for enhanced predictions
 - 📊 **Economic impact modeling** to quantify intervention ROI
 - 🔗 **API ecosystem** for integration with existing city systems
-
----
-
-## 🤝 **Contributing**
-
-Found a bug? Have an idea? Want to expand to your city? We'd love your help!
-
-```bash
-# Fork the repo, make your changes, and submit a PR
-git checkout -b feature/your-amazing-idea
-git commit -m "Add your amazing feature"
-git push origin feature/your-amazing-idea
-```
-
----
-
-## 👥 **The Team**
-
-Built with ❤️ by passionate developers who believe technology can make cities better.
-
-*Urban Sentinel — where artificial intelligence meets urban intelligence.*
 
 ---
 
