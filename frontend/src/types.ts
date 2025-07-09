@@ -1,6 +1,3 @@
-// Import types from api service
-import { RiskGridCell, FeatureImportanceResponse, ApiStats, TopRiskArea } from './services/api';
-
 export interface DecayData {
   latitude: number;
   longitude: number;
@@ -14,12 +11,4 @@ export interface TooltipData {
   decayLevel: number;
   source: string;
   description?: string;
-}
-
-export interface AppRiskData {
-  riskData: RiskGridCell[];
-  geoJsonData: GeoJSON.FeatureCollection;
-  featureImportance: FeatureImportanceResponse;
-  stats: ApiStats;
-  topRiskAreas: TopRiskArea[];
 } 

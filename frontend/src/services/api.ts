@@ -89,59 +89,6 @@ export interface HealthCheck {
 }
 
 // ============================================================================
-// --- KEEP-ALIVE FUNCTIONS ---
-// ============================================================================
-
-// Enhanced keep-alive function with retry logic
-export const keepBackendAlive = async (): Promise<boolean> => {
-  const maxRetries = 3;
-  let retryCount = 0;
-  
-  while (retryCount < maxRetries) {
-    try {
-      const response = await axios.get(`${API_BASE_URL}/health`, {
-        timeout: 10000, // 10 second timeout
-        headers: {
-          'Cache-Control': 'no-cache',
-          'X-Keep-Alive': 'true'
-        }
-      });
-      
-      if (response.status === 200) {
-        console.log(`✅ Backend keep-alive successful (attempt ${retryCount + 1})`);
-        return true;
-      }
-    } catch (error) {
-      retryCount++;
-      console.warn(`⚠️  Backend keep-alive failed (attempt ${retryCount}/${maxRetries}):`, error);
-      
-      if (retryCount < maxRetries) {
-        // Wait before retrying (exponential backoff)
-        const delay = Math.pow(2, retryCount) * 1000; // 2s, 4s, 8s
-        await new Promise(resolve => setTimeout(resolve, delay));
-      }
-    }
-  }
-  
-  console.error('❌ Backend keep-alive failed after all retries');
-  return false;
-};
-
-// Lightweight ping for frequent keep-alive checks
-export const pingBackend = async (): Promise<boolean> => {
-  try {
-    const response = await axios.get(`${API_BASE_URL}/`, {
-      timeout: 5000,
-      headers: { 'X-Ping': 'true' }
-    });
-    return response.status === 200;
-  } catch (error) {
-    console.warn('Backend ping failed:', error);
-    return false;
-  }
-};
-
-// ============================================================================
 // --- API FUNCTIONS ---
 // ============================================================================
 
