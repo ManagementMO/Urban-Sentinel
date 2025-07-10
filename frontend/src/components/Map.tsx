@@ -45,64 +45,21 @@ const Map: React.FC<MapProps> = ({ riskData, loading, allRiskData }) => {
 
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
-      style: 'mapbox://styles/mapbox/dark-v11',
+      style: 'mapbox://styles/mapbox/standard',
       center: [lng, lat],
       zoom: zoom,
-      pitch: 50, // Reduced from 60 for better performance
-      bearing: -15, // Simplified angle
-      antialias: false, // Disabled for performance
-      fadeDuration: 100, // Reduced animation duration
-      preserveDrawingBuffer: false // Better memory management
+      pitch: 60, // Enhanced for beautiful 3D buildings
+      bearing: -20, // Better angle for 3D viewing
+      antialias: true, // Enable for beautiful 3D buildings
+      fadeDuration: 300, // Smooth transitions
+      preserveDrawingBuffer: false
     });
 
     map.current.on('load', () => {
       setMapLoaded(true);
       
-      // Simplified fog effects for performance
-      map.current!.setFog({
-        color: 'rgb(20, 25, 40)',
-        'high-color': 'rgb(10, 15, 25)',
-        'horizon-blend': 0.02,
-        'space-color': 'rgb(5, 5, 10)',
-        'star-intensity': 0.3
-      });
-
-      // Simplified 3D buildings - no animation
-      const layers = map.current!.getStyle().layers;
-      const labelLayerId = layers!.find(
-        (layer) => layer.type === 'symbol' && layer.layout && layer.layout['text-field']
-      )?.id;
-
-      if (labelLayerId) {
-        map.current!.addLayer(
-          {
-            'id': '3d-buildings',
-            'source': 'composite',
-            'source-layer': 'building',
-            'filter': ['==', 'extrude', 'true'],
-            'type': 'fill-extrusion',
-            'minzoom': 15,
-            'paint': {
-              'fill-extrusion-color': [
-                'interpolate',
-                ['linear'],
-                ['get', 'height'],
-                0, '#2a2a3a',
-                100, '#3a3a4a',
-                200, '#4a4a5a'
-              ],
-              'fill-extrusion-height': ['get', 'height'],
-              'fill-extrusion-base': ['get', 'min_height'],
-              'fill-extrusion-opacity': 0.7
-            }
-          },
-          labelLayerId
-        );
-      }
-
-      // Simplified water styling
-      map.current!.setPaintProperty('water', 'fill-color', '#1a1a2a');
-      map.current!.setPaintProperty('water', 'fill-opacity', 0.8);
+      // Mapbox Standard Style already includes beautiful 3D buildings and lighting
+      // No need for custom fog or building layers
     });
 
     // Basic navigation controls

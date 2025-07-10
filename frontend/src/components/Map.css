@@ -145,22 +145,118 @@
   }
 }
 
-/* Mapbox Control Overrides for Performance */
+/* Enhanced Mapbox Controls with White Icons */
 .mapboxgl-ctrl-group {
-  background: rgba(0, 0, 0, 0.8) !important;
-  border-radius: 6px !important;
-  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  background: linear-gradient(135deg, 
+    rgba(15, 23, 42, 0.95) 0%, 
+    rgba(30, 41, 59, 0.9) 100%) !important;
+  border-radius: 10px !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  box-shadow: 
+    0 8px 25px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
 }
 
 .mapboxgl-ctrl-group button {
   background: transparent !important;
-  color: white !important;
+  color: #ffffff !important;
   border: none !important;
-  transition: background-color 0.2s ease !important;
+  transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1) !important;
+  font-weight: 600 !important;
+}
+
+/* Force ALL icon elements to be white with maximum specificity */
+.mapboxgl-ctrl-group button svg,
+.mapboxgl-ctrl-group button svg *,
+.mapboxgl-ctrl-group button::before,
+.mapboxgl-ctrl-group button::after,
+.mapboxgl-ctrl-group button .mapboxgl-ctrl-icon,
+.mapboxgl-ctrl-zoom-in .mapboxgl-ctrl-icon,
+.mapboxgl-ctrl-zoom-out .mapboxgl-ctrl-icon,
+.mapboxgl-ctrl-fullscreen .mapboxgl-ctrl-icon {
+  fill: #ffffff !important;
+  color: #ffffff !important;
+  background-color: transparent !important;
+  filter: brightness(0) invert(1) !important;
+  stroke: #ffffff !important;
+}
+
+/* Specific targeting for zoom and fullscreen controls */
+.mapboxgl-ctrl-zoom-in,
+.mapboxgl-ctrl-zoom-out,
+.mapboxgl-ctrl-fullscreen {
+  color: #ffffff !important;
+}
+
+.mapboxgl-ctrl-zoom-in::before,
+.mapboxgl-ctrl-zoom-out::before,
+.mapboxgl-ctrl-fullscreen::before {
+  color: #ffffff !important;
+  background: #ffffff !important;
+  border-color: #ffffff !important;
+}
+
+/* Force white on all possible icon implementations */
+.mapboxgl-ctrl-group button[title*="Zoom"] {
+  color: #ffffff !important;
+}
+
+.mapboxgl-ctrl-group button[title*="Zoom"]::before,
+.mapboxgl-ctrl-group button[title*="Zoom"]::after {
+  background: #ffffff !important;
+  color: #ffffff !important;
+  border-color: #ffffff !important;
+}
+
+.mapboxgl-ctrl-group button[title*="fullscreen"]::before,
+.mapboxgl-ctrl-group button[title*="Fullscreen"]::before {
+  border-color: #ffffff !important;
+  color: #ffffff !important;
+}
+
+/* Override any background images with white filter */
+.mapboxgl-ctrl-group button {
+  filter: brightness(0) invert(1) !important;
+  -webkit-filter: brightness(0) invert(1) !important;
+}
+
+/* Reset filter for button background but keep for content */
+.mapboxgl-ctrl-group button {
+  filter: none !important;
+  -webkit-filter: none !important;
+}
+
+.mapboxgl-ctrl-group button > * {
+  filter: brightness(0) invert(1) !important;
+  -webkit-filter: brightness(0) invert(1) !important;
+}
+
+/* Style the compass icon specifically */
+.mapboxgl-ctrl-compass .mapboxgl-ctrl-compass-arrow {
+  border-color: #ffffff transparent transparent transparent !important;
 }
 
 .mapboxgl-ctrl-group button:hover {
-  background: rgba(255, 255, 255, 0.1) !important;
+  background: linear-gradient(135deg, 
+    rgba(96, 165, 250, 0.2) 0%, 
+    rgba(52, 211, 153, 0.2) 100%) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(96, 165, 250, 0.3);
+}
+
+/* Ensure hover state keeps icons white */
+.mapboxgl-ctrl-group button:hover svg,
+.mapboxgl-ctrl-group button:hover svg *,
+.mapboxgl-ctrl-group button:hover::before,
+.mapboxgl-ctrl-group button:hover::after,
+.mapboxgl-ctrl-group button:hover > * {
+  fill: #ffffff !important;
+  color: #ffffff !important;
+  filter: brightness(0) invert(1) !important;
+  -webkit-filter: brightness(0) invert(1) !important;
+  stroke: #ffffff !important;
 }
 
 /* Popup Optimizations */
