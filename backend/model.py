@@ -2,7 +2,6 @@ import geopandas as gpd
 import pandas as pd
 import lightgbm as lgb
 import json
-import numpy as np
 from sklearn.model_selection import cross_val_score, StratifiedKFold, train_test_split
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, classification_report, confusion_matrix
 from sklearn.utils.class_weight import compute_class_weight
