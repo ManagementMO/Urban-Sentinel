@@ -4,8 +4,6 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import './Map.css';
 import { RiskGridCell, FeatureImportanceResponse, ApiStats, TopRiskArea } from '../services/api';
 import { 
-  createRiskFillLayer, 
-  createRiskStrokeLayer, 
   createRiskPopupContent,
   getBoundingBox 
 } from '../utils/geoHelpers';
@@ -80,7 +78,7 @@ const Map: React.FC<MapProps> = ({ riskData, loading, allRiskData }) => {
       setMapLoaded(false);
       setLayersAdded(false);
     };
-  }, []);
+  }, [lat, lng, zoom]);
 
   // Add risk data layers (only once)
   useEffect(() => {
@@ -446,7 +444,7 @@ const Map: React.FC<MapProps> = ({ riskData, loading, allRiskData }) => {
         }
       }
     }
-  }, [riskData, layersAdded]);
+  }, [riskData, layersAdded, allRiskData]);
 
   return (
     <div className="map-wrapper">

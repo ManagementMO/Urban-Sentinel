@@ -72,20 +72,23 @@ const LandingPage: React.FC<LandingPageProps> = ({ onTryItOut }) => {
       threshold: 0.1
     });
 
-    sectionsRef.current.forEach((section) => {
+    const currentSections = sectionsRef.current;
+    const currentHero = heroRef.current;
+
+    currentSections.forEach((section) => {
       if (section) observer.observe(section);
     });
 
-    if (heroRef.current) {
-      heroObserver.observe(heroRef.current);
+    if (currentHero) {
+      heroObserver.observe(currentHero);
     }
 
     return () => {
-      sectionsRef.current.forEach((section) => {
+      currentSections.forEach((section) => {
         if (section) observer.unobserve(section);
       });
-      if (heroRef.current) {
-        heroObserver.unobserve(heroRef.current);
+      if (currentHero) {
+        heroObserver.unobserve(currentHero);
       }
     };
   }, []);

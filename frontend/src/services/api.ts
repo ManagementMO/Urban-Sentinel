@@ -1,9 +1,6 @@
 import axios from 'axios';
 import { 
-  parseWKTToGeoJSON, 
-  convertRiskDataToGeoJSON,
-  getRiskLevel,
-  getRiskColor 
+  convertRiskDataToGeoJSON
 } from '../utils/geoHelpers';
 
 const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://127.0.0.1:8000';

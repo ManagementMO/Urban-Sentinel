@@ -4,7 +4,6 @@ import LandingPage from './components/LandingPage';
 import MapView from './components/MapView';
 import LoadingAnimation from './components/LoadingAnimation';
 import { fetchAllRiskData, RiskGridCell, FeatureImportanceResponse, ApiStats, TopRiskArea, checkHealth } from './services/api';
-import { convertRiskDataToGeoJSON } from './utils/geoHelpers';
 
 type ViewType = 'landing' | 'map';
 

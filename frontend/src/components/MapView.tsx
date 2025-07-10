@@ -33,7 +33,6 @@ const MapView: React.FC<MapViewProps> = ({
   onRefresh 
 }) => {
   const [riskFilter, setRiskFilter] = useState<'all' | 'very-high' | 'high' | 'medium' | 'low'>('all');
-  const [showStats, setShowStats] = useState(false);
 
   // Filter data based on risk level
   const getFilteredData = () => {
@@ -101,32 +100,7 @@ const MapView: React.FC<MapViewProps> = ({
         
         
 
-        {/* Statistics Panel */}
-        {showStats && riskStats && (
-          <div className="stats-panel">
-            <h3>Risk Statistics</h3>
-            <div className="stats-grid">
-              <div className="stat-item">
-                <strong>Total Cells:</strong> {riskStats.total}
-              </div>
-              <div className="stat-item">
-                <strong>Mean Risk:</strong> {(riskStats.mean * 100).toFixed(1)}%
-              </div>
-              <div className="stat-item">
-                <strong>Max Risk:</strong> {(riskStats.max * 100).toFixed(1)}%
-              </div>
-              <div className="stat-item">
-                <strong>Very High Risk:</strong> {riskStats.riskLevels['Very High']}
-              </div>
-              <div className="stat-item">
-                <strong>High Risk:</strong> {riskStats.riskLevels['High']}
-              </div>
-              <div className="stat-item">
-                <strong>Medium Risk:</strong> {riskStats.riskLevels['Medium']}
-              </div>
-            </div>
-          </div>
-        )}
+
 
         {/* Top Risk Areas Panel */}
         
