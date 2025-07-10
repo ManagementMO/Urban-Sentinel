@@ -1,6 +1,6 @@
 # Production Dockerfile for Urban Sentinel Backend
 # Optimized for Render deployment
-FROM python:3.11-slim
+FROM python:3.13-slim
 
 # Set environment variables for production
 ENV PYTHONUNBUFFERED=1 \
