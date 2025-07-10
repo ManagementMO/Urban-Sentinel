@@ -1,9 +1,9 @@
 :root {
-    --filter-panel-bg: rgba(255,255,255,0.16);
-    --filter-panel-border: rgba(255,255,255,0.28);
-    --filter-panel-shadow: 0 8px 32px rgba(31, 38, 135, 0.14);
+    --filter-panel-bg: rgba(15, 23, 42, 0.95);
+    --filter-panel-border: rgba(255, 255, 255, 0.15);
+    --filter-panel-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     --filter-panel-radius: 16px;
-    --filter-btn-radius: 999px;
+    --filter-btn-radius: 12px;
     --filter-panel-width: 230px;
   }
   
@@ -20,20 +20,29 @@
   .filter-panel-toggle {
     all: unset;
     cursor: pointer;
+    -webkit-user-select: none;
     user-select: none;
-    padding: 0.35rem 0.9rem;
+    padding: 0.5rem 1rem;
     border-radius: 12px;
-    background: rgba(0,0,0,0.55);
-    color: #fff;
+    background: linear-gradient(135deg, 
+      rgba(15, 23, 42, 0.95) 0%, 
+      rgba(30, 41, 59, 0.9) 100%);
+    color: #f8fafc;
     font-weight: 600;
     margin-right: 0.5rem;
-    box-shadow: 0 2px 8px rgba(20, 20, 40, 0.09);
-    transition: background 0.22s, color 0.16s;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
   }
   .filter-panel-toggle:hover,
   .filter-panel-toggle:focus-visible {
-    background: rgba(40, 44, 54, 0.98);
-    color: grey;
+    background: linear-gradient(135deg, 
+      rgba(96, 165, 250, 0.2) 0%, 
+      rgba(52, 211, 153, 0.2) 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
     outline: none;
   }
   
@@ -43,11 +52,14 @@
     opacity: 0;
     pointer-events: none;
     padding: 2rem 0;   /* vertical padding only when closed */
-    background: var(--filter-panel-bg);
-    backdrop-filter: blur(12px);
+    background: linear-gradient(135deg, 
+      rgba(15, 23, 42, 0.98) 0%, 
+      rgba(30, 41, 59, 0.95) 100%);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
     border: 1px solid var(--filter-panel-border);
     border-radius: var(--filter-panel-radius);
-    box-shadow: var(--filter-panel-shadow);
+    box-shadow: var(--filter-panel-shadow), inset 0 1px 0 rgba(255, 255, 255, 0.1);
     overflow: hidden;
     transition:
       width 280ms cubic-bezier(.4,0,.2,1),
@@ -71,9 +83,10 @@
   
   .filter-panel h3 {
     margin: 0 0 1rem 0;
-    color: #fff;
+    color: #f8fafc;
     font-size: 16px;
-    font-weight: 600;
+    font-weight: 700;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   }
   .filter-buttons {
     display: flex;
@@ -84,23 +97,81 @@
   .risk-btn {
     border: none;
     outline: none;
-    background: rgba(255,255,255,0.12);
-    color: #fff;
+    background: linear-gradient(135deg, 
+      rgba(51, 65, 85, 0.8) 0%, 
+      rgba(71, 85, 105, 0.8) 100%);
+    color: #f1f5f9;
     border-radius: var(--filter-btn-radius);
-    padding: 10px 20px;
+    padding: 12px 20px;
     font-size: 14px;
     font-weight: 500;
     cursor: pointer;
-    transition: background 0.18s, color 0.18s, box-shadow 0.18s;
+    transition: all 0.3s ease;
     margin: 0;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   }
+
+  .filter-buttons button:hover,
+  .risk-btn:hover {
+    background: linear-gradient(135deg, 
+      rgba(71, 85, 105, 0.9) 0%, 
+      rgba(100, 116, 139, 0.9) 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+
   .filter-buttons .active {
-    background: #ffe066;
-    color: #222;
-    box-shadow: 0 2px 8px #ffe06633;
+    background: linear-gradient(135deg, 
+      rgba(59, 130, 246, 0.9) 0%, 
+      rgba(37, 99, 235, 0.9) 100%);
+    color: #ffffff;
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+    transform: translateY(-1px);
   }
-  .risk-btn.very-high { border-left: 5px solid #8b0000; }
-  .risk-btn.high     { border-left: 5px solid #dc143c; }
-  .risk-btn.medium   { border-left: 5px solid #ff4500; }
-  .risk-btn.low      { border-left: 5px solid #ffa500; }
+
+  .filter-buttons .active:hover {
+    background: linear-gradient(135deg, 
+      rgba(37, 99, 235, 1) 0%, 
+      rgba(29, 78, 216, 1) 100%);
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5);
+  }
+
+  .risk-btn.very-high { 
+    border-left: 4px solid #dc2626; 
+  }
+  .risk-btn.high { 
+    border-left: 4px solid #ef4444; 
+  }
+  .risk-btn.medium { 
+    border-left: 4px solid #f97316; 
+  }
+  .risk-btn.low { 
+    border-left: 4px solid #eab308; 
+  }
+
+  .risk-btn.very-high.active { 
+    background: linear-gradient(135deg, 
+      rgba(220, 38, 38, 0.9) 0%, 
+      rgba(185, 28, 28, 0.9) 100%);
+    box-shadow: 0 4px 15px rgba(220, 38, 38, 0.4);
+  }
+  .risk-btn.high.active { 
+    background: linear-gradient(135deg, 
+      rgba(239, 68, 68, 0.9) 0%, 
+      rgba(220, 38, 38, 0.9) 100%);
+    box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
+  }
+  .risk-btn.medium.active { 
+    background: linear-gradient(135deg, 
+      rgba(249, 115, 22, 0.9) 0%, 
+      rgba(234, 88, 12, 0.9) 100%);
+    box-shadow: 0 4px 15px rgba(249, 115, 22, 0.4);
+  }
+  .risk-btn.low.active { 
+    background: linear-gradient(135deg, 
+      rgba(234, 179, 8, 0.9) 0%, 
+      rgba(202, 138, 4, 0.9) 100%);
+    box-shadow: 0 4px 15px rgba(234, 179, 8, 0.4);
+  }
   
