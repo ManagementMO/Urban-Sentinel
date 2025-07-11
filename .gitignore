@@ -77,3 +77,22 @@ yarn-error.log*
 
 # Uvicorn logs (if written to file)
 uvicorn.log
+
+# Large data files (exceeding GitHub limits)
+data_preparation/SR2023.csv
+data_preparation/SR2022.csv
+data_preparation/SRALL.csv
+datasets/centreline.geojson
+datasets/service_requests_with_coords.geojson
+
+# All large CSV files in data directories
+data_preparation/*.csv
+datasets/*.csv
+!data_preparation/model_ready_data.csv
+!data_preparation/model_outputs/*.csv
+
+# Large GeoJSON files
+datasets/*.geojson
+!data_preparation/toronto_ward_data.geojson
+!data_preparation/model_ready_data.geojson
+!data_preparation/model_outputs/*.geojson
