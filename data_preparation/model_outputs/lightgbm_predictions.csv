@@ -1,0 +1,26 @@
+feature_id,actual_blight,predicted_blight,blight_probability,risk_category,ward_name
+0,0,0,0.17585120826568632,Low Risk,Willowdale
+1,1,1,0.7311454075246137,High Risk,Etobicoke-Lakeshore
+2,0,0,0.1822134121292699,Low Risk,Humber River-Black Creek
+3,0,0,0.17902399427086127,Low Risk,Don Valley East
+4,0,0,0.1746483714888594,Low Risk,Scarborough North
+5,0,0,0.1853793674514992,Low Risk,Don Valley West
+6,0,0,0.2125098525986308,Low Risk,Toronto-St. Paul'S
+7,0,0,0.21418330963017143,Low Risk,Etobicoke North
+8,0,0,0.2808536091466651,Low Risk,Parkdale-High Park
+9,0,0,0.1908042001629635,Low Risk,Etobicoke Centre
+10,0,0,0.2261482435827599,Low Risk,Eglinton-Lawrence
+11,1,1,0.717540208552084,High Risk,Spadina-Fort York
+12,0,0,0.1690376492437594,Low Risk,York Centre
+13,1,1,0.7422969970134606,High Risk,University-Rosedale
+14,0,0,0.18950666481438633,Low Risk,York South-Weston
+15,0,0,0.17927669509327906,Low Risk,Scarborough-Agincourt
+16,1,1,0.7444076574681906,High Risk,Toronto-Danforth
+17,0,0,0.19740473106671597,Low Risk,Beaches-East York
+18,0,0,0.18416340412348417,Low Risk,Scarborough-Rouge Park
+19,0,0,0.17538450823125384,Low Risk,Scarborough Centre
+20,0,0,0.21550307945236044,Low Risk,Scarborough Southwest
+21,0,0,0.17927669509327906,Low Risk,Scarborough-Guildwood
+22,0,0,0.17513612294373967,Low Risk,Don Valley North
+23,1,1,0.7246321347845082,High Risk,Toronto Centre
+24,1,1,0.7201539349032346,High Risk,Davenport

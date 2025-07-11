@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Test script for geocode_wards_csv.py
+Test script for model_ready_data.py
 Validates the implementation and checks for runtime issues.
 """
 
@@ -64,14 +64,14 @@ def create_test_data():
     
     return 'test_service_requests.csv'
 
-def test_geocode_wards_csv():
-    """Test the geocode_wards_csv implementation."""
-    print("\n🧪 Testing geocode_wards_csv.py...")
+def test_model_ready_data():
+    """Test the model_ready_data implementation."""
+    print("\n🧪 Testing model_ready_data.py...")
     
     try:
         # Import the module
         sys.path.append('data_preparation')
-        from geocode_wards_csv import WardBasedModelDataGeneratorCSV
+        from model_ready_data import WardBasedModelDataGeneratorCSV
         
         # Create test configuration
         config = {
@@ -177,11 +177,11 @@ if __name__ == "__main__":
         test_file = create_test_data()
         
         # Run tests
-        success = test_geocode_wards_csv()
+        success = test_model_ready_data()
         
         if success:
             print("\n✅ ALL TESTS PASSED!")
-            print("   The geocode_wards_csv.py implementation is working correctly.")
+            print("   The model_ready_data.py implementation is working correctly.")
             print("   Ready for gradient boosting model training!")
         else:
             print("\n❌ TESTS FAILED!")

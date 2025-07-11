@@ -1,0 +1,5098 @@
+{
+  "shap_feature_importance": [
+    {
+      "feature": "is_high_blight_risk",
+      "shap_importance": 0.6411876642533627
+    },
+    {
+      "feature": "hour_2_requests_2022",
+      "shap_importance": 0.07894988603011317
+    },
+    {
+      "feature": "hour_0_requests_2023",
+      "shap_importance": 0.06158448809527926
+    },
+    {
+      "feature": "risk_score",
+      "shap_importance": 0.05441873371486523
+    },
+    {
+      "feature": "blight_requests_2021",
+      "shap_importance": 0.04813051068856133
+    },
+    {
+      "feature": "hour_4_requests_2021",
+      "shap_importance": 0.040677695023905835
+    },
+    {
+      "feature": "blight_count_2021",
+      "shap_importance": 0.04029697713812553
+    },
+    {
+      "feature": "hour_3_requests_2023",
+      "shap_importance": 0.03653171434967113
+    },
+    {
+      "feature": "hour_1_requests_2021",
+      "shap_importance": 0.03603708754857441
+    },
+    {
+      "feature": "hour_22_requests_2022",
+      "shap_importance": 0.030523645146403735
+    },
+    {
+      "feature": "hour_5_requests_2018",
+      "shap_importance": 0.030267541419936046
+    },
+    {
+      "feature": "hour_22_requests_2018",
+      "shap_importance": 0.02310220432497173
+    },
+    {
+      "feature": "hour_4_requests_2018",
+      "shap_importance": 0.021715044315200514
+    },
+    {
+      "feature": "hour_4_requests_2023",
+      "shap_importance": 0.021437916748120827
+    },
+    {
+      "feature": "hour_3_requests_2018",
+      "shap_importance": 0.01955847409446923
+    },
+    {
+      "feature": "hour_3_requests_2022",
+      "shap_importance": 0.018332400679739423
+    },
+    {
+      "feature": "blight_requests_2018",
+      "shap_importance": 0.016299922982468226
+    },
+    {
+      "feature": "AREA_ID",
+      "shap_importance": 0.015500297253249166
+    },
+    {
+      "feature": "service_type_diversity_overall",
+      "shap_importance": 0.014844173760520983
+    },
+    {
+      "feature": "top_5_service_rate_2020",
+      "shap_importance": 0.013340408982489487
+    },
+    {
+      "feature": "hour_4_requests_2019",
+      "shap_importance": 0.011256327976390874
+    },
+    {
+      "feature": "hour_1_requests_2018",
+      "shap_importance": 0.010455524008090088
+    },
+    {
+      "feature": "hour_1_requests_2022",
+      "shap_importance": 0.00949795484335414
+    },
+    {
+      "feature": "tuesday_requests_2022",
+      "shap_importance": 0.008481295634951733
+    },
+    {
+      "feature": "seasonal_fall_rate",
+      "shap_importance": 0.008398975837855299
+    },
+    {
+      "feature": "hour_0_requests_2022",
+      "shap_importance": 0.007950041300957587
+    },
+    {
+      "feature": "hour_0_requests_2018",
+      "shap_importance": 0.007213658278971676
+    },
+    {
+      "feature": "hour_6_requests_2023",
+      "shap_importance": 0.006746462072421902
+    },
+    {
+      "feature": "hour_1_requests_2023",
+      "shap_importance": 0.006407163245777165
+    },
+    {
+      "feature": "top_2_service_rate_2021",
+      "shap_importance": 0.006238054326453239
+    },
+    {
+      "feature": "hour_2_requests_2017",
+      "shap_importance": 0.005997711890327502
+    },
+    {
+      "feature": "service_type_count_2022",
+      "shap_importance": 0.005926142668201316
+    },
+    {
+      "feature": "blight_requests_2020",
+      "shap_importance": 0.005780530089151
+    },
+    {
+      "feature": "hour_9_requests_2018",
+      "shap_importance": 0.005393905335331095
+    },
+    {
+      "feature": "thursday_requests_2018",
+      "shap_importance": 0.005164322504260616
+    },
+    {
+      "feature": "weekend_requests_2018",
+      "shap_importance": 0.004926284066571326
+    },
+    {
+      "feature": "month_6_requests_2018",
+      "shap_importance": 0.004898530681306715
+    },
+    {
+      "feature": "sunday_requests_2018",
+      "shap_importance": 0.004810003549659769
+    },
+    {
+      "feature": "hour_15_requests_2019",
+      "shap_importance": 0.004723537386819679
+    },
+    {
+      "feature": "monday_requests_2023",
+      "shap_importance": 0.004399924512184433
+    },
+    {
+      "feature": "hour_4_requests_2022",
+      "shap_importance": 0.0041633561256682475
+    },
+    {
+      "feature": "monthly_skewness_2022",
+      "shap_importance": 0.004144214118527792
+    },
+    {
+      "feature": "hour_6_requests_2021",
+      "shap_importance": 0.004129463264198707
+    },
+    {
+      "feature": "division_diversity_2022",
+      "shap_importance": 0.0039049644259096837
+    },
+    {
+      "feature": "quarter_3_requests_2018",
+      "shap_importance": 0.003815862438595886
+    },
+    {
+      "feature": "night_requests_2017",
+      "shap_importance": 0.0035948796453780926
+    },
+    {
+      "feature": "hour_22_requests_2017",
+      "shap_importance": 0.003285153530593227
+    },
+    {
+      "feature": "hour_2_requests_2023",
+      "shap_importance": 0.0029027552906555217
+    },
+    {
+      "feature": "requests_2023",
+      "shap_importance": 0.0019348802135080653
+    },
+    {
+      "feature": "division_diversity_2018",
+      "shap_importance": 0.0016994705142592149
+    },
+    {
+      "feature": "blight_weighted_score_2021",
+      "shap_importance": 0.001047309715916196
+    },
+    {
+      "feature": "hour_3_requests_2019",
+      "shap_importance": 0.0010240132118441068
+    },
+    {
+      "feature": "top_6_service_count_2023",
+      "shap_importance": 0.0009951271927844845
+    },
+    {
+      "feature": "month_2_requests_2018",
+      "shap_importance": 0.0009907134898290595
+    },
+    {
+      "feature": "saturday_requests_2023",
+      "shap_importance": 0.0008960271125189939
+    },
+    {
+      "feature": "month_7_requests_2023",
+      "shap_importance": 0.0008956846603797647
+    },
+    {
+      "feature": "hour_14_requests_2018",
+      "shap_importance": 0.000840225079258565
+    },
+    {
+      "feature": "monthly_kurtosis_2017",
+      "shap_importance": 0.0008276531630544844
+    },
+    {
+      "feature": "blight_count_2020",
+      "shap_importance": 0.0008035830942241725
+    },
+    {
+      "feature": "hour_20_requests_2018",
+      "shap_importance": 0.000739211000741296
+    },
+    {
+      "feature": "requests_2021",
+      "shap_importance": 0.0007348738335438056
+    },
+    {
+      "feature": "top_8_service_count_2023",
+      "shap_importance": 0.0006666838142383485
+    },
+    {
+      "feature": "blight_growth_volatility",
+      "shap_importance": 0.0005965725839766174
+    },
+    {
+      "feature": "blight_weighted_score_2023",
+      "shap_importance": 0.0005760511051019663
+    },
+    {
+      "feature": "hour_5_requests_2021",
+      "shap_importance": 0.0005470780555431023
+    },
+    {
+      "feature": "ratio_infrastructure_trend_slope",
+      "shap_importance": 0.0005153339202896828
+    },
+    {
+      "feature": "blight_requests_2022",
+      "shap_importance": 0.000501185819214991
+    },
+    {
+      "feature": "top_7_service_count_2018",
+      "shap_importance": 0.00047284948410891605
+    },
+    {
+      "feature": "seasonal_spring_rate",
+      "shap_importance": 0.00038145946578794425
+    },
+    {
+      "feature": "is_extreme_blight_risk",
+      "shap_importance": 0.0003374889648660831
+    },
+    {
+      "feature": "month_10_requests_2019",
+      "shap_importance": 0.0003276593938354483
+    },
+    {
+      "feature": "blight_monthly_mean",
+      "shap_importance": 0.000318246982718325
+    },
+    {
+      "feature": "hour_22_requests_2020",
+      "shap_importance": 0.00022905975512087717
+    },
+    {
+      "feature": "blight_monthly_cv",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "blight_monthly_skewness",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "blight_monthly_kurtosis",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "overall_most_common_blight",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "recent_most_common_blight",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "blight_diversity_category",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "dominant_blight_category",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "_id",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "DATE_EFFECTIVE",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "DATE_EXPIRY",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "AREA_ATTR_ID",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "AREA_TYPE_ID",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "PARENT_AREA_ID",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "AREA_TYPE",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "AREA_CLASS_ID",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "AREA_CLASS",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "AREA_SHORT_CODE",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "AREA_LONG_CODE",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "AREA_DESC",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "FEATURE_CODE",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "FEATURE_CODE_DESC",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "TRANS_ID_CREATE",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "TRANS_ID_EXPIRE",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "OBJECTID",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "risk_level",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "requests_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "blight_type_diversity_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "blight_type_diversity_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "blight_type_diversity_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "blight_type_diversity_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "blight_type_diversity_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "blight_type_diversity_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "blight_type_diversity_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "blight_type_diversity_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "blight_intensity_avg",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "weekday_requests_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "weekend_requests_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "monday_requests_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "tuesday_requests_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "wednesday_requests_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "thursday_requests_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "friday_requests_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "saturday_requests_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "sunday_requests_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_1_requests_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_2_requests_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_3_requests_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_4_requests_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_5_requests_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_6_requests_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_7_requests_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_8_requests_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_9_requests_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_10_requests_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_11_requests_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_12_requests_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "quarter_1_requests_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "quarter_2_requests_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "quarter_3_requests_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "quarter_4_requests_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "morning_requests_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "afternoon_requests_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "evening_requests_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "night_requests_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "peak_hours_requests_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_0_requests_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_1_requests_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_2_requests_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_3_requests_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_4_requests_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_5_requests_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_6_requests_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_7_requests_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_8_requests_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_9_requests_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_10_requests_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_11_requests_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_12_requests_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_13_requests_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_14_requests_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_15_requests_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_16_requests_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_17_requests_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_18_requests_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_19_requests_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_20_requests_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_21_requests_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_22_requests_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_23_requests_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "weekday_requests_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "weekend_requests_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "monday_requests_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "tuesday_requests_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "wednesday_requests_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "thursday_requests_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "friday_requests_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "saturday_requests_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "sunday_requests_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_1_requests_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_2_requests_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_3_requests_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_4_requests_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_5_requests_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_6_requests_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_7_requests_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_8_requests_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_9_requests_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_10_requests_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_11_requests_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_12_requests_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "quarter_1_requests_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "quarter_2_requests_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "quarter_3_requests_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "quarter_4_requests_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "morning_requests_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "afternoon_requests_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "evening_requests_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "night_requests_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "peak_hours_requests_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_0_requests_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_1_requests_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_2_requests_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_3_requests_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_4_requests_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_5_requests_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_6_requests_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_7_requests_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_8_requests_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_9_requests_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_10_requests_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_11_requests_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_12_requests_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_13_requests_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_14_requests_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_15_requests_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_16_requests_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_17_requests_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_18_requests_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_19_requests_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_20_requests_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_21_requests_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_22_requests_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_23_requests_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "weekday_requests_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "weekend_requests_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "monday_requests_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "tuesday_requests_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "wednesday_requests_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "thursday_requests_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "friday_requests_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "saturday_requests_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "sunday_requests_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_1_requests_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_2_requests_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_3_requests_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_4_requests_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_5_requests_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_6_requests_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_7_requests_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_8_requests_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_9_requests_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_10_requests_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_11_requests_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_12_requests_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "quarter_1_requests_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "quarter_2_requests_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "quarter_3_requests_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "quarter_4_requests_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "morning_requests_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "afternoon_requests_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "evening_requests_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "night_requests_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "peak_hours_requests_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_0_requests_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_1_requests_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_2_requests_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_3_requests_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_4_requests_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_5_requests_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_6_requests_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_7_requests_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_8_requests_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_9_requests_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_10_requests_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_11_requests_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_12_requests_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_13_requests_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_14_requests_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_15_requests_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_16_requests_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_17_requests_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_18_requests_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_19_requests_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_20_requests_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_21_requests_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_22_requests_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_23_requests_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "weekday_requests_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "weekend_requests_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "monday_requests_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "tuesday_requests_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "wednesday_requests_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "thursday_requests_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "friday_requests_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "saturday_requests_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "sunday_requests_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_1_requests_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_2_requests_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_3_requests_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_4_requests_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_5_requests_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_6_requests_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_7_requests_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_8_requests_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_9_requests_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_10_requests_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_11_requests_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_12_requests_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "quarter_1_requests_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "quarter_2_requests_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "quarter_3_requests_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "quarter_4_requests_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "morning_requests_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "afternoon_requests_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "evening_requests_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "peak_hours_requests_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_0_requests_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_1_requests_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_3_requests_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_4_requests_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_5_requests_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_6_requests_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_7_requests_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_8_requests_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_9_requests_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_10_requests_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_11_requests_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_12_requests_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_13_requests_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_14_requests_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_15_requests_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_16_requests_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_17_requests_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_18_requests_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_19_requests_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_20_requests_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_21_requests_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_23_requests_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "weekday_requests_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "monday_requests_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "tuesday_requests_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "wednesday_requests_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "friday_requests_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "saturday_requests_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_1_requests_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_3_requests_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_4_requests_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_5_requests_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_7_requests_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_8_requests_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_9_requests_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_10_requests_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_11_requests_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_12_requests_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "quarter_1_requests_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "quarter_2_requests_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "quarter_4_requests_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "morning_requests_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "afternoon_requests_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "evening_requests_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "night_requests_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "peak_hours_requests_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_2_requests_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_6_requests_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_7_requests_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_8_requests_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_10_requests_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_11_requests_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_12_requests_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_13_requests_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_15_requests_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_16_requests_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_17_requests_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_18_requests_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_19_requests_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_21_requests_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_23_requests_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "weekday_requests_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "weekend_requests_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "monday_requests_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "tuesday_requests_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "wednesday_requests_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "thursday_requests_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "friday_requests_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "saturday_requests_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "sunday_requests_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_1_requests_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_2_requests_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_3_requests_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_4_requests_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_5_requests_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_6_requests_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_7_requests_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_8_requests_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_9_requests_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_11_requests_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_12_requests_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "quarter_1_requests_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "quarter_2_requests_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "quarter_3_requests_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "quarter_4_requests_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "morning_requests_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "afternoon_requests_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "evening_requests_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "night_requests_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "peak_hours_requests_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_0_requests_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_1_requests_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_2_requests_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_5_requests_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_6_requests_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_7_requests_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_8_requests_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_9_requests_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_10_requests_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_11_requests_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_12_requests_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_13_requests_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_14_requests_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_16_requests_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_17_requests_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_18_requests_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_19_requests_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_20_requests_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_21_requests_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_22_requests_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_23_requests_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "weekday_requests_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "weekend_requests_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "monday_requests_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "tuesday_requests_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "wednesday_requests_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "thursday_requests_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "friday_requests_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "saturday_requests_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "sunday_requests_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_1_requests_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_2_requests_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_3_requests_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_4_requests_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_5_requests_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_6_requests_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_7_requests_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_8_requests_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_9_requests_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_10_requests_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_11_requests_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_12_requests_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "quarter_1_requests_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "quarter_2_requests_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "quarter_3_requests_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "quarter_4_requests_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "morning_requests_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "afternoon_requests_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "evening_requests_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "night_requests_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "peak_hours_requests_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_0_requests_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_1_requests_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_2_requests_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_3_requests_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_4_requests_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_5_requests_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_6_requests_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_7_requests_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_8_requests_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_9_requests_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_10_requests_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_11_requests_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_12_requests_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_13_requests_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_14_requests_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_15_requests_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_16_requests_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_17_requests_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_18_requests_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_19_requests_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_20_requests_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_21_requests_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_23_requests_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "weekday_requests_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "weekend_requests_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "monday_requests_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "tuesday_requests_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "wednesday_requests_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "thursday_requests_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "friday_requests_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "saturday_requests_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "sunday_requests_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_1_requests_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_2_requests_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_3_requests_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_4_requests_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_5_requests_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_6_requests_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_7_requests_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_8_requests_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_9_requests_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_10_requests_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_11_requests_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_12_requests_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "quarter_1_requests_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "quarter_2_requests_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "quarter_3_requests_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "quarter_4_requests_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "morning_requests_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "afternoon_requests_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "evening_requests_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "night_requests_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "peak_hours_requests_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_0_requests_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_2_requests_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_3_requests_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_7_requests_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_8_requests_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_9_requests_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_10_requests_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_11_requests_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_12_requests_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_13_requests_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_14_requests_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_15_requests_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_16_requests_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_17_requests_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_18_requests_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_19_requests_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_20_requests_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_21_requests_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_22_requests_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_23_requests_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "weekday_requests_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "weekend_requests_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "monday_requests_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "wednesday_requests_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "thursday_requests_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "friday_requests_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "saturday_requests_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "sunday_requests_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_1_requests_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_2_requests_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_3_requests_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_4_requests_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_5_requests_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_6_requests_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_7_requests_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_8_requests_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_9_requests_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_10_requests_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_11_requests_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_12_requests_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "quarter_1_requests_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "quarter_2_requests_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "quarter_3_requests_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "quarter_4_requests_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "morning_requests_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "afternoon_requests_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "evening_requests_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "night_requests_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "peak_hours_requests_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_5_requests_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_6_requests_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_7_requests_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_8_requests_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_9_requests_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_10_requests_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_11_requests_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_12_requests_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_13_requests_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_14_requests_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_15_requests_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_16_requests_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_17_requests_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_18_requests_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_19_requests_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_20_requests_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_21_requests_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_23_requests_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "weekday_requests_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "weekend_requests_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "tuesday_requests_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "wednesday_requests_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "thursday_requests_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "friday_requests_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "sunday_requests_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_1_requests_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_2_requests_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_3_requests_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_4_requests_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_5_requests_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_6_requests_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_8_requests_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_9_requests_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_10_requests_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_11_requests_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "month_12_requests_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "quarter_1_requests_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "quarter_2_requests_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "quarter_3_requests_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "quarter_4_requests_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "morning_requests_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "afternoon_requests_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "evening_requests_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "night_requests_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "peak_hours_requests_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_5_requests_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_7_requests_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_8_requests_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_9_requests_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_10_requests_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_11_requests_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_12_requests_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_13_requests_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_14_requests_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_15_requests_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_16_requests_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_17_requests_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_18_requests_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_19_requests_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_20_requests_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_21_requests_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_22_requests_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_23_requests_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "temporal_weekday_rate_overall",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "temporal_weekend_rate_overall",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "most_active_day_overall",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "most_active_day_count_overall",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "most_active_month_overall",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "most_active_month_count_overall",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "most_active_quarter_overall",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "most_active_quarter_count_overall",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "service_type_count_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "service_type_diversity_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_service_dominance_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_service_count_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_1_service_count_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_1_service_rate_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_2_service_count_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_2_service_rate_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_3_service_count_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_3_service_rate_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_4_service_count_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_4_service_rate_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_5_service_count_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_5_service_rate_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_6_service_count_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_6_service_rate_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_7_service_count_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_7_service_rate_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_8_service_count_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_8_service_rate_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_9_service_count_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_9_service_rate_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_10_service_count_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_10_service_rate_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "division_count_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "division_diversity_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "service_type_count_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "service_type_diversity_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_service_dominance_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_service_count_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_1_service_count_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_1_service_rate_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_2_service_count_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_2_service_rate_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_3_service_count_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_3_service_rate_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_4_service_count_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_4_service_rate_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_5_service_count_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_5_service_rate_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_6_service_count_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_6_service_rate_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_7_service_count_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_7_service_rate_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_8_service_count_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_8_service_rate_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_9_service_count_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_9_service_rate_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_10_service_count_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_10_service_rate_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "division_count_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "division_diversity_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "service_type_count_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "service_type_diversity_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_service_dominance_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_service_count_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_1_service_count_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_1_service_rate_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_2_service_count_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_2_service_rate_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_3_service_count_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_3_service_rate_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_4_service_count_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_4_service_rate_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_5_service_count_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_5_service_rate_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_6_service_count_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_6_service_rate_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_7_service_count_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_7_service_rate_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_8_service_count_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_8_service_rate_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_9_service_count_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_9_service_rate_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_10_service_count_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_10_service_rate_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "division_count_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "division_diversity_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "service_type_count_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "service_type_diversity_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_service_dominance_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_service_count_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_1_service_count_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_1_service_rate_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_2_service_count_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_2_service_rate_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_3_service_count_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_3_service_rate_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_4_service_count_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_4_service_rate_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_5_service_count_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_5_service_rate_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_6_service_count_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_6_service_rate_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_7_service_count_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_7_service_rate_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_8_service_count_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_8_service_rate_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_9_service_count_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_9_service_rate_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_10_service_count_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_10_service_rate_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "division_count_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "division_diversity_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "service_type_count_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "service_type_diversity_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_service_dominance_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_service_count_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_1_service_count_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_1_service_rate_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_2_service_count_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_2_service_rate_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_3_service_count_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_3_service_rate_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_4_service_count_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_4_service_rate_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_5_service_count_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_5_service_rate_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_6_service_count_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_6_service_rate_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "requests_mean_per_year",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_7_service_rate_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_8_service_count_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_8_service_rate_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_9_service_count_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_9_service_rate_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_10_service_count_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_10_service_rate_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "division_count_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "requests_std_per_year",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "service_type_count_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "service_type_diversity_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_service_dominance_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_service_count_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_1_service_count_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_1_service_rate_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_2_service_count_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_2_service_rate_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_3_service_count_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_3_service_rate_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_4_service_count_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_4_service_rate_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_5_service_count_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_5_service_rate_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_6_service_count_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_6_service_rate_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_7_service_count_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_7_service_rate_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_8_service_count_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_8_service_rate_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_9_service_count_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_9_service_rate_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_10_service_count_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_10_service_rate_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "division_count_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "division_diversity_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "service_type_count_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "service_type_diversity_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_service_dominance_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_service_count_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_1_service_count_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_1_service_rate_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_2_service_count_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_2_service_rate_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_3_service_count_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_3_service_rate_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_4_service_count_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_4_service_rate_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_5_service_count_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "requests_min_per_year",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_6_service_count_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_6_service_rate_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_7_service_count_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_7_service_rate_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_8_service_count_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_8_service_rate_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_9_service_count_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_9_service_rate_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_10_service_count_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_10_service_rate_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "division_count_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "division_diversity_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "service_type_count_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "service_type_diversity_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_service_dominance_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_service_count_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_1_service_count_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_1_service_rate_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_2_service_count_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "requests_max_per_year",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_3_service_count_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_3_service_rate_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_4_service_count_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_4_service_rate_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_5_service_count_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_5_service_rate_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_6_service_count_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_6_service_rate_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_7_service_count_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_7_service_rate_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_8_service_count_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_8_service_rate_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_9_service_count_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_9_service_rate_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_10_service_count_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_10_service_rate_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "division_count_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "division_diversity_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "requests_range_per_year",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "service_type_diversity_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_service_dominance_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_service_count_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_1_service_count_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_1_service_rate_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_2_service_count_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_2_service_rate_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_3_service_count_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_3_service_rate_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_4_service_count_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_4_service_rate_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_5_service_count_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_5_service_rate_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_6_service_count_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_6_service_rate_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_7_service_count_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_7_service_rate_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_8_service_count_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_8_service_rate_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_9_service_count_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_9_service_rate_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_10_service_count_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_10_service_rate_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "division_count_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "requests_avg_growth_rate",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "service_type_count_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "service_type_diversity_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_service_dominance_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_service_count_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_1_service_count_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_1_service_rate_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_2_service_count_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_2_service_rate_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_3_service_count_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_3_service_rate_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_4_service_count_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_4_service_rate_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_5_service_count_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_5_service_rate_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "requests_growth_volatility",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_6_service_rate_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_7_service_count_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_7_service_rate_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "requests_early_period_avg",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_8_service_rate_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_9_service_count_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_9_service_rate_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_10_service_count_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_10_service_rate_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "division_count_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "division_diversity_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "service_type_count_overall",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "requests_recent_period_avg",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_service_dominance_overall",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_1_service_count_overall",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_1_service_rate_overall",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_2_service_count_overall",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_2_service_rate_overall",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_3_service_count_overall",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_3_service_rate_overall",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_4_service_count_overall",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_4_service_rate_overall",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_5_service_count_overall",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_5_service_rate_overall",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_6_service_count_overall",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_6_service_rate_overall",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_7_service_count_overall",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_7_service_rate_overall",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_8_service_count_overall",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_8_service_rate_overall",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_9_service_count_overall",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_9_service_rate_overall",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_10_service_count_overall",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "top_10_service_rate_overall",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "division_count_overall",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "division_diversity_overall",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "diversity_trend_slope",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "diversity_volatility",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "service_count_trend_slope",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "service_count_volatility",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "requests_count_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "blight_count_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "requests_count_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "blight_count_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "requests_count_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "blight_count_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "requests_count_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "blight_count_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "requests_count_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "blight_count_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "requests_count_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "blight_count_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "requests_count_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "requests_recent_vs_early_ratio",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "requests_count_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "blight_requests_total",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "requests_count_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "blight_count_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "requests_count_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "blight_count_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "requests_year_over_year_change_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "requests_growth_rate_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "blight_year_over_year_change_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "blight_growth_rate_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "requests_year_over_year_change_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "blight_year_over_year_change_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "requests_growth_rate_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "blight_growth_rate_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "requests_year_over_year_change_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "blight_year_over_year_change_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "requests_growth_rate_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "blight_growth_rate_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "requests_year_over_year_change_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "blight_year_over_year_change_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "requests_growth_rate_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "blight_growth_rate_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "requests_year_over_year_change_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "blight_year_over_year_change_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "requests_growth_rate_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "blight_growth_rate_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "requests_year_over_year_change_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "blight_year_over_year_change_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "requests_growth_rate_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "blight_growth_rate_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "requests_year_over_year_change_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "blight_year_over_year_change_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "requests_growth_rate_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "blight_growth_rate_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "requests_year_over_year_change_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "blight_year_over_year_change_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "requests_growth_rate_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "blight_growth_rate_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "requests_year_over_year_change_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "blight_year_over_year_change_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "requests_growth_rate_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "blight_growth_rate_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "requests_year_over_year_change_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "blight_year_over_year_change_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "requests_growth_rate_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "blight_growth_rate_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "trend_overall_slope",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "trend_overall_r2",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "trend_acceleration",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "trend_blight_slope",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "trend_blight_r2",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "trend_blight_acceleration",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "trend_recent_vs_early",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "quarterly_volatility_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "seasonal_volatility_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "quarterly_volatility_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "seasonal_volatility_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "quarterly_volatility_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "seasonal_volatility_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "quarterly_volatility_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "seasonal_volatility_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "quarterly_volatility_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "seasonal_volatility_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "quarterly_volatility_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "seasonal_volatility_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "quarterly_volatility_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "seasonal_volatility_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "quarterly_volatility_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "seasonal_volatility_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "quarterly_volatility_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "seasonal_volatility_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "quarterly_volatility_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "seasonal_volatility_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "peak_year",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "trough_year",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "peak_to_trough_ratio",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "momentum_indicator",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "seasonal_winter_rate",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "blight_rate",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "seasonal_summer_rate",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "blight_requests_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "seasonal_winter_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "seasonal_spring_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "seasonal_summer_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "seasonal_fall_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "seasonal_winter_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "seasonal_spring_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "seasonal_summer_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "seasonal_fall_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "seasonal_winter_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "seasonal_spring_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "seasonal_summer_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "seasonal_fall_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "seasonal_winter_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "seasonal_spring_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "seasonal_summer_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "seasonal_fall_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "seasonal_winter_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "seasonal_spring_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "seasonal_summer_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "seasonal_fall_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "seasonal_winter_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "seasonal_spring_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "seasonal_summer_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "seasonal_fall_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "seasonal_winter_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "seasonal_spring_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "seasonal_summer_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "seasonal_fall_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "seasonal_winter_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "seasonal_spring_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "seasonal_summer_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "seasonal_fall_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "seasonal_winter_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "seasonal_spring_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "seasonal_summer_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "seasonal_fall_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "seasonal_winter_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "seasonal_spring_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "seasonal_summer_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "seasonal_fall_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "seasonal_winter_mean",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "seasonal_winter_std",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "seasonal_winter_consistency",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "seasonal_spring_mean",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "seasonal_spring_std",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "seasonal_spring_consistency",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "seasonal_summer_mean",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "seasonal_summer_std",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "seasonal_summer_consistency",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "seasonal_fall_mean",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "seasonal_fall_std",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "seasonal_fall_consistency",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "ratio_blight_to_total",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "ratio_infrastructure_to_total",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "ratio_quality_to_total",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "ratio_blight_to_total_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "ratio_infrastructure_to_total_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "ratio_quality_to_total_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "ratio_blight_to_total_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "ratio_infrastructure_to_total_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "ratio_quality_to_total_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "ratio_blight_to_total_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "ratio_infrastructure_to_total_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "ratio_quality_to_total_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "ratio_blight_to_total_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "ratio_infrastructure_to_total_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "ratio_quality_to_total_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "ratio_blight_to_total_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "ratio_infrastructure_to_total_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "ratio_quality_to_total_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "ratio_blight_to_total_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "ratio_infrastructure_to_total_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "ratio_quality_to_total_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "ratio_blight_to_total_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "ratio_infrastructure_to_total_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "ratio_quality_to_total_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "ratio_blight_to_total_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "ratio_infrastructure_to_total_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "ratio_quality_to_total_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "ratio_blight_to_total_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "ratio_infrastructure_to_total_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "ratio_quality_to_total_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "ratio_blight_to_total_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "ratio_infrastructure_to_total_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "ratio_quality_to_total_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "ratio_blight_trend_slope",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "ratio_blight_volatility",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "ratio_blight_consistency",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "quarterly_mean_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "ratio_infrastructure_volatility",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "ratio_infrastructure_consistency",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "ratio_quality_trend_slope",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "ratio_quality_volatility",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "ratio_quality_consistency",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "monthly_mean_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "monthly_std_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "monthly_skewness_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "monthly_kurtosis_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "monthly_cv_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "monthly_range_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "monthly_iqr_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "quarterly_mean_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "quarterly_std_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "quarterly_range_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "weekly_mean_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "weekly_std_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "weekly_range_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "monthly_mean_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "monthly_std_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "monthly_skewness_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "monthly_kurtosis_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "monthly_cv_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "monthly_range_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "monthly_iqr_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "quarterly_mean_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "quarterly_std_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "quarterly_range_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "weekly_mean_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "weekly_std_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "weekly_range_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "monthly_mean_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "monthly_std_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "monthly_skewness_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "monthly_kurtosis_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "monthly_cv_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "monthly_range_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "monthly_iqr_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "quarterly_mean_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "quarterly_std_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "quarterly_range_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "weekly_mean_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "weekly_std_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "weekly_range_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "monthly_mean_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "monthly_std_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "monthly_skewness_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "blight_type_diversity_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "monthly_cv_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "monthly_range_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "monthly_iqr_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "quarterly_mean_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "quarterly_std_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "quarterly_range_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "weekly_mean_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "weekly_std_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "weekly_range_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "monthly_mean_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "monthly_std_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "monthly_skewness_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "monthly_kurtosis_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "monthly_cv_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "monthly_range_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "monthly_iqr_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "quarterly_mean_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "quarterly_std_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "quarterly_range_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "weekly_mean_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "weekly_std_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "weekly_range_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "monthly_mean_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "monthly_std_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "monthly_skewness_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "monthly_kurtosis_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "monthly_cv_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "monthly_range_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "monthly_iqr_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "quarterly_mean_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "quarterly_std_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "quarterly_range_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "weekly_mean_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "weekly_std_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "weekly_range_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "monthly_mean_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "monthly_std_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "monthly_skewness_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "monthly_kurtosis_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "monthly_cv_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "monthly_range_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "monthly_iqr_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "quarterly_mean_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "quarterly_std_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "quarterly_range_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "weekly_mean_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "weekly_std_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "weekly_range_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "monthly_mean_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "monthly_std_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "monthly_skewness_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "monthly_kurtosis_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "monthly_cv_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "monthly_range_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "monthly_iqr_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "quarterly_mean_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "quarterly_std_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "quarterly_range_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "weekly_mean_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "weekly_std_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "weekly_range_2021",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "monthly_mean_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "monthly_std_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "recent_historical_most_common_blight",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "monthly_kurtosis_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "monthly_cv_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "monthly_range_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "monthly_iqr_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "quarterly_mean_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "quarterly_std_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "quarterly_range_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "weekly_mean_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "weekly_std_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "weekly_range_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "blight_requests_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "blight_requests_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "blight_requests_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "peak_season_share",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "blight_requests_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "total_requests",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "requests_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "requests_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "blight_requests_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "blight_weighted_score_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "blight_weighted_score_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "blight_weighted_score_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "blight_weighted_score_2017",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "blight_weighted_score_2018",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "blight_weighted_score_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "blight_weighted_score_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "requests_2015",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "blight_weighted_score_2022",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "requests_2016",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "blight_weighted_score_total",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "blight_mean_per_year",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "blight_std_per_year",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "blight_min_per_year",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "blight_max_per_year",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "blight_range_per_year",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "blight_avg_growth_rate",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "blight_monthly_std",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "blight_early_period_avg",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "blight_recent_period_avg",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "blight_recent_vs_early_ratio",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "blight_type_diversity_2014",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "requests_2020",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "monthly_mean_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "monthly_std_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "monthly_skewness_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "monthly_kurtosis_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "monthly_cv_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "monthly_range_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "monthly_iqr_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "requests_2019",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "quarterly_std_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "quarterly_range_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "weekly_mean_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "weekly_std_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "weekly_range_2023",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "stats_yearly_std",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "stats_yearly_cv",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "stats_monthly_std",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "stats_monthly_cv",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "stats_peak_month_ratio",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "stats_consistency_score",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "service_type_entropy",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "service_type_gini",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "service_type_max_share",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "service_type_min_share",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_concentration_entropy",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "hour_concentration_gini",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "peak_hour_share",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "dow_concentration_entropy",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "dow_concentration_gini",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "peak_dow_share",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "season_concentration_entropy",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "season_concentration_gini",
+      "shap_importance": 0.0
+    },
+    {
+      "feature": "requests_2022",
+      "shap_importance": 0.0
+    }
+  ],
+  "analysis_summary": {
+    "samples_analyzed": 4,
+    "total_features": 1272,
+    "top_shap_feature": "is_high_blight_risk",
+    "top_shap_importance": 0.6411876642533627
+  }
+}

@@ -4,7 +4,7 @@ import numpy as np
 from datetime import datetime, timedelta
 import os
 import json
-from typing import Dict, List, Tuple, Optional
+from typing import Dict, List, Tuple, Optional, Union
 from sklearn.preprocessing import StandardScaler, LabelEncoder
 from sklearn.feature_selection import mutual_info_classif
 import warnings
@@ -13,8 +13,7 @@ warnings.filterwarnings('ignore')
 class WardBasedModelDataGeneratorCSV:
     """
     Comprehensive Toronto Ward-Based Model Data Generator - CSV Version
-    Optimized for Gradient Boosting Algorithms (XGBoost, LightGBM, CatBoost)
-    Outputs clean CSV files for easy ML model training
+    Optimized for LightGBM with categorical features and geometry support
     """
     
     def __init__(self, config: Dict):
@@ -22,7 +21,7 @@ class WardBasedModelDataGeneratorCSV:
         self.df: Optional[pd.DataFrame] = None
         self.wards_gdf: Optional[gpd.GeoDataFrame] = None
         self.features_df: Optional[pd.DataFrame] = None
-        self.final_df: Optional[pd.DataFrame] = None
+        self.final_df: Optional[Union[pd.DataFrame, gpd.GeoDataFrame]] = None
         self.feature_metadata: Dict = {}
         self.ward_name_col: Optional[str] = None
         
@@ -67,8 +66,8 @@ class WardBasedModelDataGeneratorCSV:
     def load_and_validate_data(self) -> bool:
         """Load and validate all input data with comprehensive error handling."""
         print("=" * 80)
-        print("🏗️  COMPREHENSIVE WARD-BASED MODEL DATA GENERATOR - CSV VERSION")
-        print("   Optimized for Gradient Boosting Algorithms")
+        print("🏗️  COMPREHENSIVE WARD-BASED MODEL DATA GENERATOR - LIGHTGBM VERSION")
+        print("   Optimized for LightGBM with Geometry Features")
         print("=" * 80)
         
         # Check ward boundaries (optional for CSV version)
@@ -125,12 +124,15 @@ class WardBasedModelDataGeneratorCSV:
         self.df['month'] = self.df['Creation Date'].dt.month
         self.df['day_of_week'] = self.df['Creation Date'].dt.dayofweek
         self.df['quarter'] = self.df['Creation Date'].dt.quarter
-        self.df['season'] = self.df['month'].map({
+        
+        # Fix season mapping
+        season_map = {
             12: 'winter', 1: 'winter', 2: 'winter',
             3: 'spring', 4: 'spring', 5: 'spring',
             6: 'summer', 7: 'summer', 8: 'summer',
             9: 'fall', 10: 'fall', 11: 'fall'
-        })
+        }
+        self.df['season'] = self.df['month'].replace(season_map)
         
         # Clean ward names with advanced normalization
         self.df['Ward_Clean'] = (self.df['Ward']
@@ -262,6 +264,9 @@ class WardBasedModelDataGeneratorCSV:
         
         # === STATISTICAL FEATURES ===
         features.update(self._create_statistical_features(historical_data))
+        
+        # === CATEGORICAL FEATURES FOR LIGHTGBM ===
+        features.update(self._create_categorical_blight_features(historical_data, target_data))
         
         return features
         
@@ -715,7 +720,8 @@ class WardBasedModelDataGeneratorCSV:
         yearly_counts = historical_data.groupby('year').size()
         
         # Year-by-year blight counts
-        blight_data = historical_data[historical_data['Service Request Type'].isin(self.blight_indicators.keys())]
+        blight_indicators_list = list(self.blight_indicators.keys())
+        blight_data = historical_data[historical_data['Service Request Type'].isin(blight_indicators_list)]
         yearly_blight_counts = blight_data.groupby('year').size() if len(blight_data) > 0 else pd.Series(dtype=int)
         
         # Fill in missing years with 0
@@ -1148,7 +1154,8 @@ class WardBasedModelDataGeneratorCSV:
             features['peak_season_share'] = 0
         
         # Blight-specific statistical features
-        blight_data = historical_data[historical_data['Service Request Type'].isin(self.blight_indicators.keys())]
+        blight_indicators_list = list(self.blight_indicators.keys())
+        blight_data = historical_data[historical_data['Service Request Type'].isin(blight_indicators_list)]
         if len(blight_data) > 0:
             blight_monthly = blight_data.groupby(['year', 'month']).size()
             if len(blight_monthly) > 0:
@@ -1169,6 +1176,79 @@ class WardBasedModelDataGeneratorCSV:
             features['blight_monthly_cv'] = 0
             features['blight_monthly_skewness'] = 0
             features['blight_monthly_kurtosis'] = 0
+        
+        return features
+        
+    def _create_categorical_blight_features(self, historical_data: pd.DataFrame, target_data: pd.DataFrame) -> Dict:
+        """Create categorical blight features expected by LightGBM model."""
+        features = {}
+        
+        # Filter to blight data only
+        blight_indicators_list = list(self.blight_indicators.keys())
+        blight_data = historical_data[
+            historical_data['Service Request Type'].isin(blight_indicators_list)
+        ]
+        
+        target_blight_data = target_data[
+            target_data['Service Request Type'].isin(blight_indicators_list)
+        ]
+        
+        # Overall most common blight type (categorical feature for LightGBM)
+        if len(blight_data) > 0:
+            overall_most_common = blight_data['Service Request Type'].mode()
+            features['overall_most_common_blight'] = overall_most_common.iloc[0] if len(overall_most_common) > 0 else 'None'
+        else:
+            features['overall_most_common_blight'] = 'None'
+        
+        # Recent (target year) most common blight type
+        if len(target_blight_data) > 0:
+            recent_most_common = target_blight_data['Service Request Type'].mode()
+            features['recent_most_common_blight'] = recent_most_common.iloc[0] if len(recent_most_common) > 0 else 'None'
+        else:
+            features['recent_most_common_blight'] = 'None'
+        
+        # Most common blight type in the last 2 years of historical data
+        if len(blight_data) > 0:
+            recent_years = [self.config['history_end_year'] - 1, self.config['history_end_year']]
+            recent_historical_blight = blight_data[blight_data['year'].isin(recent_years)]
+            
+            if len(recent_historical_blight) > 0:
+                recent_historical_most_common = recent_historical_blight['Service Request Type'].mode()
+                features['recent_historical_most_common_blight'] = recent_historical_most_common.iloc[0] if len(recent_historical_most_common) > 0 else 'None'
+            else:
+                features['recent_historical_most_common_blight'] = 'None'
+        else:
+            features['recent_historical_most_common_blight'] = 'None'
+        
+        # Blight type diversity categorical
+        unique_blight_types = blight_data['Service Request Type'].nunique() if len(blight_data) > 0 else 0
+        if unique_blight_types >= 5:
+            features['blight_diversity_category'] = 'High'
+        elif unique_blight_types >= 3:
+            features['blight_diversity_category'] = 'Medium'
+        elif unique_blight_types >= 1:
+            features['blight_diversity_category'] = 'Low'
+        else:
+            features['blight_diversity_category'] = 'None'
+        
+        # Dominant blight category (infrastructure vs visual vs sanitation)
+        if len(blight_data) > 0:
+            infrastructure_count = len(blight_data[blight_data['Service Request Type'].str.contains('Road|Sidewalk|Catch Basin', na=False)])
+            visual_count = len(blight_data[blight_data['Service Request Type'].str.contains('Graffiti', na=False)])
+            sanitation_count = len(blight_data[blight_data['Service Request Type'].str.contains('Litter|Dumping|Garbage', na=False)])
+            property_count = len(blight_data[blight_data['Service Request Type'].str.contains('Grass|Property|Construction', na=False)])
+            
+            category_counts = {
+                'Infrastructure': infrastructure_count,
+                'Visual': visual_count,
+                'Sanitation': sanitation_count,
+                'Property': property_count
+            }
+            
+            dominant_category = max(category_counts, key=category_counts.get)
+            features['dominant_blight_category'] = dominant_category if category_counts[dominant_category] > 0 else 'None'
+        else:
+            features['dominant_blight_category'] = 'None'
         
         return features
         
@@ -1220,6 +1300,9 @@ class WardBasedModelDataGeneratorCSV:
             self.final_df['target_blight_requests'] > blight_threshold_75
         ).astype(int)
         
+        # LightGBM model expects 'is_blighted' - create as alias for high-risk
+        self.final_df['is_blighted'] = self.final_df['is_high_blight_risk'].copy()
+        
         # Binary extreme-risk classification (90th percentile)
         blight_threshold_90 = self.final_df['target_blight_requests'].quantile(0.90)
         self.final_df['is_extreme_blight_risk'] = (
@@ -1244,6 +1327,7 @@ class WardBasedModelDataGeneratorCSV:
         )
         
         print(f"   ✓ High-risk wards (75th percentile): {self.final_df['is_high_blight_risk'].sum()}")
+        print(f"   ✓ LightGBM target 'is_blighted': {self.final_df['is_blighted'].sum()}")
         print(f"   ✓ Extreme-risk wards (90th percentile): {self.final_df['is_extreme_blight_risk'].sum()}")
         
     def _add_feature_metadata(self):
@@ -1254,13 +1338,14 @@ class WardBasedModelDataGeneratorCSV:
         # Categorize features
         self.feature_metadata = {
             'volume_features': [col for col in feature_cols if col.startswith('total_') or col.startswith('requests_')],
-            'blight_features': [col for col in feature_cols if 'blight' in col],
+            'blight_features': [col for col in feature_cols if 'blight' in col and not col.endswith('_category')],
             'temporal_features': [col for col in feature_cols if col.startswith('temporal_')],
             'trend_features': [col for col in feature_cols if col.startswith('trend_')],
             'seasonal_features': [col for col in feature_cols if col.startswith('seasonal_')],
             'ratio_features': [col for col in feature_cols if col.startswith('ratio_')],
             'statistical_features': [col for col in feature_cols if col.startswith('stats_')],
             'diversity_features': [col for col in feature_cols if 'diversity' in col or 'dominance' in col],
+            'categorical_features': [col for col in feature_cols if col.endswith('_category') or col.endswith('_blight') and col != 'is_blighted'],
             'target_features': [col for col in feature_cols if col.startswith('target_') or col.startswith('is_') or col.startswith('risk_')]
         }
         
@@ -1344,11 +1429,19 @@ class WardBasedModelDataGeneratorCSV:
             'feature_metadata': self.feature_metadata,
             'blight_indicators': self.blight_indicators,
             'target_variables': {
+                'is_blighted': 'Primary binary target for LightGBM (75th percentile)',
                 'is_high_blight_risk': 'Binary classification (75th percentile)',
                 'is_extreme_blight_risk': 'Binary classification (90th percentile)',
                 'risk_level': 'Multi-class classification (Low/Medium/High)',
                 'risk_score': 'Continuous risk score (0-1)'
-            }
+            },
+            'categorical_features_for_lightgbm': [
+                'overall_most_common_blight',
+                'recent_most_common_blight', 
+                'recent_historical_most_common_blight',
+                'blight_diversity_category',
+                'dominant_blight_category'
+            ]
         }
         
         metadata_file = self.config['output_csv'].replace('.csv', '_metadata.json')
@@ -1395,14 +1488,15 @@ class WardBasedModelDataGeneratorCSV:
             for i, (feature, variance) in enumerate(variances.head(10).items()):
                 print(f"   {i+1:2d}. {feature}: {variance:.4f}")
                 
-        print(f"\n✅ SUCCESS! Comprehensive dataset ready for ML and visualization!")
+        print(f"\n✅ SUCCESS! Comprehensive dataset ready for LightGBM and visualization!")
         print(f"   📁 ML-ready CSV: {self.config['output_csv']}")
         if 'geometry' in self.final_df.columns:
             geojson_file = self.config['output_csv'].replace('.csv', '.geojson')
             print(f"   🗺️  GeoJSON with geometry: {geojson_file}")
-        print(f"   🎯 Recommended target: 'is_high_blight_risk' for binary classification")
-        print(f"   🎯 Alternative targets: 'risk_level' (multi-class) or 'risk_score' (regression)")
-        print(f"   🎯 Use GeoJSON for map visualization and CSV for machine learning!")
+        print(f"   🎯 Primary LightGBM target: 'is_blighted' (optimized for LightGBM)")
+        print(f"   🎯 Alternative targets: 'is_high_blight_risk', 'risk_level', 'risk_score'")
+        print(f"   🏷️  Categorical features: {len(self.feature_metadata.get('categorical_features', []))} features for LightGBM")
+        print(f"   🎯 Use GeoJSON directly with LightGBM model for geometry-based features!")
         
     def run(self) -> bool:
         """Run the complete data generation pipeline."""
@@ -1431,12 +1525,12 @@ class WardBasedModelDataGeneratorCSV:
             traceback.print_exc()
             return False
 
-# Configuration
+# Configuration - Optimized for LightGBM Model
 CONFIG = {
     'service_requests_csv': 'SRALL.csv',
-    'ward_boundaries_file': 'toronto_ward_data.geojson',  # Required for geometry output
+    'ward_boundaries_file': 'toronto_ward_data.geojson',  # Required for LightGBM geometry features
     'output_csv': 'model_ready_data.csv',
-    'save_geojson': True,  # Set to True to save GeoJSON with geometry
+    'save_geojson': True,  # Required: LightGBM model expects GeoJSON input
     'history_start_year': 2014,
     'history_end_year': 2023,
     'target_year': 2024
@@ -1448,8 +1542,10 @@ if __name__ == "__main__":
     success = generator.run()
     
     if success:
-        print("\n🎉 Model-ready CSV dataset generation completed successfully!")
-        print("   Ready for XGBoost, LightGBM, CatBoost, or any gradient boosting algorithm!")
-        print("   Perfect for standard ML libraries like scikit-learn, pandas, etc.")
+        print("\n🎉 LightGBM-optimized dataset generation completed successfully!")
+        print("   🤖 Ready for LightGBM model with geometry features and categorical variables!")
+        print("   📊 Includes 'is_blighted' target and categorical features for optimal performance!")
+        print("   🗺️  GeoJSON output: 'model_ready_data.geojson' ready for LightGBM model!")
+        print("   🚀 Run the LightGBM model script next for training and prediction!")
     else:
         print("\n💥 Dataset generation failed. Please check the errors above.") 

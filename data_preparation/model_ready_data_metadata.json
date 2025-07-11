@@ -1,5 +1,5 @@
 {
-  "generation_date": "2025-07-10T21:03:46.527600",
+  "generation_date": "2025-07-10T22:08:16.708307",
   "config": {
     "service_requests_csv": "SRALL.csv",
     "ward_boundaries_file": "toronto_ward_data.geojson",
@@ -11,7 +11,7 @@
   },
   "data_summary": {
     "total_wards": 25,
-    "total_features": 1270,
+    "total_features": 1276,
     "date_range": "2014-2023",
     "target_year": 2024,
     "blight_indicators": 19,
@@ -172,7 +172,11 @@
       "blight_monthly_cv",
       "blight_monthly_skewness",
       "blight_monthly_kurtosis",
+      "overall_most_common_blight",
+      "recent_most_common_blight",
+      "recent_historical_most_common_blight",
       "is_high_blight_risk",
+      "is_blighted",
       "is_extreme_blight_risk"
     ],
     "temporal_features": [
@@ -353,13 +357,22 @@
       "top_service_dominance_overall",
       "division_diversity_overall",
       "diversity_trend_slope",
-      "diversity_volatility"
+      "diversity_volatility",
+      "blight_diversity_category"
+    ],
+    "categorical_features": [
+      "overall_most_common_blight",
+      "recent_most_common_blight",
+      "recent_historical_most_common_blight",
+      "blight_diversity_category",
+      "dominant_blight_category"
     ],
     "target_features": [
       "target_total_requests",
       "target_blight_requests",
       "target_blight_rate",
       "is_high_blight_risk",
+      "is_blighted",
       "is_extreme_blight_risk",
       "risk_level",
       "risk_score"
@@ -387,9 +400,17 @@
     "Construction-Unsafe/Untidy Condition": 0.9
   },
   "target_variables": {
+    "is_blighted": "Primary binary target for LightGBM (75th percentile)",
     "is_high_blight_risk": "Binary classification (75th percentile)",
     "is_extreme_blight_risk": "Binary classification (90th percentile)",
     "risk_level": "Multi-class classification (Low/Medium/High)",
     "risk_score": "Continuous risk score (0-1)"
-  }
+  },
+  "categorical_features_for_lightgbm": [
+    "overall_most_common_blight",
+    "recent_most_common_blight",
+    "recent_historical_most_common_blight",
+    "blight_diversity_category",
+    "dominant_blight_category"
+  ]
 }
