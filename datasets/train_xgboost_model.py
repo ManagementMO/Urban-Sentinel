@@ -3,8 +3,7 @@ import geopandas as gpd
 import numpy as np
 import xgboost as xgb
 from sklearn.model_selection import (
-    train_test_split, cross_val_score, StratifiedKFold, 
-    GridSearchCV, RandomizedSearchCV
+    train_test_split, cross_val_score, StratifiedKFold
 )
 from sklearn.metrics import (
     classification_report, confusion_matrix, roc_auc_score, 
@@ -19,7 +18,7 @@ import joblib
 import json
 import warnings
 from datetime import datetime
-from typing import Dict, List, Tuple, Optional
+from typing import Dict, List, Optional
 import optuna
 from optuna.samplers import TPESampler
 import shap
@@ -84,7 +83,7 @@ class UrbanBlightXGBoostModel:
             return False
             
         # Display basic info
-        print(f"\n📈 Dataset Overview:")
+        print("\n📈 Dataset Overview:")
         print(f"   • Total wards: {len(self.data)}")
         print(f"   • Target variable: {self.config['target_column']}")
         
@@ -100,7 +99,7 @@ class UrbanBlightXGBoostModel:
         
     def engineer_features(self) -> bool:
         """Advanced feature engineering and selection."""
-        print(f"\n🔧 Advanced Feature Engineering...")
+        print("\n🔧 Advanced Feature Engineering...")
         
         # Validate data is loaded
         if self.data is None:
@@ -163,7 +162,7 @@ class UrbanBlightXGBoostModel:
             print(f"   ❌ ERROR: Still have non-numeric columns: {list(non_numeric_final.index)}")
             return False
         
-        print(f"   ✓ All features are numeric, ready for ML")
+        print("   ✓ All features are numeric, ready for ML")
         
         # Feature selection
         if self.config['feature_selection']['enabled']:
@@ -185,7 +184,7 @@ class UrbanBlightXGBoostModel:
         
     def _create_interaction_features(self):
         """Create interaction features between important variables."""
-        print(f"   🔗 Creating interaction features...")
+        print("   🔗 Creating interaction features...")
         
         # Key feature groups for interactions
         blight_features = [col for col in self.data.columns if 'blight' in col.lower()]
@@ -215,7 +214,7 @@ class UrbanBlightXGBoostModel:
         
     def _create_ratio_features(self):
         """Create additional ratio features."""
-        print(f"   📊 Creating ratio features...")
+        print("   📊 Creating ratio features...")
         
         ratios_created = 0
         
@@ -245,7 +244,7 @@ class UrbanBlightXGBoostModel:
         
     def _create_polynomial_features(self):
         """Create polynomial features for key variables."""
-        print(f"   🔢 Creating polynomial features...")
+        print("   🔢 Creating polynomial features...")
         
         # Key features for polynomial transformation
         poly_candidates = [
@@ -267,7 +266,7 @@ class UrbanBlightXGBoostModel:
         
     def _select_features(self, X: pd.DataFrame, y: pd.Series) -> pd.DataFrame:
         """Advanced feature selection using multiple methods."""
-        print(f"   🎯 Feature Selection...")
+        print("   🎯 Feature Selection...")
         
         method = self.config['feature_selection']['method']
         k = self.config['feature_selection']['k_features']
@@ -290,7 +289,7 @@ class UrbanBlightXGBoostModel:
         
     def optimize_hyperparameters(self) -> Dict:
         """Advanced hyperparameter optimization using Optuna."""
-        print(f"\n🔬 Hyperparameter Optimization with Optuna...")
+        print("\n🔬 Hyperparameter Optimization with Optuna...")
         
         def objective(trial):
             """Optuna objective function."""
@@ -356,7 +355,7 @@ class UrbanBlightXGBoostModel:
         
     def train_model(self) -> bool:
         """Train the final XGBoost model with optimized parameters."""
-        print(f"\n🤖 Training Final XGBoost Model...")
+        print("\n🤖 Training Final XGBoost Model...")
         
         # Get optimized parameters
         if self.best_params is None:
@@ -380,7 +379,7 @@ class UrbanBlightXGBoostModel:
             'importance': self.model.feature_importances_
         }).sort_values('importance', ascending=False)
         
-        print(f"   ✓ Model trained successfully")
+        print("   ✓ Model trained successfully")
         
         # Check if best_iteration is available (depends on XGBoost version)
         try:
@@ -389,13 +388,13 @@ class UrbanBlightXGBoostModel:
             else:
                 print(f"   ✓ Used {self.best_params.get('n_estimators', 'default')} estimators")
         except:
-            print(f"   ✓ Training completed")
+            print("   ✓ Training completed")
         
         return True
         
     def evaluate_model(self) -> Dict:
         """Comprehensive model evaluation."""
-        print(f"\n📊 Comprehensive Model Evaluation...")
+        print("\n📊 Comprehensive Model Evaluation...")
         
         # Predictions
         y_pred = self.model.predict(self.X_test)
@@ -418,7 +417,7 @@ class UrbanBlightXGBoostModel:
             'avg_precision': avg_precision
         }
         
-        print(f"   ✓ Test Results:")
+        print("   ✓ Test Results:")
         print(f"     • Accuracy: {accuracy:.4f}")
         print(f"     • Precision: {precision:.4f}")
         print(f"     • Recall: {recall:.4f}")
@@ -427,16 +426,16 @@ class UrbanBlightXGBoostModel:
         print(f"     • Avg Precision: {avg_precision:.4f}")
         
         # Detailed classification report
-        print(f"\n📋 Detailed Classification Report:")
+        print("\n📋 Detailed Classification Report:")
         print(classification_report(self.y_test, y_pred))
         
         # Confusion matrix
         cm = confusion_matrix(self.y_test, y_pred)
-        print(f"\n🔍 Confusion Matrix:")
+        print("\n🔍 Confusion Matrix:")
         print(cm)
         
         # Feature importance
-        print(f"\n🎯 Top 10 Most Important Features:")
+        print("\n🎯 Top 10 Most Important Features:")
         for i, (_, row) in enumerate(self.feature_importance.head(10).iterrows()):
             print(f"   {i+1:2d}. {row['feature']}: {row['importance']:.4f}")
             
@@ -444,7 +443,7 @@ class UrbanBlightXGBoostModel:
         
     def create_visualizations(self):
         """Create comprehensive visualizations."""
-        print(f"\n📈 Creating Visualizations...")
+        print("\n📈 Creating Visualizations...")
         
         # Set up the plotting style
         plt.style.use('seaborn-v0_8')
@@ -517,7 +516,7 @@ class UrbanBlightXGBoostModel:
         
     def explain_model(self):
         """Generate SHAP explanations for model interpretability."""
-        print(f"\n🔍 Generating SHAP Explanations...")
+        print("\n🔍 Generating SHAP Explanations...")
         
         try:
             # Create SHAP explainer
@@ -543,7 +542,7 @@ class UrbanBlightXGBoostModel:
             
     def save_model(self):
         """Save the trained model and metadata."""
-        print(f"\n💾 Saving Model and Metadata...")
+        print("\n💾 Saving Model and Metadata...")
         
         # Save model
         model_path = f"{self.config['output_dir']}/xgboost_urban_blight_model.pkl"
@@ -575,7 +574,7 @@ class UrbanBlightXGBoostModel:
         
     def predict_all_wards(self) -> pd.DataFrame:
         """Generate predictions for all wards in the dataset."""
-        print(f"\n🔮 Generating Predictions for All Wards...")
+        print("\n🔮 Generating Predictions for All Wards...")
         
         # Prepare features for all wards
         exclude_cols = [
@@ -663,8 +662,8 @@ class UrbanBlightXGBoostModel:
             predictions = self.predict_all_wards()
             predictions.to_csv(f"{self.config['output_dir']}/ward_predictions.csv", index=False)
             
-            print(f"\n🎉 TRAINING COMPLETE!")
-            print(f"   📊 Final Model Performance:")
+            print("\n🎉 TRAINING COMPLETE!")
+            print("   📊 Final Model Performance:")
             print(f"     • ROC AUC: {metrics['roc_auc']:.4f}")
             print(f"     • F1 Score: {metrics['f1_score']:.4f}")
             print(f"     • Precision: {metrics['precision']:.4f}")

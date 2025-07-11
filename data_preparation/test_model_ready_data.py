@@ -120,7 +120,7 @@ def test_model_ready_data():
         # Check output
         if os.path.exists('test_model_ready_data.csv'):
             df = pd.read_csv('test_model_ready_data.csv')
-            print(f"\n📊 Output Summary:")
+            print("\n📊 Output Summary:")
             print(f"   • Rows: {len(df)}")
             print(f"   • Columns: {len(df.columns)}")
             print(f"   • Features: {len([col for col in df.columns if not col.startswith('ward_name')])}")

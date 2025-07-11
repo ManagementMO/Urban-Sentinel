@@ -234,8 +234,8 @@ def train_and_evaluate_model():
     
     # Confusion matrix
     cm = confusion_matrix(y_val, y_val_pred)
-    print(f"\n  Confusion Matrix:")
-    print(f"    Predicted:  0(Non-Blight)  1(Blight)")
+    print("\n  Confusion Matrix:")
+    print("    Predicted:  0(Non-Blight)  1(Blight)")
     print(f"    Actual 0:        {cm[0,0]:4d}        {cm[0,1]:4d}")
     print(f"    Actual 1:        {cm[1,0]:4d}        {cm[1,1]:4d}")
     
@@ -285,7 +285,7 @@ def train_and_evaluate_model():
     
     # Calculate coverage analysis based on available features
     num_features = len(X.columns)
-    print(f"\n  - Feature Coverage Analysis:")
+    print("\n  - Feature Coverage Analysis:")
     
     if num_features >= 10:
         top_10_coverage = cumulative_importance.iloc[9] * 100  # Top 10 features
@@ -368,12 +368,12 @@ def train_and_evaluate_model():
     print("\n" + "=" * 80)
     print("🎉 ENHANCED MODEL TRAINING COMPLETE! 🎉")
     print("=" * 80)
-    print(f"📊 Model Performance Summary:")
+    print("📊 Model Performance Summary:")
     print(f"   • Cross-validated F1-Score: {f1_cv.mean():.3f} ± {f1_cv.std():.3f}")
     print(f"   • Cross-validated ROC-AUC:  {roc_auc_cv.mean():.3f} ± {roc_auc_cv.std():.3f}")
     print(f"   • Validation F1-Score:      {val_f1:.3f}")
-    print(f"   • Class Balance Handled:    ✓")
-    print(f"   • Early Stopping Used:      ✓")
+    print("   • Class Balance Handled:    ✓")
+    print("   • Early Stopping Used:      ✓")
     print(f"   • Feature Importance:       ✓ (Top feature: {top_features[0]})")
     print("=" * 80)
     print("🚀 Ready to deploy to the Urban Sentinel API! 🚀")

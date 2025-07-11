@@ -3,8 +3,6 @@
 Quick test to verify XGBoost API fix works correctly.
 """
 
-import pandas as pd
-import numpy as np
 from sklearn.datasets import make_classification
 from sklearn.model_selection import train_test_split
 import xgboost as xgb
@@ -61,7 +59,7 @@ def test_xgboost_api():
         else:
             print(f"   ✓ Used {params['n_estimators']} estimators")
             
-        print(f"\n🎉 XGBoost API test passed!")
+        print("\n🎉 XGBoost API test passed!")
         print(f"   • XGBoost version: {xgb.__version__}")
         print(f"   • Predictions shape: {predictions.shape}")
         print(f"   • Probabilities shape: {probabilities.shape}")

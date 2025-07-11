@@ -22,7 +22,7 @@ import pandas as pd
 import json
 import sys
 import os
-from typing import Dict, List, Any, Tuple
+from typing import Dict, Any
 
 def get_risk_colors(risk_category: str, blight_probability: float = None) -> Dict[str, Any]:
     """
@@ -135,7 +135,7 @@ def normalize_ward_name(name: str) -> str:
 
 def create_ward_name_mapping(geojson_data: Dict[str, Any], predictions_df: pd.DataFrame) -> Dict[str, str]:
     """Create a mapping between prediction ward names and GeoJSON ward names."""
-    print(f"🔗 Creating ward name mapping...")
+    print("🔗 Creating ward name mapping...")
     
     # Get ward names from both sources
     geojson_names = []
@@ -183,7 +183,7 @@ def merge_predictions_with_geometry(predictions_df: pd.DataFrame,
                                     geojson_data: Dict[str, Any], 
                                     ward_mapping: Dict[str, str]) -> Dict[str, Any]:
     """Merge predictions with ward geometry and add risk colors."""
-    print(f"🔀 Merging predictions with geometry and adding risk colors...")
+    print("🔀 Merging predictions with geometry and adding risk colors...")
     
     # Create a lookup dictionary for predictions by ward name
     predictions_by_ward = {}
@@ -303,7 +303,7 @@ def merge_predictions_with_geometry(predictions_df: pd.DataFrame,
         output_geojson['features'].append(new_feature)
     
     print(f"   📊 Summary: {matched_count} wards with predictions, {unmatched_count} without")
-    print(f"   🎨 Added risk color visualization properties to all features")
+    print("   🎨 Added risk color visualization properties to all features")
     
     return output_geojson
 
@@ -327,7 +327,7 @@ def save_geojson(geojson_data: Dict[str, Any], output_path: str) -> None:
             risk = feature['properties'].get('risk_category', 'Unknown')
             colors_used.add(f"{risk}: {color}")
         
-        print(f"   🎨 Risk colors used:")
+        print("   🎨 Risk colors used:")
         for color_info in sorted(colors_used):
             print(f"      • {color_info}")
         
@@ -371,14 +371,14 @@ def main():
     # Save result
     save_geojson(merged_geojson, output_geojson)
     
-    print(f"\n🎉 Successfully created ward predictions GeoJSON with risk colors!")
+    print("\n🎉 Successfully created ward predictions GeoJSON with risk colors!")
     print(f"📁 Output file: {output_geojson}")
-    print(f"🎨 Features include:")
-    print(f"   • fill_color & fill_opacity for choropleth mapping")
-    print(f"   • stroke_color & stroke_width for borders")
-    print(f"   • popup_text for interactive tooltips")
-    print(f"   • RGB values for custom styling")
-    print(f"🗺️  Ready for beautiful risk visualization!")
+    print("🎨 Features include:")
+    print("   • fill_color & fill_opacity for choropleth mapping")
+    print("   • stroke_color & stroke_width for borders")
+    print("   • popup_text for interactive tooltips")
+    print("   • RGB values for custom styling")
+    print("🗺️  Ready for beautiful risk visualization!")
 
 if __name__ == "__main__":
     main() 

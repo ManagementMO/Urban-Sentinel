@@ -1,12 +1,10 @@
 import pandas as pd
 import geopandas as gpd
 import numpy as np
-from datetime import datetime, timedelta
+from datetime import datetime
 import os
 import json
-from typing import Dict, List, Tuple, Optional, Union
-from sklearn.preprocessing import StandardScaler, LabelEncoder
-from sklearn.feature_selection import mutual_info_classif
+from typing import Dict, Optional, Union
 import warnings
 warnings.filterwarnings('ignore')
 
@@ -73,18 +71,18 @@ class WardBasedModelDataGeneratorCSV:
         # Check ward boundaries (optional for CSV version)
         ward_boundaries_available = os.path.exists(self.config['ward_boundaries_file'])
         if not ward_boundaries_available:
-            print(f"\n⚠️  Ward boundaries file not found - will use ward names only")
+            print("\n⚠️  Ward boundaries file not found - will use ward names only")
             print(f"   Expected: {self.config['ward_boundaries_file']}")
-            print(f"   Continuing without geographic boundaries...")
+            print("   Continuing without geographic boundaries...")
             
         # Check service requests
         if not os.path.exists(self.config['service_requests_csv']):
-            print(f"\n❌ ERROR: Service requests file not found!")
+            print("\n❌ ERROR: Service requests file not found!")
             print(f"   Expected: {self.config['service_requests_csv']}")
             return False
             
         # Load service requests
-        print(f"\n📊 Loading service requests...")
+        print("\n📊 Loading service requests...")
         try:
             self.df = pd.read_csv(self.config['service_requests_csv'])
             print(f"   ✓ Loaded {len(self.df):,} service requests")
@@ -94,13 +92,13 @@ class WardBasedModelDataGeneratorCSV:
             
         # Load ward boundaries if available
         if ward_boundaries_available:
-            print(f"\n🗺️  Loading ward boundaries...")
+            print("\n🗺️  Loading ward boundaries...")
             try:
                 self.wards_gdf = gpd.read_file(self.config['ward_boundaries_file'])
                 print(f"   ✓ Loaded {len(self.wards_gdf)} ward boundaries")
             except Exception as e:
                 print(f"   ⚠️  Error loading ward boundaries: {e}")
-                print(f"   Continuing without geographic boundaries...")
+                print("   Continuing without geographic boundaries...")
                 self.wards_gdf = None
         else:
             self.wards_gdf = None
@@ -109,7 +107,7 @@ class WardBasedModelDataGeneratorCSV:
         
     def clean_and_prepare_data(self) -> bool:
         """Advanced data cleaning and preparation."""
-        print(f"\n🧹 Advanced data cleaning and preparation...")
+        print("\n🧹 Advanced data cleaning and preparation...")
         
         # Validate that data was loaded
         if self.df is None:
@@ -171,7 +169,7 @@ class WardBasedModelDataGeneratorCSV:
                     break
                     
             if self.ward_name_col is None:
-                print(f"   ⚠️  Could not identify ward name column in boundaries")
+                print("   ⚠️  Could not identify ward name column in boundaries")
                 print(f"   Available columns: {list(self.wards_gdf.columns)}")
                 self.wards_gdf = None
             else:
@@ -186,7 +184,7 @@ class WardBasedModelDataGeneratorCSV:
         
     def create_advanced_features(self) -> bool:
         """Create comprehensive features optimized for gradient boosting."""
-        print(f"\n🔧 Creating advanced features for gradient boosting...")
+        print("\n🔧 Creating advanced features for gradient boosting...")
         
         # Validate that data was loaded and cleaned
         if self.df is None:
@@ -1254,7 +1252,7 @@ class WardBasedModelDataGeneratorCSV:
         
     def merge_and_finalize(self) -> bool:
         """Merge features and create final dataset."""
-        print(f"\n🔗 Finalizing dataset...")
+        print("\n🔗 Finalizing dataset...")
         
         # Start with features dataframe
         self.final_df = self.features_df.copy()
@@ -1275,7 +1273,7 @@ class WardBasedModelDataGeneratorCSV:
             # Convert to GeoDataFrame to preserve geometry
             self.final_df = gpd.GeoDataFrame(self.final_df, geometry='geometry')
             
-            print(f"   ✓ Merged with ward boundary information (geometry preserved)")
+            print("   ✓ Merged with ward boundary information (geometry preserved)")
         
         print(f"   ✓ Final dataset: {len(self.final_df)} wards")
         
@@ -1292,7 +1290,7 @@ class WardBasedModelDataGeneratorCSV:
         
     def _create_target_variables(self):
         """Create multiple target variables for different modeling approaches."""
-        print(f"   🎯 Creating target variables...")
+        print("   🎯 Creating target variables...")
         
         # Binary high-risk classification (75th percentile)
         blight_threshold_75 = self.final_df['target_blight_requests'].quantile(0.75)
@@ -1351,7 +1349,7 @@ class WardBasedModelDataGeneratorCSV:
         
     def _validate_features(self):
         """Validate feature quality and completeness."""
-        print(f"   🔍 Validating feature quality...")
+        print("   🔍 Validating feature quality...")
         
         # Check for missing values
         missing_counts = self.final_df.isnull().sum()
@@ -1388,11 +1386,11 @@ class WardBasedModelDataGeneratorCSV:
             for col in object_cols:
                 self.final_df[col] = self.final_df[col].fillna('Unknown')
         
-        print(f"   ✓ Feature validation complete")
+        print("   ✓ Feature validation complete")
         
     def save_results(self) -> bool:
         """Save the final dataset with comprehensive metadata."""
-        print(f"\n💾 Saving comprehensive model-ready dataset...")
+        print("\n💾 Saving comprehensive model-ready dataset...")
         
         # Save main CSV (without geometry for ML compatibility)
         if 'geometry' in self.final_df.columns:
@@ -1454,11 +1452,11 @@ class WardBasedModelDataGeneratorCSV:
         
     def print_summary(self):
         """Print comprehensive summary of the generated dataset."""
-        print(f"\n📈 COMPREHENSIVE DATASET SUMMARY")
+        print("\n📈 COMPREHENSIVE DATASET SUMMARY")
         print("=" * 80)
         
         # Basic stats
-        print(f"🏢 Dataset Overview:")
+        print("🏢 Dataset Overview:")
         print(f"   • Total wards: {len(self.final_df)}")
         print(f"   • Training period: {self.config['history_start_year']}-{self.config['history_end_year']}")
         print(f"   • Target year: {self.config['target_year']}")
@@ -1466,12 +1464,12 @@ class WardBasedModelDataGeneratorCSV:
         print(f"   • Geometry included: {'Yes' if 'geometry' in self.final_df.columns else 'No'}")
         
         # Target variable distribution
-        print(f"\n🎯 Target Variable Distribution:")
+        print("\n🎯 Target Variable Distribution:")
         print(f"   • High-risk wards: {self.final_df['is_high_blight_risk'].sum()}/{len(self.final_df)} ({self.final_df['is_high_blight_risk'].mean():.1%})")
         print(f"   • Extreme-risk wards: {self.final_df['is_extreme_blight_risk'].sum()}/{len(self.final_df)} ({self.final_df['is_extreme_blight_risk'].mean():.1%})")
         
         # Feature categories
-        print(f"\n🔧 Feature Categories:")
+        print("\n🔧 Feature Categories:")
         for category, features in self.feature_metadata.items():
             if features:
                 print(f"   • {category.replace('_', ' ').title()}: {len(features)}")
@@ -1484,19 +1482,19 @@ class WardBasedModelDataGeneratorCSV:
         
         if len(feature_cols) > 0:
             variances = self.final_df[feature_cols].var().sort_values(ascending=False)
-            print(f"\n📊 Top Features by Variance:")
+            print("\n📊 Top Features by Variance:")
             for i, (feature, variance) in enumerate(variances.head(10).items()):
                 print(f"   {i+1:2d}. {feature}: {variance:.4f}")
                 
-        print(f"\n✅ SUCCESS! Comprehensive dataset ready for LightGBM and visualization!")
+        print("\n✅ SUCCESS! Comprehensive dataset ready for LightGBM and visualization!")
         print(f"   📁 ML-ready CSV: {self.config['output_csv']}")
         if 'geometry' in self.final_df.columns:
             geojson_file = self.config['output_csv'].replace('.csv', '.geojson')
             print(f"   🗺️  GeoJSON with geometry: {geojson_file}")
-        print(f"   🎯 Primary LightGBM target: 'is_blighted' (optimized for LightGBM)")
-        print(f"   🎯 Alternative targets: 'is_high_blight_risk', 'risk_level', 'risk_score'")
+        print("   🎯 Primary LightGBM target: 'is_blighted' (optimized for LightGBM)")
+        print("   🎯 Alternative targets: 'is_high_blight_risk', 'risk_level', 'risk_score'")
         print(f"   🏷️  Categorical features: {len(self.feature_metadata.get('categorical_features', []))} features for LightGBM")
-        print(f"   🎯 Use GeoJSON directly with LightGBM model for geometry-based features!")
+        print("   🎯 Use GeoJSON directly with LightGBM model for geometry-based features!")
         
     def run(self) -> bool:
         """Run the complete data generation pipeline."""

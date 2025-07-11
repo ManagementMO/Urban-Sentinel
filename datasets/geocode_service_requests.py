@@ -1,5 +1,4 @@
 import pandas as pd
-import numpy as np
 import geopandas as gpd
 from shapely.geometry import Point
 
@@ -70,7 +69,7 @@ total_requests = len(service_requests)
 geocoded_requests = service_requests['LATITUDE'].notna().sum()
 geocoding_rate = (geocoded_requests / total_requests) * 100
 
-print(f"\n--- Geocoding Results ---")
+print("\n--- Geocoding Results ---")
 print(f"  - Total service requests: {total_requests}")
 print(f"  - Successfully geocoded: {geocoded_requests}")
 print(f"  - Geocoding rate: {geocoding_rate:.1f}%")
@@ -79,7 +78,7 @@ print(f"  - Failed to geocode: {total_requests - geocoded_requests}")
 # 7. Show some examples of failed geocoding (for debugging)
 failed_requests = service_requests[service_requests['LATITUDE'].isna()]
 if len(failed_requests) > 0:
-    print(f"\n--- Sample Failed Geocoding Attempts ---")
+    print("\n--- Sample Failed Geocoding Attempts ---")
     sample_failed = failed_requests[['Intersection Street 1', 'Intersection Street 2']].head(10)
     for _, row in sample_failed.iterrows():
         print(f"  - '{row['Intersection Street 1']}' & '{row['Intersection Street 2']}'")
@@ -108,5 +107,5 @@ if len(geocoded_data) > 0:
     print(f"  - GeoJSON contains {len(gdf)} features with coordinates")
     print(f"  - {total_requests - len(gdf)} records without coordinates were excluded")
 else:
-    print(f"\n--- No geocoded records found! ---")
+    print("\n--- No geocoded records found! ---")
     print("  - Check that your intersection lookup table has matching street names") 

@@ -1,6 +1,6 @@
 import pandas as pd
 import json
-from shapely.geometry import LineString, shape
+from shapely.geometry import shape
 from shapely.strtree import STRtree
 from collections import defaultdict
 

@@ -179,7 +179,7 @@ def run_data_processing():
         year_counts['year'] = year
         yearly_data_list.append(year_counts)
     yearly_data = pd.concat(yearly_data_list, ignore_index=True)
-    print(f"  - Created yearly aggregated data.")
+    print("  - Created yearly aggregated data.")
 
     print("\n--- Step 4: Creating rich temporal features for ML... ---")
     temporal_features = create_temporal_features(yearly_data, grid)
@@ -217,7 +217,7 @@ def run_data_processing():
     final_grid_web = final_grid.to_crs("EPSG:4326")
     final_grid_web.to_file(OUTPUT_FILENAME, driver='GeoJSON')
     
-    print(f"\n==================== PROCESS COMPLETE ====================")
+    print("\n==================== PROCESS COMPLETE ====================")
     print(f"🎯 Model-ready dataset saved: {OUTPUT_FILENAME}")
     print("✅ Now includes 'overall_most_common_blight' and 'recent_most_common_blight' fields.")
 

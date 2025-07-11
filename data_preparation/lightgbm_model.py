@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import lightgbm as lgb
 from sklearn.model_selection import (
-    train_test_split, cross_val_score, StratifiedKFold
+    train_test_split
 )
 from sklearn.metrics import (
     classification_report, confusion_matrix, roc_auc_score, 
@@ -18,7 +18,7 @@ import json
 import warnings
 import os
 from datetime import datetime
-from typing import Dict, List, Tuple, Optional, Union
+from typing import Dict, List, Optional
 import optuna
 from optuna.samplers import TPESampler
 from optuna.pruners import MedianPruner
@@ -104,7 +104,7 @@ class OptimizedUrbanBlightLightGBMModel:
                 print(f"   ✅ Created dummy target column '{self.config['target_column']}'")
             
         # Display dataset info
-        print(f"\n📈 Dataset Overview:")
+        print("\n📈 Dataset Overview:")
         print(f"   • Total features: {len(self.data)}")
         print(f"   • Total attributes: {len(self.data.columns)}")
         print(f"   • Target variable: {self.config['target_column']}")
@@ -126,13 +126,13 @@ class OptimizedUrbanBlightLightGBMModel:
         if missing_values > 0:
             print(f"   ⚠️  Missing values: {missing_values}")
         else:
-            print(f"   ✅ No missing values detected")
+            print("   ✅ No missing values detected")
             
         return True
         
     def prepare_features(self) -> bool:
         """Prepare features for training."""
-        print(f"\n🔧 Preparing Features for LightGBM Training...")
+        print("\n🔧 Preparing Features for LightGBM Training...")
         
         if self.data is None:
             print("   ❌ No data available for feature preparation")
@@ -170,7 +170,7 @@ class OptimizedUrbanBlightLightGBMModel:
             X[col] = X[col].fillna(0)
         
         # Handle categorical features with label encoding for consistency
-        print(f"   🏷️  Processing categorical features...")
+        print("   🏷️  Processing categorical features...")
         for cat_feature in self.categorical_features:
             if cat_feature in X.columns:
                 # Fill NaN values in categorical columns with 'Unknown' before encoding
@@ -185,7 +185,7 @@ class OptimizedUrbanBlightLightGBMModel:
             else:
                 print(f"     ⚠️  Categorical feature '{cat_feature}' not found, skipping")
         
-        print(f"   ✅ Feature preparation completed:")
+        print("   ✅ Feature preparation completed:")
         print(f"     • Total features: {X.shape[1]}")
         print(f"     • Numeric features: {len(X.select_dtypes(include=['number']).columns)}")
         print(f"     • Encoded categorical features: {len(self.label_encoders)}")
@@ -199,7 +199,7 @@ class OptimizedUrbanBlightLightGBMModel:
             shuffle=True  # Ensure good mixing
         )
         
-        print(f"   ✅ Data split completed:")
+        print("   ✅ Data split completed:")
         print(f"     • Training samples: {len(self.X_train)}")
         print(f"     • Test samples: {len(self.X_test)}")
         print(f"     • Training target distribution: {dict(self.y_train.value_counts())}")
@@ -209,7 +209,7 @@ class OptimizedUrbanBlightLightGBMModel:
         
     def optimize_hyperparameters(self) -> Dict:
         """Advanced hyperparameter optimization using Optuna with enhanced search space."""
-        print(f"\n🔬 ADVANCED Hyperparameter Optimization with Optuna...")
+        print("\n🔬 ADVANCED Hyperparameter Optimization with Optuna...")
         print(f"   🚀 Running {self.config['hyperparameter_tuning']['n_trials']} trials with {self.config['hyperparameter_tuning']['timeout']/3600:.1f}h timeout")
         
         if self.y_train is None:
@@ -221,7 +221,7 @@ class OptimizedUrbanBlightLightGBMModel:
         neg_count = (self.y_train == 0).sum()
         scale_pos_weight = neg_count / pos_count if pos_count > 0 else 1.0
         
-        print(f"   ⚖️  Class imbalance handling:")
+        print("   ⚖️  Class imbalance handling:")
         print(f"     • Positive samples: {pos_count}")
         print(f"     • Negative samples: {neg_count}")
         print(f"     • Scale pos weight: {scale_pos_weight:.3f}")
@@ -353,7 +353,7 @@ class OptimizedUrbanBlightLightGBMModel:
             study_name=self.config['hyperparameter_tuning']['study_name']
         )
         
-        print(f"   🔥 Starting intensive optimization...")
+        print("   🔥 Starting intensive optimization...")
         print(f"   ⏱️  Estimated completion time: {self.config['hyperparameter_tuning']['timeout']/3600:.1f} hours")
         
         study.optimize(
@@ -375,13 +375,13 @@ class OptimizedUrbanBlightLightGBMModel:
             'force_col_wise': True
         })
         
-        print(f"\n   ✅ ADVANCED OPTIMIZATION COMPLETED:")
+        print("\n   ✅ ADVANCED OPTIMIZATION COMPLETED:")
         print(f"     • Best {self.config['hyperparameter_tuning']['scoring_metric']} Score: {study.best_value:.6f}")
         print(f"     • Trials completed: {len(study.trials)}")
         print(f"     • Pruned trials: {len([t for t in study.trials if t.state == optuna.trial.TrialState.PRUNED])}")
         print(f"     • Best trial: #{study.best_trial.number}")
         
-        print(f"\n   🏆 OPTIMAL PARAMETERS:")
+        print("\n   🏆 OPTIMAL PARAMETERS:")
         for param, value in self.best_params.items():
             if param not in ['objective', 'metric', 'verbosity', 'n_jobs', 'random_state', 'force_col_wise']:
                 if isinstance(value, float):
@@ -393,7 +393,7 @@ class OptimizedUrbanBlightLightGBMModel:
         
     def train_model(self) -> bool:
         """Train the final LightGBM model."""
-        print(f"\n🤖 Training Final LightGBM Model...")
+        print("\n🤖 Training Final LightGBM Model...")
         
         if self.best_params is None:
             print("   🔧 Running hyperparameter optimization first...")
@@ -426,7 +426,7 @@ class OptimizedUrbanBlightLightGBMModel:
                 ]
             )
         else:
-            print(f"   🎯 Training without early stopping (dataset too small)")
+            print("   🎯 Training without early stopping (dataset too small)")
             self.model.fit(self.X_train, self.y_train)
         
         # Get feature importance
@@ -436,7 +436,7 @@ class OptimizedUrbanBlightLightGBMModel:
                 'importance': self.model.feature_importances_
             }).sort_values('importance', ascending=False)
         
-        print(f"   ✅ Model trained successfully")
+        print("   ✅ Model trained successfully")
         print(f"   📊 Using {self.best_params.get('n_estimators', 'default')} estimators")
         print(f"   🌳 Number of leaves: {self.best_params.get('num_leaves', 'default')}")
         
@@ -444,7 +444,7 @@ class OptimizedUrbanBlightLightGBMModel:
         
     def evaluate_model(self) -> Dict:
         """Comprehensive model evaluation."""
-        print(f"\n📊 Model Evaluation...")
+        print("\n📊 Model Evaluation...")
         
         if self.model is None or self.X_test is None or self.y_test is None:
             print("   ❌ No model or test data available")
@@ -466,16 +466,16 @@ class OptimizedUrbanBlightLightGBMModel:
             'balanced_accuracy': balanced_accuracy_score(self.y_test, y_pred)
         }
         
-        print(f"   ✅ Model Performance:")
+        print("   ✅ Model Performance:")
         for metric, value in metrics.items():
             print(f"     • {metric.replace('_', ' ').title()}: {value:.4f}")
         
         # Detailed classification report
-        print(f"\n📋 Detailed Classification Report:")
+        print("\n📋 Detailed Classification Report:")
         print(classification_report(self.y_test, y_pred, target_names=['No Blight', 'Blight']))
         
         # Confusion Matrix
-        print(f"\n🔢 Confusion Matrix:")
+        print("\n🔢 Confusion Matrix:")
         cm = confusion_matrix(self.y_test, y_pred)
         print(f"   True Negatives:  {cm[0,0]}")
         print(f"   False Positives: {cm[0,1]}")
@@ -484,7 +484,7 @@ class OptimizedUrbanBlightLightGBMModel:
         
         # Feature importance
         if self.feature_importance is not None:
-            print(f"\n🎯 Top 10 Most Important Features:")
+            print("\n🎯 Top 10 Most Important Features:")
             for i, (_, row) in enumerate(self.feature_importance.head(10).iterrows()):
                 print(f"   {i+1:2d}. {row['feature']}: {row['importance']:.4f}")
         
@@ -492,7 +492,7 @@ class OptimizedUrbanBlightLightGBMModel:
     
     def create_shap_analysis(self) -> bool:
         """Generate SHAP explanations for model interpretability."""
-        print(f"\n🔍 SHAP Model Interpretability Analysis...")
+        print("\n🔍 SHAP Model Interpretability Analysis...")
         
         if self.model is None or self.X_test is None:
             print("   ❌ No model or test data available")
@@ -556,7 +556,7 @@ class OptimizedUrbanBlightLightGBMModel:
             with open(shap_metadata_path, 'w') as f:
                 json.dump(shap_results, f, indent=2, default=str)
             
-            print(f"   ✅ SHAP analysis completed:")
+            print("   ✅ SHAP analysis completed:")
             print(f"     • Summary plot: {summary_path}")
             print(f"     • Detailed plot: {detailed_path}")
             print(f"     • Analysis metadata: {shap_metadata_path}")
@@ -569,7 +569,7 @@ class OptimizedUrbanBlightLightGBMModel:
         
     def create_visualizations(self):
         """Create comprehensive visualizations."""
-        print(f"\n📈 Creating Visualizations...")
+        print("\n📈 Creating Visualizations...")
         
         if self.model is None or self.X_test is None or self.y_test is None:
             print("   ❌ No model to visualize")
@@ -649,7 +649,7 @@ class OptimizedUrbanBlightLightGBMModel:
             
     def save_model(self):
         """Save model and metadata."""
-        print(f"\n💾 Saving LightGBM Model...")
+        print("\n💾 Saving LightGBM Model...")
         
         if self.model is None:
             print("   ❌ No model to save")
@@ -693,7 +693,7 @@ class OptimizedUrbanBlightLightGBMModel:
         
     def predict_all_features(self) -> pd.DataFrame:
         """Generate predictions for all features in the dataset."""
-        print(f"\n🔮 Generating Predictions for All Features...")
+        print("\n🔮 Generating Predictions for All Features...")
         
         if self.model is None or self.data is None:
             print("   ❌ No model or data available")
@@ -710,7 +710,7 @@ class OptimizedUrbanBlightLightGBMModel:
         
         X_all = self.data[feature_cols].copy()
         
-        print(f"   🔧 Preprocessing features for prediction...")
+        print("   🔧 Preprocessing features for prediction...")
         
         # Convert non-numeric to numeric first (excluding categorical features)
         for col in X_all.columns:
@@ -778,7 +778,7 @@ class OptimizedUrbanBlightLightGBMModel:
                 break
         
         print(f"   ✅ Generated predictions for {len(results)} features")
-        print(f"   📊 Prediction Summary:")
+        print("   📊 Prediction Summary:")
         print(f"     • High Risk: {len(results[results['risk_category'] == 'High Risk'])}")
         print(f"     • Medium Risk: {len(results[results['risk_category'] == 'Medium Risk'])}")
         print(f"     • Low Risk: {len(results[results['risk_category'] == 'Low Risk'])}")
@@ -823,9 +823,9 @@ class OptimizedUrbanBlightLightGBMModel:
                 predictions.to_csv(pred_path, index=False)
                 print(f"   ✅ Predictions saved to: {pred_path}")
             
-            print(f"\n🎉 LIGHTGBM TRAINING COMPLETED SUCCESSFULLY!")
+            print("\n🎉 LIGHTGBM TRAINING COMPLETED SUCCESSFULLY!")
             
-            print(f"\n   📊 Final Performance:")
+            print("\n   📊 Final Performance:")
             if metrics:
                 print(f"     • F1 Score: {metrics.get('f1_score', 0):.4f}")
                 print(f"     • ROC AUC: {metrics.get('roc_auc', 0):.4f}")
@@ -834,7 +834,7 @@ class OptimizedUrbanBlightLightGBMModel:
                 print(f"     • Matthews Correlation: {metrics.get('matthews_corrcoef', 0):.4f}")
                 print(f"     • Balanced Accuracy: {metrics.get('balanced_accuracy', 0):.4f}")
             print(f"   📁 All outputs saved to: {self.config['output_dir']}/")
-            print(f"   🤖 Model ready for production deployment!")
+            print("   🤖 Model ready for production deployment!")
             
             return True
             
