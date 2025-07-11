@@ -71,7 +71,7 @@ def test_model_ready_data():
     try:
         # Import the module
         sys.path.append('data_preparation')
-        from model_ready_data import WardBasedModelDataGeneratorCSV
+        from feature_engineering import WardBasedModelDataGeneratorCSV
         
         # Create test configuration
         config = {
