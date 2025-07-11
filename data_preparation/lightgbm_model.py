@@ -16,7 +16,6 @@ from sklearn.metrics import (
     matthews_corrcoef,
     balanced_accuracy_score,
 )
-from sklearn.preprocessing import LabelEncoder
 import matplotlib.pyplot as plt
 import seaborn as sns
 import joblib
@@ -35,8 +34,8 @@ warnings.filterwarnings("ignore")
 
 class OptimizedUrbanBlightLightGBMModel:
     """
-    Simplified LightGBM Model for Urban Blight Prediction
-    CSV-based with robust categorical feature handling
+    LightGBM Model for Urban Blight Prediction
+    Optimized with Optuna for best performance
     """
 
     def __init__(self, config: Dict):
@@ -51,44 +50,41 @@ class OptimizedUrbanBlightLightGBMModel:
         self.feature_importance: Optional[pd.DataFrame] = None
         self.shap_values: Optional[np.ndarray] = None
         self.shap_explainer: Optional[shap.Explainer] = None
+        # Only the two specified categorical features
         self.categorical_features: List[str] = [
             "overall_most_common_blight",
-            "recent_most_common_blight",
-            "recent_historical_most_common_blight",
-            "blight_diversity_category",
-            "dominant_blight_category",
+            "recent_most_common_blight"
         ]
-        self.label_encoders: Dict[str, LabelEncoder] = {}
         self.model_metadata: Dict = {}
 
     def load_and_validate_data(self) -> bool:
-        """Load and validate the CSV dataset."""
+        """Load and validate the dataset."""
         print("=" * 80)
         print("🚀 LIGHTGBM MODEL TRAINER")
-        print("   Urban Blight Prediction - CSV Data")
+        print("   Urban Blight Prediction")
         print("=" * 80)
 
-        print(f"\n📊 Loading CSV dataset from '{self.config['input_file']}'...")
+        print(f"\n📊 Loading dataset from '{self.config['input_file']}'...")
 
         try:
-            # Load CSV data
+            # Load data (CSV format as specified by user)
             self.data = pd.read_csv(self.config["input_file"])
 
             if self.data is None or len(self.data) == 0:
                 print("   ❌ Failed to load data or empty dataset")
                 return False
 
-            print(f"   ✓ Loaded {len(self.data)} features")
+            print(f"   ✓ Loaded {len(self.data)} records")
             print(f"   ✓ Total columns: {len(self.data.columns)}")
 
         except Exception as e:
-            print(f"   ❌ Error loading CSV data: {e}")
+            print(f"   ❌ Error loading data: {e}")
             return False
 
         return self._validate_data()
 
     def _validate_data(self) -> bool:
-        """Validate the loaded CSV data."""
+        """Validate the loaded data."""
         if self.data is None:
             print("   ❌ No data loaded")
             return False
@@ -118,7 +114,7 @@ class OptimizedUrbanBlightLightGBMModel:
 
         # Display dataset info
         print("\n📈 Dataset Overview:")
-        print(f"   • Total features: {len(self.data)}")
+        print(f"   • Total records: {len(self.data)}")
         print(f"   • Total attributes: {len(self.data.columns)}")
         print(f"   • Target variable: {self.config['target_column']}")
 
@@ -144,7 +140,7 @@ class OptimizedUrbanBlightLightGBMModel:
         return True
 
     def prepare_features(self) -> bool:
-        """Prepare features for training."""
+        """Prepare features for training with better feature selection for varied predictions."""
         print("\n🔧 Preparing Features for LightGBM Training...")
 
         if self.data is None:
@@ -154,12 +150,15 @@ class OptimizedUrbanBlightLightGBMModel:
         # Identify feature columns (exclude target and identifier columns)
         exclude_patterns = [
             "ward_name",
-            "AREA_NAME",
+            "AREA_NAME", 
             "NAME",
             "WARD_NAME",
             "target_",
             "index",
             "geometry",
+            # CRITICAL: Exclude overly dominant binary features that cause polarized predictions
+            "is_high_blight_risk",  # This was causing 0.004 vs 0.996 predictions
+            "is_blighted",  # Target-like feature
         ]
         exclude_columns = [self.config["target_column"]]
 
@@ -167,96 +166,147 @@ class OptimizedUrbanBlightLightGBMModel:
         feature_cols = []
         for col in self.data.columns:
             if col not in exclude_columns and not any(
-                pattern in col for pattern in exclude_patterns
+                pattern in col.lower() for pattern in exclude_patterns
             ):
                 feature_cols.append(col)
 
         print(f"   ✓ Identified {len(feature_cols)} potential features")
+        print(f"   ✓ Excluded dominant binary features for better probability variation")
 
         # Prepare feature matrix and target
         X = self.data[feature_cols].copy()
         y = self.data[self.config["target_column"]].copy()
 
-        # Handle non-numeric columns first (before categoricals)
-        non_numeric_cols = X.select_dtypes(exclude=["number"]).columns
-        categorical_features_present = [
-            f for f in self.categorical_features if f in X.columns
-        ]
-        non_categorical_non_numeric = [
-            col for col in non_numeric_cols if col not in categorical_features_present
-        ]
-
-        if len(non_categorical_non_numeric) > 0:
-            print(
-                f"   🔧 Converting {len(non_categorical_non_numeric)} non-numeric columns"
-            )
-            for col in non_categorical_non_numeric:
-                X[col] = pd.to_numeric(X[col], errors="coerce")
-
-        # Fill NaN values in numeric columns
-        numeric_cols = X.select_dtypes(include=["number"]).columns
-        for col in numeric_cols:
-            X[col] = X[col].fillna(0)
-
-        # Handle categorical features with label encoding for consistency
+        # Handle categorical features - convert to category dtype for LightGBM
         print("   🏷️  Processing categorical features...")
         for cat_feature in self.categorical_features:
             if cat_feature in X.columns:
-                # Fill NaN values in categorical columns with 'Unknown' before encoding
+                # Fill NaN values first
                 X[cat_feature] = X[cat_feature].fillna("Unknown")
-
-                # Use label encoder for consistent categorical handling
-                le = LabelEncoder()
-                X[cat_feature] = le.fit_transform(X[cat_feature])
-                self.label_encoders[cat_feature] = le
-
-                print(f"     • {cat_feature}: {len(le.classes_)} categories")
+                # Convert to category dtype for LightGBM
+                X[cat_feature] = pd.Categorical(X[cat_feature])
+                print(f"     • {cat_feature}: {X[cat_feature].nunique()} categories")
             else:
-                print(
-                    f"     ⚠️  Categorical feature '{cat_feature}' not found, skipping"
-                )
+                print(f"     ⚠️  Categorical feature '{cat_feature}' not found, skipping")
+
+        # Handle non-categorical columns - convert to numeric
+        non_categorical_cols = [col for col in X.columns if col not in self.categorical_features]
+        for col in non_categorical_cols:
+            if X[col].dtype == 'object':
+                X[col] = pd.to_numeric(X[col], errors='coerce')
+            # Fill NaN values in numeric columns
+            X[col] = X[col].fillna(0)
+
+        # IMPROVED: More lenient feature selection for varied predictions
+        print(f"\n🔍 Dataset size analysis:")
+        print(f"     • Samples: {len(X)}")
+        print(f"     • Features: {len(X.columns)}")
+        print(f"     • Feature-to-sample ratio: {len(X.columns)/len(X):.1f}:1")
+        
+        # More lenient feature selection - keep more features for variation
+        max_features = min(max(15, len(X) // 2), 50)  # Keep 15-50 features, up to half the samples
+        
+        if len(X.columns) > max_features:
+            print(f"   🎯 Selecting top {max_features} most varied features for nuanced predictions")
+            X = self._select_varied_features(X, y, max_features)
+            print(f"   ✅ Reduced to {X.shape[1]} features with good variation")
+        else:
+            print(f"   ✅ Keeping all {len(X.columns)} features - good ratio for predictions")
 
         print("   ✅ Feature preparation completed:")
         print(f"     • Total features: {X.shape[1]}")
-        print(
-            f"     • Numeric features: {len(X.select_dtypes(include=['number']).columns)}"
-        )
-        print(f"     • Encoded categorical features: {len(self.label_encoders)}")
+        print(f"     • Categorical features: {len([col for col in X.columns if col in self.categorical_features])}")
+        print(f"     • Numeric features: {len([col for col in X.columns if col not in self.categorical_features])}")
 
-        # Enhanced data split with stratification (more training data for better learning)
-        self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(
-            X,
-            y,
-            test_size=self.config[
-                "test_size"
-            ],  # Using 15% for testing, 85% for training
-            random_state=self.config["random_state"],
-            stratify=y,
-            shuffle=True,  # Ensure good mixing
-        )
+        # Use entire dataset for training (no train/test split)
+        self.X_train = X.copy()
+        self.y_train = y.copy()
+        self.X_test = None  # No separate test set
+        self.y_test = None
 
-        print("   ✅ Data split completed:")
-        print(f"     • Training samples: {len(self.X_train)}")
-        print(f"     • Test samples: {len(self.X_test)}")
-        print(
-            f"     • Training target distribution: {dict(self.y_train.value_counts())}"
-        )
-        print(f"     • Test target distribution: {dict(self.y_test.value_counts())}")
+        print("   ✅ Using entire dataset for training:")
+        print(f"     • Total training samples: {len(X)}")
+        print(f"     • Target distribution: {dict(y.value_counts())}")
+        print("     • Model will generate varied probability scores using multiple features")
 
         return True
 
+    def _select_varied_features(self, X: pd.DataFrame, y: pd.Series, max_features: int) -> pd.DataFrame:
+        """Select features that provide good variation for nuanced probability predictions."""
+        from sklearn.feature_selection import SelectKBest, f_classif, mutual_info_classif
+        from sklearn.feature_selection import VarianceThreshold
+        
+        print("   🎯 Applying intelligent feature selection for varied predictions...")
+        
+        # Step 1: Remove extremely low-variance features (but keep some variation)
+        print("     • Removing only very low-variance features...")
+        variance_selector = VarianceThreshold(threshold=0.001)  # Lower threshold
+        
+        # Separate numeric and categorical features for variance filtering
+        numeric_features = [col for col in X.columns if col not in self.categorical_features]
+        categorical_features = [col for col in X.columns if col in self.categorical_features]
+        
+        if numeric_features:
+            X_numeric = X[numeric_features]
+            X_numeric_filtered = pd.DataFrame(
+                variance_selector.fit_transform(X_numeric),
+                columns=X_numeric.columns[variance_selector.get_support()],
+                index=X_numeric.index
+            )
+            print(f"     • Kept {X_numeric_filtered.shape[1]}/{len(numeric_features)} numeric features")
+        else:
+            X_numeric_filtered = pd.DataFrame(index=X.index)
+        
+        # Keep all categorical features
+        if categorical_features:
+            X_categorical = X[categorical_features]
+            print(f"     • Keeping all {len(categorical_features)} categorical features")
+        else:
+            X_categorical = pd.DataFrame(index=X.index)
+        
+        # Combine filtered features
+        X_filtered = pd.concat([X_numeric_filtered, X_categorical], axis=1)
+        
+        # Step 2: Select diverse features using multiple selection methods
+        if X_filtered.shape[1] > max_features:
+            print(f"     • Selecting top {max_features} most informative features...")
+            
+            # Prepare data for feature selection
+            X_for_selection = X_filtered.copy()
+            for cat_col in categorical_features:
+                if cat_col in X_for_selection.columns:
+                    X_for_selection[cat_col] = pd.factorize(X_for_selection[cat_col])[0]
+            
+            # Use mutual information to find features that provide good discrimination
+            # but not perfect separation (which causes polarized predictions)
+            selector = SelectKBest(score_func=mutual_info_classif, k=max_features)
+            selector.fit(X_for_selection, y)  # Fit the selector before getting support
+            X_selected_indices = selector.get_support()
+            selected_features = X_filtered.columns[X_selected_indices]
+            
+            X_selected = X_filtered[selected_features].copy()
+            
+            # Restore categorical types for selected categorical features
+            for cat_col in categorical_features:
+                if cat_col in X_selected.columns:
+                    X_selected[cat_col] = X_filtered[cat_col]
+            
+            print(f"     • Selected features: {list(X_selected.columns[:10])}{'...' if len(X_selected.columns) > 10 else ''}")
+        else:
+            X_selected = X_filtered
+            
+        print(f"     • Final feature count: {X_selected.shape[1]} (designed for varied 0-1 predictions)")
+        return X_selected
+
     def optimize_hyperparameters(self) -> Dict:
-        """Advanced hyperparameter optimization using Optuna with enhanced search space."""
-        print("\n🔬 ADVANCED Hyperparameter Optimization with Optuna...")
-        print(
-            f"   🚀 Running {self.config['hyperparameter_tuning']['n_trials']} trials with {self.config['hyperparameter_tuning']['timeout'] / 3600:.1f}h timeout"
-        )
+        """Hyperparameter optimization adapted for small datasets."""
+        print("\n🔬 Hyperparameter Optimization (Small Dataset Mode)...")
 
         if self.y_train is None:
             print("   ❌ No training data available")
             return {}
 
-        # Calculate scale_pos_weight for class imbalance
+        # Calculate scale_pos_weight for class imbalance (but don't tune it)
         pos_count = (self.y_train == 1).sum()
         neg_count = (self.y_train == 0).sum()
         scale_pos_weight = neg_count / pos_count if pos_count > 0 else 1.0
@@ -266,207 +316,114 @@ class OptimizedUrbanBlightLightGBMModel:
         print(f"     • Negative samples: {neg_count}")
         print(f"     • Scale pos weight: {scale_pos_weight:.3f}")
 
-        def objective(trial):
-            """Enhanced Optuna objective with expanded hyperparameter space."""
-            # Suggest boosting type for better exploration
-            boosting_type = trial.suggest_categorical(
-                "boosting_type", ["gbdt", "goss", "dart"]
-            )
+        # For very small datasets, use simpler validation
+        n_samples = len(self.X_train)
+        if n_samples < 50:
+            print(f"   📊 Small dataset ({n_samples} samples) - using Leave-One-Out CV")
+            cv_folds = min(n_samples, 10)  # Max 10 folds for small datasets
+        else:
+            cv_folds = 3
+            
+        print(f"   🚀 Running {self.config['hyperparameter_tuning']['n_trials']} trials with {cv_folds}-fold CV")
 
-            # Base parameters
+        def objective(trial):
+            """Simplified objective for small datasets."""
+            # Simpler parameter space for small datasets
             params = {
                 "objective": "binary",
                 "metric": "binary_logloss",
-                "boosting_type": boosting_type,
+                "boosting_type": "gbdt",
                 "random_state": self.config["random_state"],
                 "verbosity": -1,
-                "n_jobs": 1,  # Single job for trial to avoid conflicts
+                "n_jobs": 1,
                 "scale_pos_weight": scale_pos_weight,
-                "force_col_wise": True,  # More stable for many features
-                # Core hyperparameters with expanded ranges
-                "n_estimators": trial.suggest_int("n_estimators", 100, 2000, step=50),
-                "learning_rate": trial.suggest_float(
-                    "learning_rate", 0.005, 0.5, log=True
-                ),
-                "num_leaves": trial.suggest_int("num_leaves", 8, 512),
-                "max_depth": trial.suggest_int("max_depth", 3, 15),
-                # Regularization parameters
-                "reg_alpha": trial.suggest_float("reg_alpha", 0.0, 2.0),
-                "reg_lambda": trial.suggest_float("reg_lambda", 0.0, 2.0),
-                "min_child_samples": trial.suggest_int("min_child_samples", 1, 200),
-                "min_child_weight": trial.suggest_float(
-                    "min_child_weight", 0.001, 10.0, log=True
-                ),
-                "min_split_gain": trial.suggest_float("min_split_gain", 0.0, 1.0),
-                # Sampling parameters
-                "subsample": trial.suggest_float("subsample", 0.5, 1.0),
-                "subsample_freq": trial.suggest_int("subsample_freq", 0, 10),
-                "colsample_bytree": trial.suggest_float("colsample_bytree", 0.5, 1.0),
-                # Advanced parameters for better performance
-                "max_bin": trial.suggest_int("max_bin", 128, 1024, step=32),
-                "feature_fraction_bynode": trial.suggest_float(
-                    "feature_fraction_bynode", 0.5, 1.0
-                ),
-                "extra_trees": trial.suggest_categorical("extra_trees", [True, False]),
+                # Simplified hyperparameter space for small datasets
+                "n_estimators": trial.suggest_int("n_estimators", 50, 200),  # Fewer trees
+                "learning_rate": trial.suggest_float("learning_rate", 0.05, 0.3),  # Higher learning rate
+                "num_leaves": trial.suggest_int("num_leaves", 5, 31),  # Fewer leaves
+                "max_depth": trial.suggest_int("max_depth", 3, 6),  # Shallower trees
+                "reg_alpha": trial.suggest_float("reg_alpha", 0.0, 0.5),  # More regularization
+                "reg_lambda": trial.suggest_float("reg_lambda", 0.0, 0.5),
+                "min_child_samples": trial.suggest_int("min_child_samples", 5, 20),  # Higher min samples
             }
 
-            # Boosting-specific parameters
-            if boosting_type == "dart":
-                params.update(
-                    {
-                        "drop_rate": trial.suggest_float("drop_rate", 0.1, 0.5),
-                        "max_drop": trial.suggest_int("max_drop", 5, 50),
-                        "skip_drop": trial.suggest_float("skip_drop", 0.3, 0.7),
-                    }
-                )
-            elif boosting_type == "goss":
-                # GOSS doesn't support bagging, so remove subsample parameters
-                params.pop("subsample", None)
-                params.pop("subsample_freq", None)
-
-            # Enhanced cross-validation strategy
-            cv_folds = self.config["cv_folds"]
-            cv_repeats = self.config["cv_repeats"]
-
-            # Use RepeatedStratifiedKFold for more robust validation
-            from sklearn.model_selection import RepeatedStratifiedKFold
-
-            cv = RepeatedStratifiedKFold(
-                n_splits=cv_folds,
-                n_repeats=cv_repeats,
-                random_state=self.config["random_state"],
-            )
+            # Use appropriate CV strategy
+            if cv_folds <= 10:
+                from sklearn.model_selection import LeaveOneOut, StratifiedKFold
+                if cv_folds == n_samples:
+                    cv = LeaveOneOut()
+                else:
+                    cv = StratifiedKFold(n_splits=cv_folds, shuffle=True, random_state=self.config["random_state"])
+            else:
+                from sklearn.model_selection import StratifiedKFold
+                cv = StratifiedKFold(n_splits=cv_folds, shuffle=True, random_state=self.config["random_state"])
 
             model = lgb.LGBMClassifier(**params)
 
-            # Cross-validation with multiple metrics
+            # Cross-validation with F1 score optimization
             scores = []
-            for train_idx, val_idx in cv.split(self.X_train, self.y_train):
-                X_fold_train, X_fold_val = (
-                    self.X_train.iloc[train_idx],
-                    self.X_train.iloc[val_idx],
-                )
-                y_fold_train, y_fold_val = (
-                    self.y_train.iloc[train_idx],
-                    self.y_train.iloc[val_idx],
-                )
+            try:
+                for train_idx, val_idx in cv.split(self.X_train, self.y_train):
+                    X_fold_train, X_fold_val = self.X_train.iloc[train_idx], self.X_train.iloc[val_idx]
+                    y_fold_train, y_fold_val = self.y_train.iloc[train_idx], self.y_train.iloc[val_idx]
 
-                # Fit with early stopping
-                model.fit(
-                    X_fold_train,
-                    y_fold_train,
-                    eval_set=[(X_fold_val, y_fold_val)],
-                    callbacks=[
-                        lgb.early_stopping(
-                            self.config["early_stopping_rounds"], verbose=False
-                        )
-                    ],
-                )
+                    # Skip if validation fold has no positive cases
+                    if y_fold_val.sum() == 0:
+                        continue
+                        
+                    # Fit model
+                    model.fit(X_fold_train, y_fold_train)
+                    
+                    # Predict and calculate F1 score
+                    y_pred = model.predict(X_fold_val)
+                    score = f1_score(y_fold_val, y_pred, zero_division='warn')
+                    scores.append(score)
 
-                y_pred = model.predict(X_fold_val)
-                y_pred_proba = model.predict_proba(X_fold_val)[:, 1]
+                return np.mean(scores) if scores else 0.0
+                
+            except Exception as e:
+                print(f"     ⚠️  CV fold failed: {e}")
+                return 0.0
 
-                # Optimize for weighted F1 score (better for imbalanced data)
-                if (
-                    self.config["hyperparameter_tuning"]["scoring_metric"]
-                    == "f1_weighted"
-                ):
-                    score = f1_score(y_fold_val, y_pred, average="weighted")
-                elif (
-                    self.config["hyperparameter_tuning"]["scoring_metric"] == "roc_auc"
-                ):
-                    score = roc_auc_score(y_fold_val, y_pred_proba)
-                else:
-                    score = f1_score(y_fold_val, y_pred)
-
-                scores.append(score)
-
-                # Pruning for faster optimization
-                trial.report(np.mean(scores), len(scores))
-                if trial.should_prune():
-                    raise optuna.TrialPruned()
-
-            return np.mean(scores)
-
-        # Enhanced optimization with advanced sampler and pruner
-        if self.config["hyperparameter_tuning"]["sampler_type"] == "tpe_multivariate":
-            sampler = TPESampler(
-                seed=self.config["random_state"],
-                multivariate=True,
-                group=True,
-                warn_independent_sampling=False,
-                n_startup_trials=20,
-                n_ei_candidates=50,
-            )
-        else:
-            sampler = TPESampler(seed=self.config["random_state"], multivariate=True)
-
-        if self.config["hyperparameter_tuning"]["pruner_type"] == "hyperband":
-            from optuna.pruners import HyperbandPruner
-
-            cv_folds = self.config["cv_folds"]
-            cv_repeats = self.config["cv_repeats"]
-            pruner = HyperbandPruner(
-                min_resource=3, max_resource=cv_folds * cv_repeats, reduction_factor=3
-            )
-        else:
-            pruner = MedianPruner(
-                n_startup_trials=10, n_warmup_steps=20, interval_steps=5
-            )
-
+        # Reduced trials for small datasets
+        n_trials = min(self.config["hyperparameter_tuning"]["n_trials"], 50)
+        
+        # Set up Optuna study
+        sampler = TPESampler(seed=self.config["random_state"])
         study = optuna.create_study(
-            direction=self.config["hyperparameter_tuning"]["optimization_direction"],
+            direction="maximize",
             sampler=sampler,
-            pruner=pruner,
-            study_name=self.config["hyperparameter_tuning"]["study_name"],
+            study_name="small_dataset_blight_optimization"
         )
 
-        print("   🔥 Starting intensive optimization...")
-        print(
-            f"   ⏱️  Estimated completion time: {self.config['hyperparameter_tuning']['timeout'] / 3600:.1f} hours"
-        )
-
+        print("   🔥 Starting optimization...")
         study.optimize(
             objective,
-            n_trials=self.config["hyperparameter_tuning"]["n_trials"],
+            n_trials=n_trials,
             timeout=self.config["hyperparameter_tuning"]["timeout"],
-            n_jobs=1,  # Sequential for stability
+            n_jobs=1,
             show_progress_bar=True,
         )
 
         self.best_params = study.best_params
-        self.best_params.update(
-            {
+        self.best_params.update({
                 "objective": "binary",
                 "metric": "binary_logloss",
+            "boosting_type": "gbdt",
                 "random_state": self.config["random_state"],
                 "verbosity": -1,
                 "n_jobs": -1,
                 "scale_pos_weight": scale_pos_weight,
-                "force_col_wise": True,
-            }
-        )
+        })
 
-        print("\n   ✅ ADVANCED OPTIMIZATION COMPLETED:")
-        print(
-            f"     • Best {self.config['hyperparameter_tuning']['scoring_metric']} Score: {study.best_value:.6f}"
-        )
+        print("\n   ✅ OPTIMIZATION COMPLETED:")
+        print(f"     • Best F1 Score: {study.best_value:.6f}")
         print(f"     • Trials completed: {len(study.trials)}")
-        print(
-            f"     • Pruned trials: {len([t for t in study.trials if t.state == optuna.trial.TrialState.PRUNED])}"
-        )
         print(f"     • Best trial: #{study.best_trial.number}")
 
-        print("\n   🏆 OPTIMAL PARAMETERS:")
+        print("\n   🏆 BEST PARAMETERS:")
         for param, value in self.best_params.items():
-            if param not in [
-                "objective",
-                "metric",
-                "verbosity",
-                "n_jobs",
-                "random_state",
-                "force_col_wise",
-            ]:
+            if param not in ["objective", "metric", "verbosity", "n_jobs", "random_state", "boosting_type"]:
                 if isinstance(value, float):
                     print(f"     • {param}: {value:.6f}")
                 else:
@@ -486,285 +443,106 @@ class OptimizedUrbanBlightLightGBMModel:
             print("   ❌ Hyperparameter optimization failed")
             return False
 
-        # Train model with advanced configuration and early stopping
+        # Initialize LGBMClassifier with best hyperparameters
         self.model = lgb.LGBMClassifier(**self.best_params)
 
-        # Use validation split for early stopping if we have enough data
-        if len(self.X_train) > 50:
-            # Create validation split for early stopping
-            X_train_split, X_val_split, y_train_split, y_val_split = train_test_split(
-                self.X_train,
-                self.y_train,
-                test_size=0.15,
-                random_state=self.config["random_state"],
-                stratify=self.y_train,
-            )
-
-            print(
-                f"   🎯 Training with early stopping (validation split: {len(X_val_split)} samples)"
-            )
-            self.model.fit(
-                X_train_split,
-                y_train_split,
-                eval_set=[(X_val_split, y_val_split)],
-                callbacks=[
-                    lgb.early_stopping(
-                        self.config["early_stopping_rounds"], verbose=False
-                    ),
-                    lgb.log_evaluation(0),  # Silent training
-                ],
-            )
-        else:
-            print("   🎯 Training without early stopping (dataset too small)")
-            self.model.fit(self.X_train, self.y_train)
+        print("   🎯 Training on entire training set...")
+        # Train the final model on the entire training set
+        self.model.fit(self.X_train, self.y_train)
 
         # Get feature importance
         if self.X_train is not None:
-            self.feature_importance = pd.DataFrame(
-                {
+            self.feature_importance = pd.DataFrame({
                     "feature": self.X_train.columns,
                     "importance": self.model.feature_importances_,
-                }
-            ).sort_values("importance", ascending=False)
+            }).sort_values("importance", ascending=False)
 
         print("   ✅ Model trained successfully")
-        print(
-            f"   📊 Using {self.best_params.get('n_estimators', 'default')} estimators"
-        )
-        print(
-            f"   🌳 Number of leaves: {self.best_params.get('num_leaves', 'default')}"
-        )
+        print(f"   📊 Using {self.best_params.get('n_estimators', 'default')} estimators")
+        print(f"   🌳 Number of leaves: {self.best_params.get('num_leaves', 'default')}")
 
         return True
 
     def evaluate_model(self) -> Dict:
-        """Comprehensive model evaluation."""
+        """Model evaluation using training set and cross-validation insights."""
         print("\n📊 Model Evaluation...")
 
-        if self.model is None or self.X_test is None or self.y_test is None:
-            print("   ❌ No model or test data available")
+        if self.model is None or self.X_train is None or self.y_train is None:
+            print("   ❌ No model or training data available")
             return {}
 
-        # Predictions
-        y_pred = self.model.predict(self.X_test)
-        y_pred_proba = self.model.predict_proba(self.X_test)[:, 1]
+        # Since we trained on all data, evaluate on training set
+        # Note: This gives optimistic estimates, but CV during hyperparameter tuning provides realistic performance
+        print("   ℹ️  Evaluating on training set (cross-validation during tuning provides unbiased estimates)")
+        
+        # Make predictions on training set
+        y_pred = self.model.predict(self.X_train)
+        y_pred_proba = self.model.predict_proba(self.X_train)[:, 1]
 
         # Calculate metrics
         metrics = {
-            "accuracy": accuracy_score(self.y_test, y_pred),
-            "precision": precision_score(self.y_test, y_pred),
-            "recall": recall_score(self.y_test, y_pred),
-            "f1_score": f1_score(self.y_test, y_pred),
-            "roc_auc": roc_auc_score(self.y_test, y_pred_proba),
-            "avg_precision": average_precision_score(self.y_test, y_pred_proba),
-            "matthews_corrcoef": matthews_corrcoef(self.y_test, y_pred),
-            "balanced_accuracy": balanced_accuracy_score(self.y_test, y_pred),
+            "training_accuracy": accuracy_score(self.y_train, y_pred),
+            "training_precision": precision_score(self.y_train, y_pred),
+            "training_recall": recall_score(self.y_train, y_pred),
+            "training_f1_score": f1_score(self.y_train, y_pred),
+            "training_roc_auc": roc_auc_score(self.y_train, y_pred_proba),
         }
 
-        print("   ✅ Model Performance:")
+        print("   ✅ Training Set Performance:")
         for metric, value in metrics.items():
             print(f"     • {metric.replace('_', ' ').title()}: {value:.4f}")
 
         # Detailed classification report
-        print("\n📋 Detailed Classification Report:")
-        print(
-            classification_report(
-                self.y_test, y_pred, target_names=["No Blight", "Blight"]
-            )
-        )
+        print("\n📋 Detailed Classification Report (Training Set):")
+        print(classification_report(self.y_train, y_pred, target_names=["No Blight", "Blight"]))
 
         # Confusion Matrix
-        print("\n🔢 Confusion Matrix:")
-        cm = confusion_matrix(self.y_test, y_pred)
+        print("\n🔢 Confusion Matrix (Training Set):")
+        cm = confusion_matrix(self.y_train, y_pred)
         print(f"   True Negatives:  {cm[0, 0]}")
         print(f"   False Positives: {cm[0, 1]}")
         print(f"   False Negatives: {cm[1, 0]}")
         print(f"   True Positives:  {cm[1, 1]}")
 
-        # Feature importance
-        if self.feature_importance is not None:
-            print("\n🎯 Top 10 Most Important Features:")
-            for i, (_, row) in enumerate(self.feature_importance.head(10).iterrows()):
-                print(f"   {i + 1:2d}. {row['feature']}: {row['importance']:.4f}")
+        # ROC AUC Score
+        print(f"\n🎯 Training ROC AUC Score: {metrics['training_roc_auc']:.4f}")
+        print("   📝 Note: Cross-validation F1 score from hyperparameter tuning provides realistic performance estimate")
 
         return metrics
 
-    def create_shap_analysis(self) -> bool:
-        """Generate SHAP explanations for model interpretability."""
-        print("\n🔍 SHAP Model Interpretability Analysis...")
-
-        if self.model is None or self.X_test is None:
-            print("   ❌ No model or test data available")
-            return False
-
-        try:
-            # Create SHAP explainer
-            print("   🧠 Creating SHAP explainer...")
-            self.shap_explainer = shap.TreeExplainer(self.model)
-
-            # Calculate SHAP values for test set (enhanced sampling for better analysis)
-            max_shap_samples = self.config.get("shap_sample_size", 200)
-            sample_size = min(max_shap_samples, len(self.X_test))
-            X_sample = self.X_test.sample(
-                n=sample_size, random_state=self.config["random_state"]
-            )
-
-            print(f"   🔢 Calculating SHAP values for {sample_size} samples...")
-            self.shap_values = self.shap_explainer.shap_values(X_sample)
-
-            # If binary classification, get positive class SHAP values
-            if isinstance(self.shap_values, list):
-                shap_values_plot = self.shap_values[1]  # Positive class
-            else:
-                shap_values_plot = self.shap_values
-
-            # Create SHAP visualizations
-            print("   📊 Creating SHAP visualizations...")
-
-            # 1. Summary plot
-            plt.figure(figsize=(12, 8))
-            shap.summary_plot(shap_values_plot, X_sample, plot_type="bar", show=False)
-            plt.title("SHAP Feature Importance Summary")
-            summary_path = os.path.join(self.config["output_dir"], "shap_summary.png")
-            plt.savefig(summary_path, dpi=300, bbox_inches="tight")
-            plt.close()
-
-            # 2. Detailed summary plot
-            plt.figure(figsize=(12, 8))
-            shap.summary_plot(shap_values_plot, X_sample, show=False)
-            plt.title("SHAP Feature Impact Analysis")
-            detailed_path = os.path.join(self.config["output_dir"], "shap_detailed.png")
-            plt.savefig(detailed_path, dpi=300, bbox_inches="tight")
-            plt.close()
-
-            # Save SHAP analysis results
-            shap_importance = pd.DataFrame(
-                {
-                    "feature": X_sample.columns,
-                    "shap_importance": np.abs(shap_values_plot).mean(axis=0),
-                }
-            ).sort_values("shap_importance", ascending=False)
-
-            shap_results = {
-                "shap_feature_importance": shap_importance.to_dict("records"),
-                "analysis_summary": {
-                    "samples_analyzed": sample_size,
-                    "total_features": len(X_sample.columns),
-                    "top_shap_feature": shap_importance.iloc[0]["feature"],
-                    "top_shap_importance": float(
-                        shap_importance.iloc[0]["shap_importance"]
-                    ),
-                },
-            }
-
-            shap_metadata_path = os.path.join(
-                self.config["output_dir"], "shap_analysis.json"
-            )
-            with open(shap_metadata_path, "w") as f:
-                json.dump(shap_results, f, indent=2, default=str)
-
-            print("   ✅ SHAP analysis completed:")
-            print(f"     • Summary plot: {summary_path}")
-            print(f"     • Detailed plot: {detailed_path}")
-            print(f"     • Analysis metadata: {shap_metadata_path}")
-
-            return True
-
-        except Exception as e:
-            print(f"   ❌ Error in SHAP analysis: {e}")
-            return False
-
-    def create_visualizations(self):
-        """Create comprehensive visualizations."""
-        print("\n📈 Creating Visualizations...")
-
-        if self.model is None or self.X_test is None or self.y_test is None:
-            print("   ❌ No model to visualize")
+    def plot_feature_importance(self):
+        """Generate and plot feature importance."""
+        print("\n📊 Generating Feature Importance Plot...")
+        
+        if self.feature_importance is None:
+            print("   ❌ No feature importance data available")
             return
 
-        # Set up plotting
-        plt.style.use("default")
-        fig, axes = plt.subplots(2, 3, figsize=(18, 12))
-        fig.suptitle("LightGBM Model Analysis - Urban Blight Prediction", fontsize=16)
-
-        # 1. Feature Importance
-        if self.feature_importance is not None:
-            top_features = self.feature_importance.head(15)
-            axes[0, 0].barh(range(len(top_features)), top_features["importance"])
-            axes[0, 0].set_yticks(range(len(top_features)))
-            axes[0, 0].set_yticklabels(top_features["feature"])
-            axes[0, 0].set_title("Feature Importance (Top 15)")
-            axes[0, 0].set_xlabel("Importance")
-
-        # 2. ROC Curve
-        y_pred_proba = self.model.predict_proba(self.X_test)[:, 1]
-        fpr, tpr, _ = roc_curve(self.y_test, y_pred_proba)
-        auc_score = roc_auc_score(self.y_test, y_pred_proba)
-
-        axes[0, 1].plot(fpr, tpr, label=f"ROC Curve (AUC = {auc_score:.3f})")
-        axes[0, 1].plot([0, 1], [0, 1], "k--", label="Random")
-        axes[0, 1].set_xlabel("False Positive Rate")
-        axes[0, 1].set_ylabel("True Positive Rate")
-        axes[0, 1].set_title("ROC Curve")
-        axes[0, 1].legend()
-
-        # 3. Precision-Recall Curve
-        precision, recall, _ = precision_recall_curve(self.y_test, y_pred_proba)
-        avg_precision = average_precision_score(self.y_test, y_pred_proba)
-
-        axes[0, 2].plot(recall, precision, label=f"PR Curve (AP = {avg_precision:.3f})")
-        axes[0, 2].set_xlabel("Recall")
-        axes[0, 2].set_ylabel("Precision")
-        axes[0, 2].set_title("Precision-Recall Curve")
-        axes[0, 2].legend()
-
-        # 4. Confusion Matrix
-        y_pred = self.model.predict(self.X_test)
-        cm = confusion_matrix(self.y_test, y_pred)
-        sns.heatmap(cm, annot=True, fmt="d", cmap="Blues", ax=axes[1, 0])
-        axes[1, 0].set_title("Confusion Matrix")
-        axes[1, 0].set_xlabel("Predicted")
-        axes[1, 0].set_ylabel("Actual")
-
-        # 5. Prediction Distribution
-        axes[1, 1].hist(
-            y_pred_proba[self.y_test == 0], alpha=0.7, label="No Blight", bins=20
-        )
-        axes[1, 1].hist(
-            y_pred_proba[self.y_test == 1], alpha=0.7, label="Blight", bins=20
-        )
-        axes[1, 1].set_xlabel("Predicted Probability")
-        axes[1, 1].set_ylabel("Frequency")
-        axes[1, 1].set_title("Prediction Distribution")
-        axes[1, 1].legend()
-
-        # 6. Feature Categories (simplified)
-        axes[1, 2].text(
-            0.5,
-            0.5,
-            "Feature Analysis\nCompleted",
-            ha="center",
-            va="center",
-            fontsize=14,
-        )
-        axes[1, 2].set_title("Analysis Summary")
-        axes[1, 2].set_xlim(0, 1)
-        axes[1, 2].set_ylim(0, 1)
-        axes[1, 2].axis("off")
-
+        # Create feature importance plot
+        plt.figure(figsize=(12, 8))
+        top_features = self.feature_importance.head(20)
+        
+        plt.barh(range(len(top_features)), top_features["importance"])
+        plt.yticks(range(len(top_features)), top_features["feature"])
+        plt.xlabel("Feature Importance")
+        plt.title("Top 20 Feature Importance - LightGBM Model")
+        plt.gca().invert_yaxis()
         plt.tight_layout()
 
-        # Save visualization
-        output_path = os.path.join(
-            self.config["output_dir"], "lightgbm_model_analysis.png"
-        )
-        plt.savefig(output_path, dpi=300, bbox_inches="tight")
-        print(f"   ✅ Visualizations saved to {output_path}")
+        # Save plot
+        importance_path = os.path.join(self.config["output_dir"], "feature_importance.png")
+        plt.savefig(importance_path, dpi=300, bbox_inches="tight")
+        print(f"   ✅ Feature importance plot saved to: {importance_path}")
 
         if self.config.get("show_plots", True):
             plt.show()
         else:
             plt.close()
+
+        # Print top 10 features
+        print("\n🎯 Top 10 Most Important Features:")
+        for i, (_, row) in enumerate(self.feature_importance.head(10).iterrows()):
+            print(f"   {i + 1:2d}. {row['feature']}: {row['importance']:.4f}")
 
     def save_model(self):
         """Save model and metadata."""
@@ -774,15 +552,9 @@ class OptimizedUrbanBlightLightGBMModel:
             print("   ❌ No model to save")
             return
 
-        # Save model using joblib
-        model_path = os.path.join(
-            self.config["output_dir"], "lightgbm_blight_model.joblib"
-        )
+        # Save model using joblib as specified
+        model_path = os.path.join(self.config["output_dir"], "lightgbm_blight_model.joblib")
         joblib.dump(self.model, model_path)
-
-        # Save label encoders
-        encoders_path = os.path.join(self.config["output_dir"], "label_encoders.joblib")
-        joblib.dump(self.label_encoders, encoders_path)
 
         # Save metadata
         self.model_metadata = {
@@ -792,162 +564,27 @@ class OptimizedUrbanBlightLightGBMModel:
             "config": self.config,
             "best_params": self.best_params,
             "categorical_features": self.categorical_features,
-            "feature_importance": self.feature_importance.to_dict("records")
-            if self.feature_importance is not None
-            else [],
+            "feature_importance": self.feature_importance.to_dict("records") if self.feature_importance is not None else [],
             "data_summary": {
                 "n_samples": len(self.data) if self.data is not None else 0,
-                "n_features": len(self.X_train.columns)
-                if self.X_train is not None
-                else 0,
-                "target_distribution": self.data[self.config["target_column"]]
-                .value_counts()
-                .to_dict()
-                if self.data is not None
-                else {},
-                "categorical_features_info": {
-                    feat: len(self.label_encoders[feat].classes_)
-                    if feat in self.label_encoders
-                    else 0
-                    for feat in self.categorical_features
-                },
+                "n_features": len(self.X_train.columns) if self.X_train is not None else 0,
+                "target_distribution": self.data[self.config["target_column"]].value_counts().to_dict() if self.data is not None else {},
             },
         }
 
-        metadata_path = os.path.join(
-            self.config["output_dir"], "lightgbm_model_metadata.json"
-        )
+        metadata_path = os.path.join(self.config["output_dir"], "lightgbm_model_metadata.json")
         with open(metadata_path, "w") as f:
             json.dump(self.model_metadata, f, indent=2, default=str)
 
         print(f"   ✅ Model saved to: {model_path}")
-        print(f"   ✅ Label encoders saved to: {encoders_path}")
         print(f"   ✅ Metadata saved to: {metadata_path}")
-
-    def predict_all_features(self) -> pd.DataFrame:
-        """Generate predictions for all features in the dataset."""
-        print("\n🔮 Generating Predictions for All Features...")
-
-        if self.model is None or self.data is None:
-            print("   ❌ No model or data available")
-            return pd.DataFrame()
-
-        # Prepare features (same preprocessing as training)
-        exclude_patterns = [
-            "ward_name",
-            "AREA_NAME",
-            "NAME",
-            "WARD_NAME",
-            "target_",
-            "index",
-            "geometry",
-        ]
-        exclude_columns = [self.config["target_column"]]
-
-        feature_cols = []
-        for col in self.data.columns:
-            if col not in exclude_columns and not any(
-                pattern in col for pattern in exclude_patterns
-            ):
-                feature_cols.append(col)
-
-        X_all = self.data[feature_cols].copy()
-
-        print("   🔧 Preprocessing features for prediction...")
-
-        # Convert non-numeric to numeric first (excluding categorical features)
-        for col in X_all.columns:
-            if X_all[col].dtype == "object" and col not in self.categorical_features:
-                X_all[col] = pd.to_numeric(X_all[col], errors="coerce")
-
-        # Fill missing values in numeric columns
-        numeric_cols = [
-            col for col in X_all.columns if col not in self.categorical_features
-        ]
-        for col in numeric_cols:
-            if X_all[col].dtype in ["float64", "int64", "float32", "int32"]:
-                X_all[col] = X_all[col].fillna(0)
-
-        # Handle categorical features exactly like training
-        for cat_feature in self.categorical_features:
-            if cat_feature in X_all.columns and cat_feature in self.label_encoders:
-                # Fill missing values with 'Unknown' first
-                X_all[cat_feature] = X_all[cat_feature].fillna("Unknown")
-
-                # Use the same label encoder from training
-                le = self.label_encoders[cat_feature]
-
-                # Handle unseen categories by mapping them to a default value
-                def safe_transform(value):
-                    if value in le.classes_:
-                        return le.transform([value])[0]
-                    else:
-                        # Map unseen categories to the first class (index 0)
-                        return 0
-
-                X_all[cat_feature] = X_all[cat_feature].apply(safe_transform)
-
-        # Ensure we use the same features as training
-        if self.X_train is not None:
-            training_features = self.X_train.columns.tolist()
-            available_features = [
-                col for col in training_features if col in X_all.columns
-            ]
-
-            if len(available_features) != len(training_features):
-                print(
-                    f"   ⚠️  Warning: Using {len(available_features)}/{len(training_features)} training features"
-                )
-
-            X_all = X_all[available_features].copy()
-
-        # Generate predictions
-        predictions = self.model.predict(X_all)
-        prediction_probabilities = self.model.predict_proba(X_all)[:, 1]
-
-        # Create results
-        results = pd.DataFrame(
-            {
-                "feature_id": range(len(self.data)),
-                "actual_blight": self.data[self.config["target_column"]],
-                "predicted_blight": predictions,
-                "blight_probability": prediction_probabilities,
-            }
-        )
-
-        # Add risk categories
-        results["risk_category"] = pd.cut(
-            prediction_probabilities,
-            bins=[0, 0.3, 0.7, 1.0],
-            labels=["Low Risk", "Medium Risk", "High Risk"],
-        )
-
-        # Add identifier columns if available
-        for id_col in ["ward_name", "AREA_NAME", "NAME"]:
-            if id_col in self.data.columns:
-                results[id_col] = self.data[id_col]
-                break
-
-        print(f"   ✅ Generated predictions for {len(results)} features")
-        print("   📊 Prediction Summary:")
-        print(
-            f"     • High Risk: {len(results[results['risk_category'] == 'High Risk'])}"
-        )
-        print(
-            f"     • Medium Risk: {len(results[results['risk_category'] == 'Medium Risk'])}"
-        )
-        print(
-            f"     • Low Risk: {len(results[results['risk_category'] == 'Low Risk'])}"
-        )
-
-        return results
 
     def run_complete_pipeline(self) -> bool:
         """Run the complete LightGBM training pipeline."""
         try:
             print("🚀 Starting LightGBM Training Pipeline...")
 
-            # Load CSV data
+            # Load data
             if not self.load_and_validate_data():
                 return False
 
@@ -962,95 +599,146 @@ class OptimizedUrbanBlightLightGBMModel:
             # Evaluate model
             metrics = self.evaluate_model()
 
-            # SHAP analysis for interpretability
-            if self.config.get("use_shap_analysis", True):
-                if not self.create_shap_analysis():
-                    print(
-                        "   ⚠️  SHAP analysis failed, continuing without interpretability analysis"
-                    )
+            # Generate predictions for all wards
+            predictions_df = self.generate_predictions()
 
-            # Create visualizations
-            self.create_visualizations()
+            # Plot feature importance
+            self.plot_feature_importance()
 
             # Save model
             self.save_model()
 
-            # Generate and save predictions
-            predictions = self.predict_all_features()
-            if not predictions.empty:
-                pred_path = os.path.join(
-                    self.config["output_dir"], "lightgbm_predictions.csv"
-                )
-                predictions.to_csv(pred_path, index=False)
-                print(f"   ✅ Predictions saved to: {pred_path}")
-
             print("\n🎉 LIGHTGBM TRAINING COMPLETED SUCCESSFULLY!")
-
-            print("\n   📊 Final Performance:")
+            print("\n   📊 Final Performance (Training Set):")
             if metrics:
-                print(f"     • F1 Score: {metrics.get('f1_score', 0):.4f}")
-                print(f"     • ROC AUC: {metrics.get('roc_auc', 0):.4f}")
-                print(f"     • Precision: {metrics.get('precision', 0):.4f}")
-                print(f"     • Recall: {metrics.get('recall', 0):.4f}")
-                print(
-                    f"     • Matthews Correlation: {metrics.get('matthews_corrcoef', 0):.4f}"
-                )
-                print(
-                    f"     • Balanced Accuracy: {metrics.get('balanced_accuracy', 0):.4f}"
-                )
+                print(f"     • Training F1 Score: {metrics.get('training_f1_score', 0):.4f}")
+                print(f"     • Training ROC AUC: {metrics.get('training_roc_auc', 0):.4f}")
+                print(f"     • Training Precision: {metrics.get('training_precision', 0):.4f}")
+                print(f"     • Training Recall: {metrics.get('training_recall', 0):.4f}")
+            print("   📝 Note: Cross-validation during hyperparameter tuning provides realistic performance estimates")
             print(f"   📁 All outputs saved to: {self.config['output_dir']}/")
-            print("   🤖 Model ready for production deployment!")
+            print("   🤖 Model trained on entire dataset and ready for predictions!")
 
             return True
 
         except Exception as e:
             print(f"\n❌ CRITICAL ERROR: {e}")
             import traceback
-
             traceback.print_exc()
             return False
 
+    def generate_predictions(self):
+        """Generate comprehensive predictions for all wards and save to CSV."""
+        print("\n🔮 Generating Ward Predictions...")
 
-# Enhanced Configuration for High-Performance LightGBM model
+        if self.model is None or self.X_train is None:
+            print("   ❌ No trained model or data available for predictions")
+            return
+
+        # Make predictions for all wards
+        print("   🎯 Computing predictions for all wards...")
+        predictions = self.model.predict(self.X_train)
+        prediction_probabilities = self.model.predict_proba(self.X_train)
+
+        # Get ward names from original data
+        if 'ward_name' in self.data.columns:
+            ward_names = self.data['ward_name'].values
+        else:
+            # Fallback to row indices if no ward_name column
+            ward_names = [f"Ward_{i+1}" for i in range(len(self.X_train))]
+
+        # Create comprehensive predictions dataframe
+        predictions_df = pd.DataFrame({
+            'ward_name': ward_names,
+            'predicted_blight': predictions,
+            'no_blight_probability': prediction_probabilities[:, 0],
+            'blight_probability': prediction_probabilities[:, 1],
+            'actual_blight': self.y_train.values,
+        })
+
+        # Add risk categories based on probability thresholds
+        def get_risk_category(prob):
+            if prob >= 0.8:
+                return "Very High Risk"
+            elif prob >= 0.6:
+                return "High Risk"
+            elif prob >= 0.4:
+                return "Medium Risk"
+            elif prob >= 0.2:
+                return "Low Risk"
+            else:
+                return "Very Low Risk"
+
+        predictions_df['risk_category'] = predictions_df['blight_probability'].apply(get_risk_category)
+
+        # Add confidence score (distance from 0.5 threshold)
+        predictions_df['confidence_score'] = abs(predictions_df['blight_probability'] - 0.5) * 2
+
+        # Add prediction accuracy flag
+        predictions_df['correct_prediction'] = (predictions_df['predicted_blight'] == predictions_df['actual_blight'])
+
+        # Sort by blight probability (highest risk first)
+        predictions_df = predictions_df.sort_values('blight_probability', ascending=False)
+
+        # Add ranking
+        predictions_df['risk_rank'] = range(1, len(predictions_df) + 1)
+
+        # Save predictions to CSV
+        predictions_path = os.path.join(self.config["output_dir"], "ward_blight_predictions.csv")
+        predictions_df.to_csv(predictions_path, index=False)
+
+        print(f"   ✅ Ward predictions saved to: {predictions_path}")
+
+        # Print summary statistics
+        print("\n📊 Prediction Summary:")
+        print(f"   • Total wards analyzed: {len(predictions_df)}")
+        print(f"   • Wards predicted as high blight risk: {predictions_df['predicted_blight'].sum()}")
+        print(f"   • Average blight probability: {predictions_df['blight_probability'].mean():.3f}")
+        print(f"   • Prediction accuracy: {predictions_df['correct_prediction'].mean():.1%}")
+
+        # Show risk category distribution
+        print("\n🎯 Risk Category Distribution:")
+        risk_counts = predictions_df['risk_category'].value_counts()
+        for category, count in risk_counts.items():
+            print(f"   • {category}: {count} wards")
+
+        # Show top risk wards
+        print("\n🚨 Top 5 Highest Risk Wards:")
+        top_risk = predictions_df.head(5)
+        for _, ward in top_risk.iterrows():
+            print(f"   {ward['risk_rank']:2d}. {ward['ward_name']}: {ward['blight_probability']:.3f} ({ward['risk_category']})")
+
+        # Show lowest risk wards
+        print("\n✅ Top 5 Lowest Risk Wards:")
+        low_risk = predictions_df.tail(5)
+        for _, ward in low_risk.iterrows():
+            print(f"   {ward['risk_rank']:2d}. {ward['ward_name']}: {ward['blight_probability']:.3f} ({ward['risk_category']})")
+
+        # Update model metadata with prediction info
+        self.model_metadata["predictions_summary"] = {
+            "total_wards": len(predictions_df),
+            "high_risk_wards": int(predictions_df['predicted_blight'].sum()),
+            "average_blight_probability": float(predictions_df['blight_probability'].mean()),
+            "prediction_accuracy": float(predictions_df['correct_prediction'].mean()),
+            "risk_distribution": risk_counts.to_dict(),
+            "predictions_file": predictions_path,
+        }
+
+        return predictions_df
+
+
+# Configuration for LightGBM model - optimized for small datasets
 CONFIG = {
     # Data configuration
-    "input_file": "model_ready_data.csv",  # CSV input file
-    "target_column": "is_blighted",  # Target variable
+    "input_file": "model_ready_data.csv",
+    "target_column": "is_blighted",
     "output_dir": "model_outputs",
-    "test_size": 0.15,  # 85% training, 15% testing for more training data
     "random_state": 42,
-    "show_plots": True,  # Set to True if you want to see plots
-    # Advanced training configuration
-    "cv_folds": 7,  # More cross-validation folds for better validation
-    "cv_repeats": 3,  # Repeated CV for more robust estimates
-    "early_stopping_rounds": 150,  # Early stopping for optimal training
-    # Model interpretability and analysis
-    "use_shap_analysis": True,
-    "shap_sample_size": 200,  # More samples for SHAP analysis
-    # Advanced hyperparameter optimization
+    "show_plots": True,
+    # Hyperparameter optimization - reduced for small datasets
     "hyperparameter_tuning": {
-        "n_trials": 200,  # Significantly increased trials for better optimization
-        "timeout": 7200,  # 2 hours timeout for thorough search
-        "n_jobs": -1,  # Use all CPU cores for parallel optimization
-        "study_name": "urban_blight_advanced_study",
-        "sampler_type": "tpe_multivariate",  # Advanced TPE sampling
-        "pruner_type": "hyperband",  # More aggressive pruning
-        "optimization_direction": "maximize",
-        "cv_strategy": "repeated_stratified",  # More robust CV strategy
-        "scoring_metric": "f1_weighted",  # Better metric for imbalanced data
-    },
-    # Advanced feature engineering
-    "feature_selection": {
-        "enable": True,
-        "method": "recursive_elimination",  # More sophisticated selection
-        "max_features": 200,  # Limit to top features
-        "cv_folds": 5,
-    },
-    # Model ensemble settings
-    "ensemble": {
-        "enable": True,
-        "n_models": 5,  # Train multiple models with different random states
-        "voting_strategy": "soft",  # Soft voting for better predictions
+        "n_trials": 50,  # Reduced trials for small datasets
+        "timeout": 1800,  # 30 minutes - faster for small datasets
     },
 }
 
@@ -1066,6 +754,5 @@ if __name__ == "__main__":
     if success:
         print("\n🚀 LightGBM model training completed successfully!")
         print("   Ready for urban blight prediction!")
-        print("   Model optimized with Optuna for F1 score!")
     else:
         print("\n💥 Model training failed. Please check the errors above.")

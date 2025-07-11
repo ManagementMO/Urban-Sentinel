@@ -139,7 +139,7 @@ class WardBasedModelDataGeneratorCSV:
             10: "fall",
             11: "fall",
         }
-        self.df["season"] = self.df["month"].replace(season_map)
+        self.df["season"] = self.df["month"].map(season_map)
 
         # Clean ward names with advanced normalization
         self.df["Ward_Clean"] = (
@@ -1646,7 +1646,7 @@ class WardBasedModelDataGeneratorCSV:
                 "Property": property_count,
             }
 
-            dominant_category = max(category_counts, key=category_counts.get)
+            dominant_category = max(category_counts, key=lambda k: category_counts[k])
             features["dominant_blight_category"] = (
                 dominant_category if category_counts[dominant_category] > 0 else "None"
             )
@@ -1659,11 +1659,16 @@ class WardBasedModelDataGeneratorCSV:
         """Merge features and create final dataset."""
         print("\n🔗 Finalizing dataset...")
 
+        # Ensure we have features dataframe
+        if self.features_df is None:
+            print("   ❌ No features created")
+            return False
+
         # Start with features dataframe
         self.final_df = self.features_df.copy()
 
         # Add ward information if available
-        if self.wards_gdf is not None:
+        if self.wards_gdf is not None and self.ward_name_col is not None:
             # Keep geometry for GeoJSON output capability
             ward_info = self.wards_gdf.copy()
 
@@ -1693,6 +1698,11 @@ class WardBasedModelDataGeneratorCSV:
     def _create_target_variables(self):
         """Create multiple target variables for different modeling approaches."""
         print("   🎯 Creating target variables...")
+
+        # Ensure we have the target column
+        if "target_blight_requests" not in self.final_df.columns:
+            print("   ⚠️  No target_blight_requests column found, setting to 0")
+            self.final_df["target_blight_requests"] = 0
 
         # Binary high-risk classification (75th percentile)
         blight_threshold_75 = self.final_df["target_blight_requests"].quantile(0.75)
@@ -1742,6 +1752,10 @@ class WardBasedModelDataGeneratorCSV:
 
     def _add_feature_metadata(self):
         """Add comprehensive feature metadata."""
+        # Ensure final_df exists
+        if self.final_df is None:
+            return
+            
         feature_cols = [
             col
             for col in self.final_df.columns
@@ -1749,10 +1763,11 @@ class WardBasedModelDataGeneratorCSV:
             not in [
                 "ward_name",
                 self.ward_name_col if hasattr(self, "ward_name_col") else None,
+                "geometry"
             ]
         ]
 
-        # Categorize features
+        # Categorize features for LightGBM compatibility
         self.feature_metadata = {
             "volume_features": [
                 col
@@ -1797,6 +1812,10 @@ class WardBasedModelDataGeneratorCSV:
     def _validate_features(self):
         """Validate feature quality and completeness."""
         print("   🔍 Validating feature quality...")
+
+        if self.final_df is None:
+            print("   ❌ No final dataframe available")
+            return
 
         # Check for missing values
         missing_counts = self.final_df.isnull().sum()
