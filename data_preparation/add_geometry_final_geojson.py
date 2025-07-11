@@ -20,7 +20,7 @@ Output:
 import pandas as pd
 import json
 import os
-from typing import Dict, List, Optional, Any
+from typing import Dict, Any
 
 # ============================================================================
 # CONFIGURATION
@@ -246,7 +246,7 @@ def merge_data(predictions_df: pd.DataFrame, ward_geojson: Dict[str, Any], name_
 
 def save_geojson(geojson_data: Dict[str, Any]) -> None:
     """Save the merged GeoJSON with colors."""
-    print(f"💾 Saving final GeoJSON...")
+    print("💾 Saving final GeoJSON...")
     
     with open(OUTPUT_GEOJSON, 'w', encoding='utf-8') as f:
         json.dump(geojson_data, f, ensure_ascii=False, indent=2)
