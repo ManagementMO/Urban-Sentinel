@@ -1,249 +1,202 @@
 #!/usr/bin/env python3
 """
-Create Predictions GeoJSON with Risk Colors
-===========================================
+Simple Ward Predictions + Geometry Merger
+==========================================
 
-This script merges LightGBM model predictions from CSV with Toronto ward geometry 
-from GeoJSON to create a final predictions GeoJSON file with risk color coding
-for easy visualization.
+This script merges LightGBM predictions with Toronto ward geometry 
+and adds risk colors for beautiful visualization.
 
 Usage:
-    python create_predictions_geojson.py
+    python add_geometry_final_geojson.py
 
-Input files:
-    - model_outputs/lightgbm_predictions.csv
-    - toronto_ward_data.geojson
+Input:
+    - model_outputs/lightgbm_predictions.csv (your ML predictions)
+    - toronto_ward_data.geojson (Toronto ward boundaries)
 
 Output:
-    - model_outputs/ward_predictions_with_geometry.geojson
+    - lightgbm_predictions_with_geometry.geojson (combined data with colors)
 """
 
 import pandas as pd
 import json
-import sys
 import os
-from typing import Dict, Any
+from typing import Dict, List, Optional, Any
 
-def get_risk_colors(risk_category: str, blight_probability: float = None) -> Dict[str, Any]:
-    """
-    Get color coding for risk categories for visualization.
-    
-    Args:
-        risk_category: The risk category (High Risk, Medium Risk, Low Risk, No Data)
-        blight_probability: The numerical probability (0-1) for gradient coloring
-    
-    Returns:
-        Dictionary with color information including hex, rgb, and opacity
-    """
-    # Define risk color scheme
-    risk_colors = {
-        'High Risk': {
-            'color': '#d73027',  # Strong red
-            'rgb': [215, 48, 39],
-            'opacity': 0.8,
-            'border_color': '#a50026',
-            'description': 'High blight risk area'
-        },
-        'Medium Risk': {
-            'color': '#fc8d59',  # Orange
-            'rgb': [252, 141, 89],
-            'opacity': 0.7,
-            'border_color': '#e31a1c',
-            'description': 'Medium blight risk area'
-        },
-        'Low Risk': {
-            'color': '#4575b4',  # Blue
-            'rgb': [69, 117, 180],
-            'opacity': 0.6,
-            'border_color': '#313695',
-            'description': 'Low blight risk area'
-        },
-        'No Data': {
-            'color': '#999999',  # Gray
-            'rgb': [153, 153, 153],
-            'opacity': 0.4,
-            'border_color': '#666666',
-            'description': 'No prediction data available'
-        }
+# ============================================================================
+# CONFIGURATION
+# ============================================================================
+
+# Risk color scheme for visualization
+RISK_COLORS = {
+    'High Risk': {
+        'fill_color': '#d73027',    # Strong red
+        'border_color': '#a50026',  # Darker red
+        'opacity': 0.8
+    },
+    'Medium Risk': {
+        'fill_color': '#fc8d59',    # Orange  
+        'border_color': '#e31a1c',  # Dark orange
+        'opacity': 0.7
+    },
+    'Low Risk': {
+        'fill_color': '#4575b4',    # Blue
+        'border_color': '#313695',  # Dark blue
+        'opacity': 0.6
+    },
+    'No Data': {
+        'fill_color': '#999999',    # Gray
+        'border_color': '#666666',  # Dark gray
+        'opacity': 0.4
     }
-    
-    # Get base color info
-    base_color = risk_colors.get(risk_category, risk_colors['No Data'])
-    
-    # Add probability-based intensity for High/Medium/Low risk
-    if blight_probability is not None and risk_category != 'No Data':
-        # Adjust opacity based on probability
-        if risk_category == 'High Risk':
-            # High risk: probability 0.5-1.0 maps to opacity 0.6-0.9
-            intensity = 0.6 + (blight_probability - 0.5) * 0.6 if blight_probability >= 0.5 else 0.4
-        elif risk_category == 'Medium Risk':
-            # Medium risk: probability 0.3-0.7 maps to opacity 0.5-0.8
-            intensity = 0.5 + (blight_probability - 0.3) * 0.75 if blight_probability >= 0.3 else 0.4
-        else:  # Low Risk
-            # Low risk: probability 0.0-0.5 maps to opacity 0.3-0.7
-            intensity = 0.3 + blight_probability * 0.8 if blight_probability <= 0.5 else 0.7
-        
-        base_color['opacity'] = min(0.9, max(0.3, intensity))
-        base_color['probability_intensity'] = blight_probability
-    
-    return base_color
+}
 
-def load_predictions_csv(file_path: str) -> pd.DataFrame:
-    """Load the predictions CSV file."""
-    print(f"📊 Loading predictions from {file_path}...")
-    try:
-        df = pd.read_csv(file_path)
-        print(f"   ✅ Loaded {len(df)} predictions")
-        print(f"   📋 Columns: {list(df.columns)}")
-        return df
-    except Exception as e:
-        print(f"   ❌ Error loading predictions: {e}")
-        sys.exit(1)
+# File paths
+INPUT_PREDICTIONS = "model_outputs/lightgbm_predictions.csv"
+INPUT_WARD_GEOJSON = "toronto_ward_data.geojson"
+OUTPUT_GEOJSON = "lightgbm_predictions_with_geometry.geojson"
 
-def load_ward_geojson(file_path: str) -> Dict[str, Any]:
-    """Load the Toronto ward GeoJSON file."""
-    print(f"🗺️  Loading ward geometry from {file_path}...")
-    try:
-        with open(file_path, 'r', encoding='utf-8') as f:
-            geojson_data = json.load(f)
-        
-        feature_count = len(geojson_data.get('features', []))
-        print(f"   ✅ Loaded {feature_count} ward features")
-        
-        # Show sample ward names
-        sample_names = []
-        for feature in geojson_data.get('features', [])[:5]:
-            name = feature.get('properties', {}).get('AREA_NAME', 'Unknown')
-            sample_names.append(name)
-        print(f"   📋 Sample ward names: {sample_names}")
-        
-        return geojson_data
-    except Exception as e:
-        print(f"   ❌ Error loading GeoJSON: {e}")
-        sys.exit(1)
+# ============================================================================
+# UTILITY FUNCTIONS
+# ============================================================================
 
-def normalize_ward_name(name: str) -> str:
-    """Normalize ward names for better matching."""
-    if pd.isna(name):
+def clean_ward_name(name: str) -> str:
+    """Clean ward name for matching (lowercase, no punctuation)."""
+    if not name:
         return ""
-    
-    # Convert to lowercase and remove special characters for matching
-    normalized = str(name).lower()
-    normalized = normalized.replace("-", " ").replace("'", "").replace(".", "")
-    normalized = " ".join(normalized.split())  # Remove extra spaces
-    return normalized
+    return name.lower().replace("-", " ").replace("'", "").replace(".", "").strip()
 
-def create_ward_name_mapping(geojson_data: Dict[str, Any], predictions_df: pd.DataFrame) -> Dict[str, str]:
-    """Create a mapping between prediction ward names and GeoJSON ward names."""
-    print("🔗 Creating ward name mapping...")
+def get_risk_colors(risk_category: str) -> Dict[str, Any]:
+    """Get color scheme for a risk category."""
+    return RISK_COLORS.get(risk_category, RISK_COLORS['No Data'])
+
+# ============================================================================
+# DATA LOADING
+# ============================================================================
+
+def load_predictions() -> pd.DataFrame:
+    """Load the LightGBM predictions CSV."""
+    print("📊 Loading predictions...")
     
-    # Get ward names from both sources
-    geojson_names = []
-    for feature in geojson_data.get('features', []):
-        name = feature.get('properties', {}).get('AREA_NAME', '')
-        if name:
-            geojson_names.append(name)
+    if not os.path.exists(INPUT_PREDICTIONS):
+        raise FileNotFoundError(f"Predictions file not found: {INPUT_PREDICTIONS}")
     
-    prediction_names = predictions_df['ward_name'].unique().tolist()
+    df = pd.read_csv(INPUT_PREDICTIONS)
+    print(f"   ✅ Loaded {len(df)} ward predictions")
+    print(f"   📋 Columns: {list(df.columns)}")
+    return df
+
+def load_ward_geometry() -> Dict[str, Any]:
+    """Load the Toronto ward GeoJSON with geometry."""
+    print("🗺️  Loading ward boundaries...")
     
-    print(f"   🗺️  GeoJSON ward names ({len(geojson_names)}): {geojson_names[:5]}...")
-    print(f"   📊 Prediction ward names ({len(prediction_names)}): {prediction_names[:5]}...")
+    if not os.path.exists(INPUT_WARD_GEOJSON):
+        raise FileNotFoundError(f"Ward GeoJSON not found: {INPUT_WARD_GEOJSON}")
     
-    # Create mapping using normalized names
+    with open(INPUT_WARD_GEOJSON, 'r', encoding='utf-8') as f:
+        geojson = json.load(f)
+    
+    ward_count = len(geojson.get('features', []))
+    print(f"   ✅ Loaded {ward_count} ward boundaries")
+    
+    # Show sample ward names
+    sample_names = []
+    for feature in geojson.get('features', [])[:3]:
+        name = feature.get('properties', {}).get('AREA_NAME', 'Unknown')
+        sample_names.append(name)
+    print(f"   📋 Sample wards: {sample_names}")
+    
+    return geojson
+
+# ============================================================================
+# WARD NAME MATCHING
+# ============================================================================
+
+def create_name_mapping(predictions_df: pd.DataFrame, ward_geojson: Dict[str, Any]) -> Dict[str, str]:
+    """Create mapping between prediction ward names and GeoJSON ward names."""
+    print("🔗 Matching ward names...")
+    
+    # Get all ward names from both sources
+    prediction_wards = predictions_df['ward_name'].unique().tolist()
+    geojson_wards = [
+        feature['properties']['AREA_NAME'] 
+        for feature in ward_geojson.get('features', [])
+        if feature.get('properties', {}).get('AREA_NAME')
+    ]
+    
+    print(f"   📊 Prediction wards: {len(prediction_wards)}")
+    print(f"   🗺️  GeoJSON wards: {len(geojson_wards)}")
+    
+    # Create mapping by matching cleaned names
     mapping = {}
-    for pred_name in prediction_names:
-        if pd.isna(pred_name):
-            continue
-            
-        pred_normalized = normalize_ward_name(pred_name)
-        best_match = None
+    for pred_ward in prediction_wards:
+        pred_clean = clean_ward_name(pred_ward)
         
-        for geo_name in geojson_names:
-            geo_normalized = normalize_ward_name(geo_name)
+        # Find best match in GeoJSON wards
+        for geo_ward in geojson_wards:
+            geo_clean = clean_ward_name(geo_ward)
             
-            # Direct match
-            if pred_normalized == geo_normalized:
-                best_match = geo_name
+            if pred_clean == geo_clean:
+                mapping[pred_ward] = geo_ward
+                print(f"   ✅ '{pred_ward}' → '{geo_ward}'")
                 break
-            
-            # Partial match (prediction name contained in GeoJSON name)
-            if pred_normalized in geo_normalized:
-                best_match = geo_name
-                break
+        
+        if pred_ward not in mapping:
+            print(f"   ⚠️  No match for: '{pred_ward}'")
     
-        if best_match:
-            mapping[pred_name] = best_match
-            print(f"   ✅ Mapped: '{pred_name}' → '{best_match}'")
-        else:
-            print(f"   ⚠️  No match found for: '{pred_name}'")
-    
+    print(f"   🎯 Successfully matched {len(mapping)}/{len(prediction_wards)} wards")
     return mapping
 
-def merge_predictions_with_geometry(predictions_df: pd.DataFrame, 
-                                    geojson_data: Dict[str, Any], 
-                                    ward_mapping: Dict[str, str]) -> Dict[str, Any]:
-    """Merge predictions with ward geometry and add risk colors."""
-    print("🔀 Merging predictions with geometry and adding risk colors...")
+# ============================================================================
+# DATA MERGING
+# ============================================================================
+
+def merge_data(predictions_df: pd.DataFrame, ward_geojson: Dict[str, Any], name_mapping: Dict[str, str]) -> Dict[str, Any]:
+    """Merge predictions with ward geometry and add visualization colors."""
+    print("🔀 Merging predictions with geometry...")
     
-    # Create a lookup dictionary for predictions by ward name
-    predictions_by_ward = {}
+    # Create lookup: GeoJSON ward name → prediction data
+    prediction_lookup = {}
     for _, row in predictions_df.iterrows():
-        ward_name = row['ward_name']
-        if ward_name in ward_mapping:
-            mapped_name = ward_mapping[ward_name]
-            predictions_by_ward[mapped_name] = {
-                'feature_id': row['feature_id'],
-                'actual_blight': row['actual_blight'],
-                'predicted_blight': row['predicted_blight'],
-                'blight_probability': row['blight_probability'],
-                'risk_category': row['risk_category'],
-                'prediction_ward_name': ward_name
+        pred_ward = row['ward_name']
+        if pred_ward in name_mapping:
+            geo_ward = name_mapping[pred_ward]
+            prediction_lookup[geo_ward] = {
+                'feature_id': int(row['feature_id']),
+                'actual_blight': int(row['actual_blight']),
+                'predicted_blight': int(row['predicted_blight']),
+                'blight_probability': float(row['blight_probability']),
+                'risk_category': str(row['risk_category']),
+                'prediction_ward_name': pred_ward
             }
     
-    # Create new GeoJSON with merged data
-    output_geojson = {
+    # Create output GeoJSON structure
+    output = {
         "type": "FeatureCollection",
-        "name": "Ward Predictions with Geometry and Risk Colors",
-        "crs": geojson_data.get('crs', {"type": "name", "properties": {"name": "urn:ogc:def:crs:OGC:1.3:CRS84"}}),
-        "metadata": {
-            "description": "Toronto ward boundaries with urban blight risk predictions and visualization colors",
-            "model": "LightGBM Urban Blight Predictor",
-            "risk_categories": {
-                "High Risk": {"threshold": "≥0.5 probability", "color": "#d73027"},
-                "Medium Risk": {"threshold": "0.3-0.5 probability", "color": "#fc8d59"},
-                "Low Risk": {"threshold": "<0.3 probability", "color": "#4575b4"},
-                "No Data": {"threshold": "No prediction", "color": "#999999"}
-            }
-        },
+        "name": "Toronto Wards with Blight Risk Predictions",
+        "crs": ward_geojson.get('crs'),
         "features": []
     }
     
+    # Process each ward feature
     matched_count = 0
-    unmatched_count = 0
-    
-    for feature in geojson_data.get('features', []):
+    for feature in ward_geojson.get('features', []):
         ward_name = feature.get('properties', {}).get('AREA_NAME', '')
         
-        # Create new feature with original properties
+        # Start with original feature
         new_feature = {
             "type": "Feature",
             "properties": feature.get('properties', {}).copy(),
-            "geometry": feature.get('geometry', {})
+            "geometry": feature.get('geometry')
         }
         
         # Add prediction data if available
-        if ward_name in predictions_by_ward:
-            pred_data = predictions_by_ward[ward_name]
+        if ward_name in prediction_lookup:
+            pred_data = prediction_lookup[ward_name]
+            colors = get_risk_colors(pred_data['risk_category'])
             
-            # Get risk colors for this ward
-            risk_colors = get_risk_colors(
-                pred_data['risk_category'], 
-                pred_data['blight_probability']
-            )
-            
-            # Add all prediction and visualization data
+            # Add all prediction columns
             new_feature['properties'].update({
-                # Prediction data
+                # Original prediction data
                 'feature_id': pred_data['feature_id'],
                 'actual_blight': pred_data['actual_blight'],
                 'predicted_blight': pred_data['predicted_blight'],
@@ -252,29 +205,21 @@ def merge_predictions_with_geometry(predictions_df: pd.DataFrame,
                 'prediction_ward_name': pred_data['prediction_ward_name'],
                 'has_prediction': True,
                 
-                # Visualization colors
-                'fill_color': risk_colors['color'],
-                'fill_opacity': risk_colors['opacity'],
-                'stroke_color': risk_colors['border_color'],
+                # Visualization properties
+                'fill_color': colors['fill_color'],
+                'fill_opacity': colors['opacity'],
+                'stroke_color': colors['border_color'],
                 'stroke_width': 2,
-                'fill_rgb': risk_colors['rgb'],
-                'color_description': risk_colors['description'],
-                
-                # Additional visualization properties
-                'popup_text': f"{ward_name}: {pred_data['risk_category']} ({pred_data['blight_probability']:.1%})",
-                'risk_score': pred_data['blight_probability'],
-                'risk_level': pred_data['risk_category']
+                'popup_text': f"{ward_name}: {pred_data['risk_category']} ({pred_data['blight_probability']:.1%})"
             })
             
             matched_count += 1
-            print(f"   ✅ {ward_name}: {pred_data['risk_category']} (Prob: {pred_data['blight_probability']:.3f}, Color: {risk_colors['color']})")
+            print(f"   ✅ {ward_name}: {pred_data['risk_category']} ({pred_data['blight_probability']:.1%})")
             
         else:
-            # No prediction data available
-            risk_colors = get_risk_colors('No Data')
-            
+            # No prediction data - add default values
+            colors = get_risk_colors('No Data')
             new_feature['properties'].update({
-                # Empty prediction data
                 'feature_id': None,
                 'actual_blight': None,
                 'predicted_blight': None,
@@ -282,103 +227,87 @@ def merge_predictions_with_geometry(predictions_df: pd.DataFrame,
                 'risk_category': 'No Data',
                 'prediction_ward_name': None,
                 'has_prediction': False,
-                
-                # Default visualization colors
-                'fill_color': risk_colors['color'],
-                'fill_opacity': risk_colors['opacity'],
-                'stroke_color': risk_colors['border_color'],
+                'fill_color': colors['fill_color'],
+                'fill_opacity': colors['opacity'],
+                'stroke_color': colors['border_color'],
                 'stroke_width': 1,
-                'fill_rgb': risk_colors['rgb'],
-                'color_description': risk_colors['description'],
-                
-                # Additional visualization properties
-                'popup_text': f"{ward_name}: No prediction data available",
-                'risk_score': 0,
-                'risk_level': 'No Data'
+                'popup_text': f"{ward_name}: No prediction data"
             })
-            
-            unmatched_count += 1
-            print(f"   ⚠️  {ward_name}: No prediction (Color: {risk_colors['color']})")
+            print(f"   ⚠️  {ward_name}: No prediction data")
         
-        output_geojson['features'].append(new_feature)
+        output['features'].append(new_feature)
     
-    print(f"   📊 Summary: {matched_count} wards with predictions, {unmatched_count} without")
-    print("   🎨 Added risk color visualization properties to all features")
-    
-    return output_geojson
+    print(f"   📊 Final result: {matched_count} wards with predictions, {len(output['features']) - matched_count} without")
+    return output
 
-def save_geojson(geojson_data: Dict[str, Any], output_path: str) -> None:
-    """Save the merged GeoJSON to file."""
-    print(f"💾 Saving merged GeoJSON with risk colors to {output_path}...")
-    try:
-        os.makedirs(os.path.dirname(output_path), exist_ok=True)
-        
-        with open(output_path, 'w', encoding='utf-8') as f:
-            json.dump(geojson_data, f, ensure_ascii=False, indent=2)
-        
-        file_size = os.path.getsize(output_path) / 1024  # KB
-        feature_count = len(geojson_data.get('features', []))
-        print(f"   ✅ Saved {feature_count} features ({file_size:.1f} KB)")
-        
-        # Show color summary
-        colors_used = set()
-        for feature in geojson_data['features']:
-            color = feature['properties'].get('fill_color', '#000000')
-            risk = feature['properties'].get('risk_category', 'Unknown')
-            colors_used.add(f"{risk}: {color}")
-        
-        print("   🎨 Risk colors used:")
-        for color_info in sorted(colors_used):
-            print(f"      • {color_info}")
-        
-    except Exception as e:
-        print(f"   ❌ Error saving GeoJSON: {e}")
-        sys.exit(1)
+# ============================================================================
+# FILE SAVING
+# ============================================================================
+
+def save_geojson(geojson_data: Dict[str, Any]) -> None:
+    """Save the merged GeoJSON with colors."""
+    print(f"💾 Saving final GeoJSON...")
+    
+    with open(OUTPUT_GEOJSON, 'w', encoding='utf-8') as f:
+        json.dump(geojson_data, f, ensure_ascii=False, indent=2)
+    
+    # Get file info
+    file_size = os.path.getsize(OUTPUT_GEOJSON) / 1024  # KB
+    feature_count = len(geojson_data.get('features', []))
+    
+    print(f"   ✅ Saved {feature_count} features ({file_size:.1f} KB)")
+    print(f"   📁 Output: {OUTPUT_GEOJSON}")
+    
+    # Show color distribution
+    color_counts = {}
+    for feature in geojson_data['features']:
+        risk = feature['properties'].get('risk_category', 'Unknown')
+        color_counts[risk] = color_counts.get(risk, 0) + 1
+    
+    print("   🎨 Risk distribution:")
+    for risk, count in sorted(color_counts.items()):
+        color = RISK_COLORS.get(risk, {}).get('fill_color', '#000000')
+        print(f"      • {risk}: {count} wards ({color})")
+
+# ============================================================================
+# MAIN EXECUTION
+# ============================================================================
 
 def main():
-    """Main function to execute the merging process."""
-    print("🎯 Creating Ward Predictions GeoJSON with Risk Colors")
-    print("=" * 60)
+    """Main function - simple and clear workflow."""
+    print("🎯 Toronto Ward Predictions + Geometry Merger")
+    print("=" * 50)
     
-    # File paths
-    predictions_csv = "model_outputs/lightgbm_predictions.csv"
-    ward_geojson = "toronto_ward_data.geojson"
-    output_geojson = "ward_predictions_with_geometry.geojson"
-    
-    # Check if input files exist
-    if not os.path.exists(predictions_csv):
-        print(f"❌ Predictions file not found: {predictions_csv}")
-        sys.exit(1)
-    
-    if not os.path.exists(ward_geojson):
-        print(f"❌ Ward GeoJSON file not found: {ward_geojson}")
-        sys.exit(1)
-    
-    # Load data
-    predictions_df = load_predictions_csv(predictions_csv)
-    geojson_data = load_ward_geojson(ward_geojson)
-    
-    # Create ward name mapping
-    ward_mapping = create_ward_name_mapping(geojson_data, predictions_df)
-    
-    if not ward_mapping:
-        print("❌ No ward names could be matched between files!")
-        sys.exit(1)
-    
-    # Merge data with risk colors
-    merged_geojson = merge_predictions_with_geometry(predictions_df, geojson_data, ward_mapping)
-    
-    # Save result
-    save_geojson(merged_geojson, output_geojson)
-    
-    print("\n🎉 Successfully created ward predictions GeoJSON with risk colors!")
-    print(f"📁 Output file: {output_geojson}")
-    print("🎨 Features include:")
-    print("   • fill_color & fill_opacity for choropleth mapping")
-    print("   • stroke_color & stroke_width for borders")
-    print("   • popup_text for interactive tooltips")
-    print("   • RGB values for custom styling")
-    print("🗺️  Ready for beautiful risk visualization!")
+    try:
+        # Step 1: Load data
+        predictions_df = load_predictions()
+        ward_geojson = load_ward_geometry()
+        
+        # Step 2: Match ward names
+        name_mapping = create_name_mapping(predictions_df, ward_geojson)
+        
+        if not name_mapping:
+            print("❌ No ward names could be matched!")
+            return
+        
+        # Step 3: Merge data and add colors
+        merged_data = merge_data(predictions_df, ward_geojson, name_mapping)
+        
+        # Step 4: Save result
+        save_geojson(merged_data)
+        
+        # Success message
+        print("\n🎉 SUCCESS! Created ward predictions with geometry and colors!")
+        print("🎨 Your GeoJSON includes:")
+        print("   • Ward boundaries (MultiPolygon geometry)")
+        print("   • Blight risk predictions (probabilities, categories)")
+        print("   • Visualization colors (fill_color, stroke_color)")
+        print("   • Interactive tooltips (popup_text)")
+        print("🗺️  Ready for mapping applications!")
+        
+    except Exception as e:
+        print(f"❌ ERROR: {e}")
+        return
 
 if __name__ == "__main__":
     main() 
